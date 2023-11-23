@@ -11,14 +11,12 @@ public class N extends TicketModel{
     }
 
     @Override
-    public int[] generateTicketNumbers(){
-        Random randomNumber = new Random();
-        int [] numbersForLetter = new int[getNumbers()];
-
-        for (int i = 0; i < getNumbers(); i++){
-            numbersForLetter[i] = randomNumber.nextInt(31, 45);
-        }
-        return numbersForLetter;
+    public int getStart() {
+        return 31;
     }
 
+    @Override
+    public int getEnd() {
+        return 45;
+    }
 }
