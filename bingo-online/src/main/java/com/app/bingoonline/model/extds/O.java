@@ -1,22 +1,22 @@
-package com.app.bingoonline.model;
+package com.app.bingoonline.model.extds;
 
+import com.app.bingoonline.model.Letter;
 import org.springframework.stereotype.Component;
 
-import java.util.Random;
 @Component
-public class G extends TicketModel{
+public class O extends Letter {
     @Override
-    public int getNumbers() {
+    public int getQuantity(){
         return 5;
     }
 
     @Override
     public int getStart() {
-        return 46;
+        return 61;
     }
 
     @Override
     public int getEnd() {
-        return 60;
+        return 75;
     }
 }

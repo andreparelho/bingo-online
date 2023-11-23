@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/ticket")
@@ -18,8 +19,8 @@ public class TicketController {
     }
 
     @GetMapping("/generate")
-    public ResponseEntity<Map<String, int[]>> getTickets(){
-        Map<String, int[]> tickets = this.ticketService.generateTicket();
+    public ResponseEntity<Map<String, Set<Integer>>> getTickets(){
+        Map<String, Set<Integer>> tickets = this.ticketService.generateTicket();
         return ResponseEntity.ok(tickets);
     }
 }

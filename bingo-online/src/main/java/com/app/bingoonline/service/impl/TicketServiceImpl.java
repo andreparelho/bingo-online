@@ -1,6 +1,6 @@
 package com.app.bingoonline.service.impl;
 
-import com.app.bingoonline.model.*;
+import com.app.bingoonline.model.extds.*;
 import com.app.bingoonline.service.TicketService;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +23,8 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Map<String, int[]> generateTicket() {
-        Map<String, int[]> ticket = new HashMap<>();
+    public Map<String, Set<Integer>> generateTicket() {
+        Map<String, Set<Integer>> ticket = new HashMap<>();
         ticket.put("b", this.b.generateTicketNumbers());
         ticket.put("i", this.i.generateTicketNumbers());
         ticket.put("n", this.n.generateTicketNumbers());
