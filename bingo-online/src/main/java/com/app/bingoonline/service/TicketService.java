@@ -6,5 +6,5 @@ import java.util.Map;
 
 @Service
 public interface TicketService {
-    Map<String, int[]> generateCard();
+    Map<String, int[]> generateTicket();
 }
