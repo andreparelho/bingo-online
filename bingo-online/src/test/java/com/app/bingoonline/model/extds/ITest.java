@@ -1,39 +1,62 @@
 package com.app.bingoonline.model.extds;
 
-import com.app.bingoonline.model.extds.B;
-import com.app.bingoonline.model.extds.I;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Description;
+import org.springframework.util.Assert;
+
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
 public class ITest {
 
-    public I letterI = new I();
+    private I letterI;
+
+    @BeforeEach
+    void config(){
+        this.letterI = new I();
+    }
 
     @Test
-    @Description("This letter need to return 5 int the getQuantity method")
-    public void testGetQuantity_WhenLetterI_ShouldReturnFiveInt(){
+    @DisplayName("This letter need to return 5 int the getQuantity method")
+    public void testDeveRetornarValorInteiroCincoQuandoChamarOMetodoQuantity(){
         int actual = this.letterI.getQuantity();
         int expected = 5;
         assertEquals(expected, actual, () -> actual + " did not equal to " + expected);
     }
 
     @Test
-    @Description("This letter need to return 16 in the getStart method")
-    public void testGetStart_WhenLetterI_ShouldReturnSixteen(){
+    @DisplayName("This letter need to return 16 in the getStart method")
+    public void testDeveRetornarValorDezesseisQuandoChamarOMetodoStart(){
         int actual = this.letterI.getStart();
         int expected = 16;
         assertEquals(expected, actual, () -> actual + " did not equal to " + expected);
     }
 
     @Test
-    @Description("This letter need to return 30 in the getEnd method")
-    public void testGeEnd_WhenLetterI_ShouldReturnThirty(){
+    @DisplayName("This letter need to return 30 in the getEnd method")
+    public void testDeveRetornarOValorTrintaQuandoChamarOMetodoEnd(){
         int actual = this.letterI.getEnd();
         int expected = 30;
         assertEquals(expected, actual, () -> actual + " did not equal to " + expected);
+    }
+
+    @Test
+    @DisplayName("This letter need to return index 5 when call generateTicket method")
+    public void testDeveRetornarIndexDeCincoNumerosQuandoChamarGenerateTicket(){
+        Set<Integer> ticket = this.letterI.generateTicketNumbers();
+        int ticketIndexSize = ticket.size();
+        int expected = 5;
+        assertEquals(ticketIndexSize, expected);
+    }
+
+    @Test
+    @DisplayName("This letter need to return numbers between 16 and 30 when call generateTicket method")
+    public void testDeveRetornarValoresEntreDezesseisETrintaQuandoChamarGenerateTicket(){
+        Set<Integer> ticket = this.letterI.generateTicketNumbers();
+        boolean isValidNumbers = ticket.stream().allMatch(n -> n >= 16 && n <= 30);
+        assertTrue(isValidNumbers);
     }
 }
