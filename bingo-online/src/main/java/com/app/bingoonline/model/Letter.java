@@ -19,6 +19,9 @@ public abstract class Letter {
 
     public Set<Integer> generateTicketNumbers(){
         Set<Integer> numbers = new HashSet<>();
+
+        if (getQuantity() == 0) throw new ArithmeticException();
+
         while (numbers.size() < getQuantity()){
             numbers.add(randomNumber.nextInt(getStart(), getEnd()));
         }
