@@ -14,7 +14,7 @@ public class BTest {
 
     @Test
     @Description("This letter need to return 5 int the getQuantity method")
-    public void getQuantityByLetterB(){
+    public void testGetQuantity_WhenLetterB_ShouldReturnFiveInt(){
         int actual = this.letterB.getQuantity();
         int expected = 5;
         assertEquals(expected, actual, () -> actual + " did not equal to " + expected);
@@ -22,7 +22,7 @@ public class BTest {
 
     @Test
     @Description("This letter need to return 1 in the getStart method")
-    public void getStartOneInLetterB(){
+    public void testGetStart_WhenLetterB_ShouldReturnOne(){
         int actual = this.letterB.getStart();
         int expected = 1;
         assertEquals(expected, actual, () -> actual + " did not equal to " + expected);
@@ -30,7 +30,7 @@ public class BTest {
 
     @Test
     @Description("This letter need to return 15 in the getEnd method")
-    public void getEndFifteenInLetterB(){
+    public void testGeEnd_WhenLetterB_ShouldReturnFifteen(){
         int actual = this.letterB.getEnd();
         int expected = 15;
         assertEquals(expected, actual, () -> actual + " did not equal to " + expected);

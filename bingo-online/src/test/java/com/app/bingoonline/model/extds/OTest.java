@@ -15,7 +15,7 @@ public class OTest {
 
     @Test
     @Description("This letter need to return 5 int the getQuantity method")
-    public void getQuantityByLetterB(){
+    public void testGetQuantity_WhenLetterO_ShouldReturnFiveInt(){
         int actual = this.letterO.getQuantity();
         int expected = 5;
         assertEquals(expected, actual, () -> actual + " did not equal to " + expected);
@@ -23,7 +23,7 @@ public class OTest {
 
     @Test
     @Description("This letter need to return 61 in the getStart method")
-    public void getStartOneInLetterB(){
+    public void testGetStart_WhenLetterO_ShouldReturnSixthOne(){
         int actual = this.letterO.getStart();
         int expected = 61;
         assertEquals(expected, actual, () -> actual + " did not equal to " + expected);
@@ -31,7 +31,7 @@ public class OTest {
 
     @Test
     @Description("This letter need to return 75 in the getEnd method")
-    public void getEndFifteenInLetterB(){
+    public void testGetEnd_WhenLetterO_ShouldReturnSeventhFive(){
         int actual = this.letterO.getEnd();
         int expected = 75;
         assertEquals(expected, actual, () -> actual + " did not equal to " + expected);
