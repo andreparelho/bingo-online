@@ -17,7 +17,14 @@ public class TicketServiceImplTest {
     private N n = new N();
     private G g = new G();
     private O o = new O();
-    private TicketServiceImpl ticketServiceImpl = new TicketServiceImpl(this.b, this.i, this.n, this.g, this.o);
+
+    private ContestService contestService;
+
+    public TicketServiceImplTest(ContestService contestService) {
+        this.contestService = contestService;
+    }
+
+    private TicketServiceImpl ticketServiceImpl = new TicketServiceImpl(this.b, this.i, this.n, this.g, this.o, this.contestService);
 
     @Test
     @DisplayName("This test when return one ticket with 24 index")
