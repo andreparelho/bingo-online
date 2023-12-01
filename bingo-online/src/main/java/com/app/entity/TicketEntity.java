@@ -3,13 +3,11 @@ package com.app.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Access(AccessType.FIELD)
 @Table(name = "tickets")
 public class TicketEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long ticketNumber;
 
     @ManyToOne
     @JoinColumn(name = "contest_id")
@@ -23,14 +21,6 @@ public class TicketEntity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getTicketNumber() {
-        return ticketNumber;
-    }
-
-    public void setTicketNumber(Long ticketNumber) {
-        this.ticketNumber = ticketNumber;
     }
 
     public ContestEntity getContestEntity() {

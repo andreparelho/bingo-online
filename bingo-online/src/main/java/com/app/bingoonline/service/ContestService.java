@@ -1,6 +1,8 @@
 package com.app.bingoonline.service;
 
+import com.app.entity.ContestEntity;
+
 public interface ContestService {
     int generateContestNumber();
-    void createContest(int contestNumber);
+    ContestEntity createContest(int contestNumber);
 }

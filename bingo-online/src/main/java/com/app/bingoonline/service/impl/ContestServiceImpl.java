@@ -28,7 +28,7 @@ public class ContestServiceImpl implements ContestService {
         int numContest = this.random.nextInt(1000, 9999);
         boolean hasContest = checkContestNumber(numContest);
 
-        while (!hasContest) {
+        while (hasContest) {
             numContest = this.random.nextInt(1000, 9999);
             hasContest = checkContestNumber(numContest);
         }
@@ -37,10 +37,11 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public void createContest(int contestNumber) {
+    public ContestEntity createContest(int contestNumber) {
         ContestEntity contestEntity = new ContestEntity();
         contestEntity.setContestNumber(contestNumber);
         this.contestRepository.saveContest(contestEntity);
+        return contestEntity;
     }
 
     private boolean checkContestNumber(int numContest){
