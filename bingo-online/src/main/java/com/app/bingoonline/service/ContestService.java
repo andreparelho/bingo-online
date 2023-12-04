@@ -5,4 +5,5 @@ import com.app.entity.ContestEntity;
 public interface ContestService {
     int generateContestNumber();
     ContestEntity createContest(int contestNumber);
+    int findContestById(int contestNumber);
 }

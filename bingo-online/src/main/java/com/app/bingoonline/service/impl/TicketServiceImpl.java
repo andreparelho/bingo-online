@@ -38,12 +38,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Map<String, Set<Integer>> generateTicket() throws JsonProcessingException {
-        Map<String, Set<Integer>> ticket = new HashMap<>();
-        ticket.put("b", this.b.generateTicketNumbers());
-        ticket.put("i", this.i.generateTicketNumbers());
-        ticket.put("n", this.n.generateTicketNumbers());
-        ticket.put("g", this.g.generateTicketNumbers());
-        ticket.put("o", this.o.generateTicketNumbers());
+        Map<String, Set<Integer>> ticket = generateCardTicket();
 
         int contestNumber = this.contestService.generateContestNumber();
         ContestEntity contest = this.contestService.createContest(contestNumber);
@@ -52,7 +47,38 @@ public class TicketServiceImpl implements TicketService {
         ticketEntity.setTicket(this.converter.mapToJson(ticket));
 
         this.ticketRepository.saveTicket(ticketEntity, contest);
+        ticket.put("Contest", Collections.singleton(contest.getContestNumber()));
 
         return ticket;
+    }
+
+    @Override
+    public Map<String, Set<Integer>> generateTicketByContestId(int contestNumber) throws Exception {
+        int hasContestNumber = this.contestService.findContestById(contestNumber);
+
+        if (hasContestNumber == contestNumber) {
+            ContestEntity contestEntity = new ContestEntity();
+            Map<String, Set<Integer>> ticket = generateCardTicket();
+            TicketEntity ticketEntity = new TicketEntity();
+            ticketEntity.setTicket(this.converter.mapToJson(ticket));
+
+            contestEntity.setContestNumber(contestNumber);
+            this.ticketRepository.saveTicket(ticketEntity, contestEntity);
+
+            ticket.put("Contest", Collections.singleton(contestEntity.getContestNumber()));
+            return ticket;
+        }
+
+        throw new Exception("Esse concurso não existe");
+    }
+
+    private Map<String, Set<Integer>> generateCardTicket(){
+        Map<String, Set<Integer>> ticket = new HashMap<>();
+        ticket.put("b", this.b.generateTicketNumbers());
+        ticket.put("i", this.i.generateTicketNumbers());
+        ticket.put("n", this.n.generateTicketNumbers());
+        ticket.put("g", this.g.generateTicketNumbers());
+        ticket.put("o", this.o.generateTicketNumbers());
+        return  ticket;
     }
 }

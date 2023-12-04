@@ -8,7 +8,7 @@ public class ContestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private int contestNumber;
+    private int number;
 
     public Long getId() {
         return id;
@@ -19,10 +19,10 @@ public class ContestEntity {
     }
 
     public int getContestNumber() {
-        return contestNumber;
+        return number;
     }
 
-    public void setContestNumber(int contestNumber) {
-        this.contestNumber = contestNumber;
+    public void setContestNumber(int number) {
+        this.number = number;
     }
 }

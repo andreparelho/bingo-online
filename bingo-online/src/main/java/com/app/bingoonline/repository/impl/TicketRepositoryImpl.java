@@ -20,7 +20,7 @@ public class TicketRepositoryImpl implements TicketRepository {
 
     @Override
     public TicketEntity saveTicket(TicketEntity ticketEntity, ContestEntity contestEntity) {
-        ticketEntity.setContestEntity(contestEntity);
+        ticketEntity.setContestNumberId((long) contestEntity.getContestNumber());
         return this.ticketCrudRepository.save(ticketEntity);
     }
 

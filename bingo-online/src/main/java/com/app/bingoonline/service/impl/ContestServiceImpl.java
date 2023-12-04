@@ -11,7 +11,6 @@ import java.util.Random;
 
 @Service
 public class ContestServiceImpl implements ContestService {
-
     private final TicketRepository ticketRepository;
     private final ContestRepository contestRepository;
     private Random random;
@@ -25,7 +24,7 @@ public class ContestServiceImpl implements ContestService {
 
     @Override
     public int generateContestNumber() {
-        int numContest = this.random.nextInt(1000, 9999);
+        long numContest = this.random.nextInt(1000, 9999);
         boolean hasContest = checkContestNumber(numContest);
 
         while (hasContest) {
@@ -33,7 +32,7 @@ public class ContestServiceImpl implements ContestService {
             hasContest = checkContestNumber(numContest);
         }
 
-        return numContest;
+        return (int) numContest;
     }
 
     @Override
@@ -44,7 +43,18 @@ public class ContestServiceImpl implements ContestService {
         return contestEntity;
     }
 
-    private boolean checkContestNumber(int numContest){
+    @Override
+    public int findContestById(int contestNumber) {
+        ContestEntity contestEntity =  checkContestNumber(contestNumber);
+        return contestEntity.getContestNumber();
+    }
+
+    private ContestEntity checkContestNumber(int numContest){
         return this.contestRepository.findContestNumber(numContest);
+    }
+
+    private boolean checkContestNumber(long numContest){
+        ContestEntity hasContest = this.contestRepository.findContestNumber((int) numContest);
+        return hasContest != null;
     }
 }

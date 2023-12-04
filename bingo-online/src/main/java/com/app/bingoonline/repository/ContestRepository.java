@@ -9,6 +9,5 @@ import java.util.List;
 public interface ContestRepository {
     ContestEntity saveContest(ContestEntity contest);
     List<ContestEntity> getAllContests();
-
-    boolean findContestNumber(int contestNumber);
+    ContestEntity findContestNumber(int contestNumber);
 }

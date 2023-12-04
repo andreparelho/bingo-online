@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface TicketRepository {
-    TicketEntity saveTicket(TicketEntity ticketEntity, ContestEntity contest);
+    TicketEntity saveTicket(TicketEntity ticketEntity, ContestEntity contestEntity);
     List<TicketEntity> getAllTicketsByContest(ContestEntity contestEntity);
 }

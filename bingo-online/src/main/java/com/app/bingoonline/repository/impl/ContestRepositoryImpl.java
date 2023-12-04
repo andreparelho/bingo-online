@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ContestRepositoryImpl implements ContestRepository {
@@ -29,8 +28,8 @@ public class ContestRepositoryImpl implements ContestRepository {
     }
 
     @Override
-    public boolean findContestNumber(int contestNumber) {
-        Optional<ContestEntity> contest = this.contestCrudRepository.findById((long) contestNumber);
-        return contest.isPresent();
+    public ContestEntity findContestNumber(int contestNumber) {
+        return this.contestCrudRepository.findByNumber(contestNumber);
     }
+
 }
