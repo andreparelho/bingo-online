@@ -3,7 +3,7 @@ package com.app.bingoonline.service;
 import com.app.bingoonline.model.extds.*;
 import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.service.impl.TicketServiceImpl;
-import com.app.entity.converter.Converter;
+import com.app.bingoonline.converter.Converter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

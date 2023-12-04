@@ -2,7 +2,7 @@ package com.app.bingoonline.repository.impl;
 
 import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.repository.crud.ContestCrudRepository;
-import com.app.entity.ContestEntity;
+import com.app.bingoonline.entity.ContestEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

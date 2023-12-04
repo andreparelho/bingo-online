@@ -1,4 +1,4 @@
-package com.app.entity;
+package com.app.bingoonline.entity;
 
 import jakarta.persistence.*;
 

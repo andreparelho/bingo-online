@@ -1,4 +1,4 @@
-package com.app.entity.converter;
+package com.app.bingoonline.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

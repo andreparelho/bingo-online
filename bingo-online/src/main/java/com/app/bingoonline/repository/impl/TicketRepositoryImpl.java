@@ -2,8 +2,8 @@ package com.app.bingoonline.repository.impl;
 
 import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.repository.crud.TicketCrudRepository;
-import com.app.entity.ContestEntity;
-import com.app.entity.TicketEntity;
+import com.app.bingoonline.entity.ContestEntity;
+import com.app.bingoonline.entity.TicketEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.app.bingoonline.repository;
 
-import com.app.entity.ContestEntity;
+import com.app.bingoonline.entity.ContestEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

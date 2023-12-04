@@ -1,6 +1,6 @@
 package com.app.bingoonline.service;
 
-import com.app.entity.ContestEntity;
+import com.app.bingoonline.entity.ContestEntity;
 
 public interface ContestService {
     int generateContestNumber();
