@@ -78,6 +78,25 @@ public class TicketServiceImplTest {
     }
 
     @Test
+    @DisplayName("This test when return one ticket with 25 index when contest exists")
+    public void testDeveRetornarUmIndexDeVinteCincoPosicoesCasoContestExistente() throws Exception {
+        int contestId = 1000;
+        when(this.mockContestService.findContestById(contestId)).thenReturn(contestId);
+
+        Map<String, Set<Integer>> ticket = ticketServiceImpl.generateTicketByContestId(contestId);
+        Iterator<Map.Entry<String, Set<Integer>>> iterator = ticket.entrySet().iterator();
+
+        int actual = 0;
+        while (iterator.hasNext()) {
+            actual += iterator.next().getValue().size();
+        }
+
+        int expected = 25;
+        assertNotNull(ticket);
+        assertEquals(expected, actual);
+    }
+
+    @Test
     @DisplayName("This test shuld return ticket with contest created previously")
     public void testDeveRetornarUmTicketComContestJaCriado() throws Exception {
         int contestId = 1000;
