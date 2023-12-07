@@ -11,13 +11,11 @@ import java.util.Random;
 
 @Service
 public class ContestServiceImpl implements ContestService {
-    private final TicketRepository ticketRepository;
     private final ContestRepository contestRepository;
     private Random random;
 
     @Autowired
-    public ContestServiceImpl(TicketRepository ticketRepository, ContestRepository contestRepository, Random random) {
-        this.ticketRepository = ticketRepository;
+    public ContestServiceImpl(ContestRepository contestRepository, Random random) {
         this.contestRepository = contestRepository;
         this.random = random;
     }
