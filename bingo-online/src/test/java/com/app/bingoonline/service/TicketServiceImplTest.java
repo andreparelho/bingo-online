@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -74,5 +75,23 @@ public class TicketServiceImplTest {
         int expected = 25;
         assertNotNull(ticket);
         assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("This test shuld return ticket with contest created previously")
+    public void testDeveRetornarUmTicketComContestJaCriado() throws Exception {
+        int contestId = 1000;
+
+        when(this.mockContestService.findContestById(contestId)).thenReturn(contestId);
+        Map<String, Set<Integer>> ticket = this.ticketServiceImpl.generateTicketByContestId(contestId);
+
+        assertNotNull(ticket);
+    }
+
+    @Test
+    @DisplayName("This test shuld return exception when contest not created previously")
+    public void testDeveRetonarUmaExceptionCasoConstestErrado() throws Exception {
+        int contestId = 1001;
+        assertThrows(Exception.class, () -> this.ticketServiceImpl.generateTicketByContestId(contestId));
     }
 }
