@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.app.bingoonline.repository")
-@EntityScan(basePackages = "com.app.entity")
-@ComponentScan(basePackages = {"com.app.entity.converter", "com.app.bingoonline"})
+@EntityScan(basePackages = "com.app.bingoonline.entity")
+@ComponentScan(basePackages = {"com.app.bingoonline.entity.converter", "com.app.bingoonline"})
 public class BingoOnlineApplication {
 
 	public static void main(String[] args) {
