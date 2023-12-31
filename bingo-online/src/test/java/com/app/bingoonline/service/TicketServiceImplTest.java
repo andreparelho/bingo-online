@@ -39,7 +39,7 @@ public class TicketServiceImplTest {
         this.g = new G();
         this.o = new O();
 
-        this.converter = new Converter();
+        this.converter = mock(Converter.class);
 
         this.mockContestService = mock(ContestServiceImpl.class);
         this.mockTicketRepository = mock(TicketRepositoryImpl.class);
@@ -143,5 +143,20 @@ public class TicketServiceImplTest {
 
         verify(this.mockContestService, times(1)).createContest(anyInt());
     }
+
+    @Test
+    @DisplayName("This test shuld call two times this mapToJson method")
+    public void testDeveChamarDuasVezesMetodoMapToJson() throws Exception {
+        int expected = 2;
+
+        when(this.mockContestService.generateContestNumber()).thenReturn(expected);
+        when(this.mockContestService.createContest(anyInt())).thenReturn(this.contestEntity);
+
+        this.ticketServiceImpl.generateTicket();
+        this.ticketServiceImpl.generateTicketByContestId(anyInt());
+
+        verify(this.converter, times(expected)).mapToJson(anyMap());
+    }
+
 
 }
