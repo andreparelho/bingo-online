@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -28,9 +27,9 @@ public class TicketServiceImplTest {
     private O o;
     private ContestService mockContestService;
     private TicketRepository mockTicketRepository;
-
     private Converter converter;
     private TicketServiceImpl ticketServiceImpl;
+    private ContestEntity contestEntity;
 
     @BeforeEach
     public void initConfig(){
@@ -45,6 +44,8 @@ public class TicketServiceImplTest {
         this.mockContestService = mock(ContestServiceImpl.class);
         this.mockTicketRepository = mock(TicketRepositoryImpl.class);
 
+        this.contestEntity = new ContestEntity();
+
         this.ticketServiceImpl = new TicketServiceImpl(
                 this.b, this.i, this.n, this.g, this.o,
                 this.mockContestService,
@@ -58,11 +59,10 @@ public class TicketServiceImplTest {
     public void testDeveRetornarUmIndexDeVinteCincoPosicoes() throws JsonProcessingException {
         int contest = 1000;
 
-        ContestEntity contestEntity = new ContestEntity();
-        contestEntity.setContestNumber(contest);
+        this.contestEntity.setContestNumber(contest);
 
         when(this.mockContestService.generateContestNumber()).thenReturn(contest);
-        when(this.mockContestService.createContest(contest)).thenReturn(contestEntity);
+        when(this.mockContestService.createContest(contest)).thenReturn(this.contestEntity);
 
         Map<String, Set<Integer>> ticket = ticketServiceImpl.generateTicket();
         Iterator<Map.Entry<String, Set<Integer>>> iterator = ticket.entrySet().iterator();
@@ -74,7 +74,9 @@ public class TicketServiceImplTest {
 
         int expected = 25;
         assertNotNull(ticket);
-        assertEquals(expected, actual);
+
+        int finalActual = actual;
+        assertEquals(expected, actual, () -> finalActual + " did not equal to " + expected);
     }
 
     @Test
@@ -93,7 +95,9 @@ public class TicketServiceImplTest {
 
         int expected = 25;
         assertNotNull(ticket);
-        assertEquals(expected, actual);
+
+        int finalActual = actual;
+        assertEquals(expected, actual, () -> finalActual + " did not equal to " + expected);
     }
 
     @Test
@@ -113,4 +117,31 @@ public class TicketServiceImplTest {
         int contestId = 1001;
         assertThrows(Exception.class, () -> this.ticketServiceImpl.generateTicketByContestId(contestId));
     }
+
+    @Test
+    @DisplayName("This test shuld call one time this generateContestNumber method")
+    public void testDeveChamarUmaVezMetodoGenerateContestNumber() throws JsonProcessingException {
+        int expected = 1;
+
+        when(this.mockContestService.generateContestNumber()).thenReturn(expected);
+        when(this.mockContestService.createContest(expected)).thenReturn(this.contestEntity);
+
+        this.ticketServiceImpl.generateTicket();
+
+        verify(this.mockContestService, times(1)).generateContestNumber();
+    }
+
+    @Test
+    @DisplayName("This test shuld call one time this createContest method")
+    public void testDeveChamarUmaVezMetodoCreateContest() throws JsonProcessingException {
+        int expected = 1;
+
+        when(this.mockContestService.generateContestNumber()).thenReturn(expected);
+        when(this.mockContestService.createContest(anyInt())).thenReturn(this.contestEntity);
+
+        this.ticketServiceImpl.generateTicket();
+
+        verify(this.mockContestService, times(1)).createContest(anyInt());
+    }
+
 }
