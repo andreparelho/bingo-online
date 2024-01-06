@@ -54,10 +54,4 @@ public class ContestController {
         String raffleNumber = String.valueOf(this.ticketService.getRaffleNumber(contestNumber));
         return ResponseEntity.ok(raffleNumber);
     }
-
-    @GetMapping("/ticket")
-    public ResponseEntity<Map<String, Set<Integer>>> createTicket() throws JsonProcessingException {
-        Map<String, Set<Integer>> tickets = this.ticketService.generateTicket();
-        return ResponseEntity.ok(tickets);
-    }
 }
