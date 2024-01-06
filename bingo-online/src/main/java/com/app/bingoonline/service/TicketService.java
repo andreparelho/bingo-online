@@ -2,6 +2,7 @@ package com.app.bingoonline.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

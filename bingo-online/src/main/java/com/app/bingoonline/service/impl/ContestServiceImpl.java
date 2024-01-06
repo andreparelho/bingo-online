@@ -6,9 +6,7 @@ import com.app.bingoonline.entity.ContestEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class ContestServiceImpl implements ContestService {
@@ -43,8 +41,23 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
+    public Map<String, Set<Integer>> createContest() {
+        int contestNumber = this.generateContestNumber();
+
+        ContestEntity contestEntity = new ContestEntity();
+        contestEntity.setContestNumber(contestNumber);
+
+        this.contestRepository.saveContest(contestEntity);
+
+        Map<String, Set<Integer>> response = new HashMap<>();
+        response.put("contest", Collections.singleton(contestEntity.getContestNumber()));
+
+        return response;
+    }
+
+    @Override
     public int findContestById(int contestNumber) {
-        ContestEntity contestEntity = checkContestNumber(contestNumber);
+        ContestEntity contestEntity = this.checkContestNumber(contestNumber);
         return contestEntity.getContestNumber();
     }
 
@@ -56,6 +69,18 @@ public class ContestServiceImpl implements ContestService {
     @Override
     public ContestEntity saveRaffleNumber(int contestNumber, String raffleNumber) {
         return this.contestRepository.saveRaffleNumberOnContest(contestNumber, raffleNumber);
+    }
+
+    @Override
+    public List<Integer> getAllContests() {
+        List<ContestEntity> contestList = this.contestRepository.getAllContests();
+        List<Integer> allContests = new ArrayList<>();
+
+        for (ContestEntity contest : contestList) {
+            allContests.add(contest.getContestNumber());
+        }
+
+        return allContests;
     }
 
     private ContestEntity checkContestNumber(int numContest){
