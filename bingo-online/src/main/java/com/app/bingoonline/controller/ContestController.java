@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/contest")
+@RequestMapping("/v1/contest")
 public class ContestController {
     public final TicketService ticketService;
 
@@ -27,5 +27,11 @@ public class ContestController {
     public ResponseEntity<Map<String, Set<Integer>>> createTicketAndContest(@PathVariable("contest-number") int contestNumber) throws Exception {
         Map<String, Set<Integer>> tickets = this.ticketService.generateTicketByContestId(contestNumber);
         return ResponseEntity.ok(tickets);
+    }
+
+    @GetMapping("/get-raffle-number/{contest-number}")
+    public ResponseEntity<String> getRaffleNumber(@PathVariable("contest-number") int contestNumber){
+        String raffleNumber = String.valueOf(this.ticketService.getRaffleNumber(contestNumber));
+        return ResponseEntity.ok(raffleNumber);
     }
 }
