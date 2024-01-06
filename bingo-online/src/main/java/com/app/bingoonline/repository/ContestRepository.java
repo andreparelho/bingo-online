@@ -10,4 +10,5 @@ public interface ContestRepository {
     ContestEntity saveContest(ContestEntity contest);
     List<ContestEntity> getAllContests();
     ContestEntity findContestNumber(int contestNumber);
+    ContestEntity saveRaffleNumberOnContest(int contestNumber, String raffleNumber);
 }

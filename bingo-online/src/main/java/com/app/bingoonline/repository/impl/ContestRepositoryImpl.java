@@ -32,4 +32,11 @@ public class ContestRepositoryImpl implements ContestRepository {
         return this.contestCrudRepository.findByNumber(contestNumber);
     }
 
+    @Override
+        public ContestEntity saveRaffleNumberOnContest(int contestNumber, String raffleNumber) {
+        ContestEntity contestEntity = this.findContestNumber(contestNumber);
+        contestEntity.setRaffleNumbers(raffleNumber);
+
+        return this.contestCrudRepository.save(contestEntity);
+    }
 }
