@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,6 +46,10 @@ public class TicketServiceImplTest {
         this.mockTicketRepository = mock(TicketRepositoryImpl.class);
 
         this.contestEntity = new ContestEntity();
+        this.contestEntity.setNumber(1);
+        this.contestEntity.setId(1L);
+        this.contestEntity.setRaffleNumbers("1");
+        this.contestEntity.setContestNumber(1001);
 
         this.ticketServiceImpl = new TicketServiceImpl(
                 this.b, this.i, this.n, this.g, this.o,
@@ -157,6 +162,4 @@ public class TicketServiceImplTest {
 
         verify(this.converter, times(expected)).mapToJson(anyMap());
     }
-
-
 }
