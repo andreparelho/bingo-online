@@ -9,4 +9,7 @@ public interface TicketService {
     Map<String, Set<Integer>> generateTicket() throws JsonProcessingException;
 
     Map<String, Set<Integer>> generateTicketByContestId(int contestNumber) throws Exception;
+
+    String getRaffleNumber(int contestNumber);
 }
+

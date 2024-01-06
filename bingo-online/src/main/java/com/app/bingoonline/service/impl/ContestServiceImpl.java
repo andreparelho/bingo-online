@@ -1,12 +1,13 @@
 package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.repository.ContestRepository;
-import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.entity.ContestEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Service
@@ -43,8 +44,18 @@ public class ContestServiceImpl implements ContestService {
 
     @Override
     public int findContestById(int contestNumber) {
-        ContestEntity contestEntity =  checkContestNumber(contestNumber);
+        ContestEntity contestEntity = checkContestNumber(contestNumber);
         return contestEntity.getContestNumber();
+    }
+
+    @Override
+    public ContestEntity getAllRaffleNumbers(int contestNumber) {
+        return this.contestRepository.findContestNumber(contestNumber);
+    }
+
+    @Override
+    public ContestEntity saveRaffleNumber(int contestNumber, String raffleNumber) {
+        return this.contestRepository.saveRaffleNumberOnContest(contestNumber, raffleNumber);
     }
 
     private ContestEntity checkContestNumber(int numContest){
