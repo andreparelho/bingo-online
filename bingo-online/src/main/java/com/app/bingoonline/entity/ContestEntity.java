@@ -9,6 +9,7 @@ public class ContestEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private int number;
+    private String raffleNumbers;
 
     public Long getId() {
         return id;
@@ -23,6 +24,22 @@ public class ContestEntity {
     }
 
     public void setContestNumber(int number) {
+        this.number = number;
+    }
+
+    public String getRaffleNumbers() {
+        return raffleNumbers;
+    }
+
+    public void setRaffleNumbers(String raffleNumbers) {
+        this.raffleNumbers = raffleNumbers;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
         this.number = number;
     }
 }
