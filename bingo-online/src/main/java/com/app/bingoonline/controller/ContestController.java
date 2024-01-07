@@ -40,10 +40,7 @@ public class ContestController {
 
     @GetMapping("/{contest-number}/tickets")
     public ResponseEntity<Map<Integer, List<TicketEntity>>> getAllTicketsByContest(@PathVariable("contest-number") int contestNumber) throws Exception {
-       /* CRIAR UMA SERVICE PARA TRAZER TODOS OS TICKETS BASEADO NO ID DO CONTEST, A IDEIA INICAL E UM MAP COM NUMERO DO CONTEST E UMA LISTA DE TICKETS */
-
         Map<Integer, List<TicketEntity>> allTickets = this.ticketService.getAllTicketsByContest(contestNumber);
-
         return ResponseEntity.ok(allTickets);
     }
 
