@@ -109,6 +109,14 @@ public class TicketServiceImpl implements TicketService {
         return rafNum;
     }
 
+    @Override
+    public Map<Integer, List<TicketEntity>> getAllTicketsByContest(int contestNumber) {
+        List<TicketEntity> tickets = this.ticketRepository.getAllTicketsByContest(contestNumber);
+        Map<Integer, List<TicketEntity>> allTickets = new HashMap<>();
+        allTickets.put(contestNumber, tickets);
+        return allTickets;
+    }
+
     private Map<String, Set<Integer>> generateCardTicket(){
         Map<String, Set<Integer>> ticket = new HashMap<>();
         ticket.put("b", this.b.generateTicketNumbers());
