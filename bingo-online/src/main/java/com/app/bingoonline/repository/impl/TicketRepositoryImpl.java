@@ -25,7 +25,7 @@ public class TicketRepositoryImpl implements TicketRepository {
     }
 
     @Override
-    public List<TicketEntity> getAllTicketsByContest(ContestEntity contestEntity) {
-        return null;
+    public List<TicketEntity> getAllTicketsByContest(int contestNumber) {
+        return this.ticketCrudRepository.findByContestNumberId(contestNumber);
     }
 }

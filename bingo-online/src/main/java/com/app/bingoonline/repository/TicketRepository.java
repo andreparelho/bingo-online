@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface TicketRepository {
     TicketEntity saveTicket(TicketEntity ticketEntity, ContestEntity contestEntity);
-    List<TicketEntity> getAllTicketsByContest(ContestEntity contestEntity);
+    List<TicketEntity> getAllTicketsByContest(int contestNumber);
 }
