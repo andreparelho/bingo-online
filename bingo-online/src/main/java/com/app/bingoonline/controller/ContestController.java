@@ -3,7 +3,6 @@ package com.app.bingoonline.controller;
 import com.app.bingoonline.entity.TicketEntity;
 import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.service.TicketService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
