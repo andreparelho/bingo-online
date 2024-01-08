@@ -1,5 +1,6 @@
 package com.app.bingoonline.service.impl;
 
+import com.app.bingoonline.model.Raffle;
 import com.app.bingoonline.model.extds.*;
 import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.service.ContestService;
@@ -15,22 +16,24 @@ import java.util.*;
 
 @Service
 public class TicketServiceImpl implements TicketService {
-    private final B b;
+    public final B b;
     public final I i;
     public final N n;
     public final G g;
     public final O o;
+    public final Raffle raffle;
     private final ContestService contestService;
     private final TicketRepository ticketRepository;
     private final Converter converter;
 
     @Autowired
-    public TicketServiceImpl(B b, I i, N n, G g, O o, ContestService contestService, TicketRepository ticketRepository, Converter converter) {
+    public TicketServiceImpl(B b, I i, N n, G g, O o, Raffle raffle, ContestService contestService, TicketRepository ticketRepository, Converter converter) {
         this.b = b;
         this.i = i;
         this.n = n;
         this.g = g;
         this.o = o;
+        this.raffle = raffle;
         this.contestService = contestService;
         this.ticketRepository = ticketRepository;
         this.converter = converter;
@@ -74,39 +77,25 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public String getRaffleNumber(int contestNumber) {
-        Random random = new Random();
-        List<String> updateRaffle = new ArrayList<>();
+        String randomRaffleNumber = this.raffle.createRandomRaffleNumber();
 
-        String rafNum = String.valueOf(random.nextInt(1, 75));
+        ContestEntity actualContest = this.raffle.getAllRaffleNumbers(contestNumber);
+        boolean hasRaffle = this.raffle.verifyContest(actualContest.getRaffleNumbers());
 
-        ContestEntity actualContest = this.contestService.getAllRaffleNumbers(contestNumber);
-        String raffleNumberString = actualContest.getRaffleNumbers() != null ? actualContest.getRaffleNumbers() : null;
+        if (hasRaffle){
+            String raffleNumbersDatabase = actualContest.getRaffleNumbers();
+            List<Integer> numbers = this.converter.convertStringToList(raffleNumbersDatabase);
 
-        if (actualContest.getRaffleNumbers() != null){
-            List<Integer> numbers = this.converter.convertStringToList(actualContest.getRaffleNumbers());
-            for (Integer number : numbers) {
-                if (Objects.equals(number, Integer.valueOf(rafNum))) {
-                    rafNum = String.valueOf(random.nextInt(1, 75));
-                    assert raffleNumberString != null;
+            String raffle = this.raffle.verifyNumbers(numbers, randomRaffleNumber);
+            List<String> updateRaffle = this.raffle.updateRaffleList(raffleNumbersDatabase, raffle);
 
-                    updateRaffle.add(raffleNumberString);
-                    updateRaffle.add(rafNum);
+            this.contestService.saveRaffleNumber(contestNumber, randomRaffleNumber);
 
-                    this.contestService.saveRaffleNumber(contestNumber, rafNum);
-
-                    return rafNum;
-                }
-            }
-
-            updateRaffle.add(raffleNumberString);
-            updateRaffle.add(rafNum);
-
-            rafNum = this.converter.convertListToString(updateRaffle);
+            randomRaffleNumber = this.converter.convertListToString(updateRaffle);
         }
+        this.contestService.saveRaffleNumber(contestNumber, randomRaffleNumber);
 
-        this.contestService.saveRaffleNumber(contestNumber, rafNum);
-
-        return rafNum;
+        return randomRaffleNumber;
     }
 
     @Override
