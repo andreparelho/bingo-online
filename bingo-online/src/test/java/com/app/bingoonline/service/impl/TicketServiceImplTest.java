@@ -1,6 +1,7 @@
 package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.ContestEntity;
+import com.app.bingoonline.entity.TicketEntity;
 import com.app.bingoonline.model.Raffle;
 import com.app.bingoonline.model.extds.*;
 import com.app.bingoonline.repository.ContestRepository;
@@ -11,15 +12,13 @@ import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.service.impl.ContestServiceImpl;
 import com.app.bingoonline.service.impl.TicketServiceImpl;
 import com.app.bingoonline.converter.Converter;
+import com.app.bingoonline.shared.TicketShared;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -37,6 +36,7 @@ public class TicketServiceImplTest {
     private TicketServiceImpl ticketServiceImpl;
     private ContestEntity contestEntity;
     private ContestRepository mockContestRepository;
+    private TicketShared ticketShared;
 
     @BeforeEach
     public void initConfig(){
@@ -67,6 +67,8 @@ public class TicketServiceImplTest {
                 this.mockTicketRepository,
                 this.converter
                 );
+
+        this.ticketShared = new TicketShared();
     }
 
     @Test
@@ -173,7 +175,15 @@ public class TicketServiceImplTest {
         verify(this.converter, times(expected)).mapToJson(anyMap());
     }
 
+    @Test
+    public void testGetAllTicketsByContest(){
+        when(this.mockTicketRepository.getAllTicketsByContest(anyInt())).thenReturn(anyList());
 
+        Map<Integer, List<TicketEntity>> allTickets = this.ticketServiceImpl.getAllTicketsByContest(this.contestEntity.getContestNumber());
 
+        assertNotNull(allTickets);
+        assertInstanceOf(Map.class, allTickets);
 
+        verify(this.mockTicketRepository, times(1)).getAllTicketsByContest(anyInt());
+    }
 }
