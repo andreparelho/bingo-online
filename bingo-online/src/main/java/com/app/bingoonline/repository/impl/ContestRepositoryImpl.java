@@ -24,7 +24,7 @@ public class ContestRepositoryImpl implements ContestRepository {
 
     @Override
     public List<ContestEntity> getAllContests() {
-        return null;
+        return (List<ContestEntity>) this.contestCrudRepository.findAll();
     }
 
     @Override
