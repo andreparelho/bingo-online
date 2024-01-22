@@ -70,7 +70,7 @@ public class ContestServiceImplTest {
         Map<String, Set<Integer>> actual = this.contestService.createContest();
 
         assertNotNull(actual);
-        verify(this.mockContestRepository, times(1)).saveContest(any());
+        verify(this.mockContestRepository, times(1)).saveContest(any(ContestEntity.class));
     }
 
     @Test
@@ -79,6 +79,6 @@ public class ContestServiceImplTest {
         ContestEntity actual = this.contestService.createContest(anyInt());
 
         assertNotNull(actual);
-        verify(this.mockContestRepository, times(1)).saveContest(any());
+        verify(this.mockContestRepository, times(1)).saveContest(any(ContestEntity.class));
     }
 }

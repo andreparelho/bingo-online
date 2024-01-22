@@ -26,7 +26,7 @@ class RaffleTest {
     @Test
     public void testDeveRetornarUmNumeroAleatorioEntre1e75(){
         Random random = mock(Random.class);
-        when(random.nextInt()).thenReturn(1);
+        when(random.nextInt()).thenReturn(anyInt());
 
         String raffleNumberString = this.raffle.createRandomRaffleNumber();
         assertNotNull(raffleNumberString);
