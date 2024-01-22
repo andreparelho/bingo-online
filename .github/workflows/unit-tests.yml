@@ -15,14 +15,12 @@ jobs:
     steps:
     - name: Checkout do código
       uses: actions/checkout@v2
-      with:
-        path: bingo-online  # ajuste o nome do subdiretório conforme necessário
 
     - name: Configurar o ambiente Java
       uses: actions/setup-java@v2
       with:
         distribution: 'adopt'
-        java-version: '11'
+        java-version: '17'
 
     - name: Executar testes unitários
       run: mvn -f bingo-online/pom.xml test
