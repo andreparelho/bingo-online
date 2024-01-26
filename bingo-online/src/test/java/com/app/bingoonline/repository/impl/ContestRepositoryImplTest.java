@@ -27,7 +27,7 @@ class ContestRepositoryImplTest {
         this.contestEntity = new ContestEntity();
         this.contestEntity.setId(1L);
         this.contestEntity.setContestNumber(1001);
-        this.contestEntity.setRaffleNumbers("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"");
+        this.contestEntity.setRaffleNumbers("1,2,3,4,5");
         this.contestEntity.setNumber(1001);
     }
 
@@ -65,7 +65,7 @@ class ContestRepositoryImplTest {
         ContestEntity contestTwo = new ContestEntity();
         contestTwo.setId(2L);
         contestTwo.setContestNumber(1002);
-        contestTwo.setRaffleNumbers("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"");
+        contestTwo.setRaffleNumbers("45");
         contestTwo.setNumber(1002);
 
         this.contestRepository.saveContest(this.contestEntity);
@@ -99,7 +99,7 @@ class ContestRepositoryImplTest {
 
         assertNull(savedContest.getRaffleNumbers());
 
-        contestEntity.setRaffleNumbers("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"");
+        contestEntity.setRaffleNumbers("67");
         this.contestRepository.saveContest(this.contestEntity);
 
         assertNotNull(savedContest.getRaffleNumbers());
