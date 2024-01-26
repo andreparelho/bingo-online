@@ -69,7 +69,7 @@ class TicketRepositoryImplTest {
         assertEquals(emptyList, allTickets);
 
 
-        TicketEntity savedTicket = this.ticketRepository.saveTicket(this.ticketEntity, this.contestEntity);
+        TicketEntity savedTicket;
 
         this.ticketEntity.setId(2L);
         savedTicket = this.ticketRepository.saveTicket(this.ticketEntity, this.contestEntity);
@@ -94,7 +94,7 @@ class TicketRepositoryImplTest {
         assertEquals(this.ticketEntity.getId(), id);
         assertEquals(this.ticketEntity.getTicket(), ticket);
         assertEquals(this.ticketEntity.getContestNumberId(), contestNumberId);
-        assertEquals(5, listSize);
+        assertEquals(4, listSize);
     }
 
 }
