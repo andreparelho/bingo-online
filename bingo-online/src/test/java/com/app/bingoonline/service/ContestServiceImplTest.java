@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -67,19 +66,19 @@ public class ContestServiceImplTest {
 
     @Test
     public void testCreateContest(){
-        when(this.mockContestRepository.saveContest(any())).thenReturn(this.contestEntity);
+        when(this.mockContestRepository.saveContest(this.contestEntity)).thenReturn(this.contestEntity);
         Map<String, Set<Integer>> actual = this.contestService.createContest();
 
         assertNotNull(actual);
-        verify(this.mockContestRepository, times(1)).saveContest(any());
+        verify(this.mockContestRepository, times(1)).saveContest(any(ContestEntity.class));
     }
 
     @Test
     public void testCreateContestWithParameter(){
-        when(this.mockContestRepository.saveContest(any())).thenReturn(this.contestEntity);
+        when(this.mockContestRepository.saveContest(this.contestEntity)).thenReturn(this.contestEntity);
         ContestEntity actual = this.contestService.createContest(anyInt());
 
         assertNotNull(actual);
-        verify(this.mockContestRepository, times(1)).saveContest(any());
+        verify(this.mockContestRepository, times(1)).saveContest(any(ContestEntity.class));
     }
 }
