@@ -1,7 +1,9 @@
 package com.app.bingoonline.service;
 
 import com.app.bingoonline.entity.ContestEntity;
+import com.app.bingoonline.model.Raffle;
 import com.app.bingoonline.model.extds.*;
+import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.repository.impl.TicketRepositoryImpl;
 import com.app.bingoonline.service.impl.ContestServiceImpl;
@@ -11,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -31,6 +34,9 @@ public class TicketServiceImplTest {
     private Converter converter;
     private TicketServiceImpl ticketServiceImpl;
     private ContestEntity contestEntity;
+    @Mock
+    private ContestRepository mockConstestRepository;
+    private Raffle raffle;
 
     @BeforeEach
     public void initConfig(){
@@ -39,6 +45,8 @@ public class TicketServiceImplTest {
         this.n = new N();
         this.g = new G();
         this.o = new O();
+
+        this.raffle = new Raffle(this.mockConstestRepository);
 
         this.converter = mock(Converter.class);
 
@@ -53,6 +61,7 @@ public class TicketServiceImplTest {
 
         this.ticketServiceImpl = new TicketServiceImpl(
                 this.b, this.i, this.n, this.g, this.o,
+                this.raffle,
                 this.mockContestService,
                 this.mockTicketRepository,
                 this.converter
