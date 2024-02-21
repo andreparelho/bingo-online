@@ -1,10 +1,11 @@
 package com.app.bingoonline.shared;
 
+import com.app.bingoonline.entity.TicketEntity;
 import com.app.bingoonline.model.extds.*;
 
 import java.util.*;
 
-public class TicketStub {
+public class TicketShared {
     public B b = new B();
     public I i = new I();
     public N n = new N();
