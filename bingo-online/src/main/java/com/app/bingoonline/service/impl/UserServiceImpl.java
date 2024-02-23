@@ -6,7 +6,6 @@ import com.app.bingoonline.service.CognitoService;
 import com.app.bingoonline.service.UserService;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest;
-import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpResponse;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,7 +16,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public SignUpResponse signUp(SignUpRequestDTO signUpRequestDTO){
+    public boolean signUp(SignUpRequestDTO signUpRequestDTO){
         SignUpRequest signUpRequest = SignUpRequest.builder()
                 .clientId(signUpRequestDTO.getClientId())
                 .username(signUpRequestDTO.getUsername())
@@ -25,11 +24,10 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         UserRequest userRequest = new UserRequest();
-        userRequest.setClientId(signUpRequest.clientId());
         userRequest.setUserName(signUpRequest.username());
         userRequest.setPassword(signUpRequest.password());
 
-        SignUpResponse signUpResponse =  this.cognitoService.createUser(userRequest);
+        boolean signUpResponse =  this.cognitoService.createUser(userRequest);
         return signUpResponse;
     }
 }

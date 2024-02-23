@@ -1,19 +1,9 @@
 package com.app.bingoonline.model;
 
 public class UserRequest {
-    public String clientId;
     public String userName;
     public String password;
     public String email;
-    public String userPoolId;
-
-    public String getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
 
     public String getUserName() {
         return userName;
@@ -37,13 +27,5 @@ public class UserRequest {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getUserPoolId() {
-        return userPoolId;
-    }
-
-    public void setUserPoolId(String userPoolId) {
-        this.userPoolId = userPoolId;
     }
 }

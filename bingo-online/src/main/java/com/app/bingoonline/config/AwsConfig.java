@@ -1,5 +1,7 @@
 package com.app.bingoonline.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +27,8 @@ public class AwsConfig {
     @Value("${cognito.client-id}")
     private String clientId;
 
+    private Logger logger = LoggerFactory.getLogger(AwsConfig.class);
+
     @Bean
     public CognitoIdentityProviderClient cognitoIdentityProviderClient() {
         try {
@@ -36,13 +40,55 @@ public class AwsConfig {
                 throw new IllegalArgumentException("Configurações do Cognito incompletas.");
             }
 
+            logger.info("client cognite created with success.");
+
             return CognitoIdentityProviderClient.builder()
                     .region(Region.of(region))
                     .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKey, secretKey)))
                     .build();
         } catch (Exception e) {
-            // Trata exceções durante a criação do cliente Cognito
+            logger.info("Erro ao criar o cliente Cognito.");
             throw new RuntimeException("Erro ao criar o cliente Cognito.", e);
         }
+    }
+
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getUserPoolId() {
+        return userPoolId;
+    }
+
+    public void setUserPoolId(String userPoolId) {
+        this.userPoolId = userPoolId;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 }
