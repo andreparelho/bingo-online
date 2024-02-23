@@ -7,3 +7,10 @@ spring:
   h2:
     console:
       enabled: true
+aws:
+  accessKey: AKIAVRUVRREVDZHPQCOQ
+  secretKey: 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
+  region: sa-east-1
+cognito:
+  user-pool-id: us-east-1_KUB1VAvSd
+  client-id: 41u1nv0nng52ro82oc1cq8s3sh
