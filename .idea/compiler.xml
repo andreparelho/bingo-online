@@ -9,9 +9,6 @@
         <module name="bingo-online" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="bingo-online" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
