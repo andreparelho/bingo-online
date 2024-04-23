@@ -1,11 +1,13 @@
 package com.app.bingoonline.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "tickets")
+@Builder
 public class TicketEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

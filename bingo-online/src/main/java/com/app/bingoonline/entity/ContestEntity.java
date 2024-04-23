@@ -1,14 +1,17 @@
 package com.app.bingoonline.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 @Entity
 @Table(name = "contests")
+@Builder
 public class ContestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private int number;
+    private int contestNumber;
     private String raffleNumbers;
 
     public Long getId() {
@@ -20,11 +23,11 @@ public class ContestEntity {
     }
 
     public int getContestNumber() {
-        return number;
+        return contestNumber;
     }
 
-    public void setContestNumber(int number) {
-        this.number = number;
+    public void setContestNumber(int contestNumber) {
+        this.contestNumber = contestNumber;
     }
 
     public String getRaffleNumbers() {
@@ -42,4 +45,6 @@ public class ContestEntity {
     public void setNumber(int number) {
         this.number = number;
     }
+
+
 }
