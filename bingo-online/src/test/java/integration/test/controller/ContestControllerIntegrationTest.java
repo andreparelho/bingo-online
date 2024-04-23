@@ -1,18 +1,65 @@
 package integration.test.controller;
 
 import com.app.bingoonline.BingoOnlineApplication;
+import com.app.bingoonline.controller.ContestController;
+import com.app.bingoonline.service.ContestService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-@AutoConfigureWireMock(port = 0)
-@SpringBootTest(classes = {BingoOnlineApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+import java.util.*;
+
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+
+@SpringBootTest(classes = BingoOnlineApplication.class)
+@AutoConfigureMockMvc
 public class ContestControllerIntegrationTest {
+    @Mock
+    private ContestService contestService;
+    private ObjectMapper objectMapper;
+    @Autowired
+    private MockMvc mockMvc;
+    private Map<String, Set<Integer>> contest;
+    @Mock
+    private Random random;
+
+    @BeforeEach
+    public void initConfig(){
+        this.contest = new HashMap<>();
+        Set<Integer> contestNumber = new HashSet<>();
+
+        contestNumber.add(1001);
+        contest.put("contest", contestNumber);
+
+        MockitoAnnotations.initMocks(this);
+
+        when(contestService.createContest()).thenReturn(this.contest);
+    }
 
     @Test
-    public void test(){
-        System.out.println("test");
+    public void test() throws Exception {
+        this.mockMvc.perform(post("/v1/contests")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.contest").isArray())
+                .andExpect(jsonPath("$.contest").isNotEmpty())
+                .andExpect(jsonPath("$.contest[0]").isNumber())
+                .andExpect(jsonPath("$.contest[0]")
+                        .value(greaterThanOrEqualTo(1000)))
+                .andExpect(jsonPath("$.contest[0]")
+                        .value(lessThanOrEqualTo(9999)));
+
     }
 }
