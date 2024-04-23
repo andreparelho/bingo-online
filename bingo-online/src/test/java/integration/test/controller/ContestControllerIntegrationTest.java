@@ -32,23 +32,21 @@ public class ContestControllerIntegrationTest {
     private ObjectMapper objectMapper;
     @Autowired
     private MockMvc mockMvc;
-    private Map<String, Set<Integer>> contest;
 
     @BeforeEach
     public void initConfig(){
-        this.contest = new HashMap<>();
-        Set<Integer> contestNumber = new HashSet<>();
-
-        contestNumber.add(1001);
-        contest.put("contest", contestNumber);
-
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     @DisplayName("Deve retornar um contest quando chamar a integracao")
     public void createContestTest() throws Exception {
-        when(contestService.createContest()).thenReturn(this.contest);
+        Map<String, Set<Integer>> contest = new HashMap<>();
+        Set<Integer> contestNumber = new HashSet<>();
+        contestNumber.add(1001);
+        contest.put("contest", contestNumber);
+
+        when(contestService.createContest()).thenReturn(contest);
 
         this.mockMvc.perform(post("/v1/contests")
                         .contentType(MediaType.APPLICATION_JSON))
