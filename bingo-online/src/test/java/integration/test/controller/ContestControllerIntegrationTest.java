@@ -5,6 +5,7 @@ import com.app.bingoonline.controller.ContestController;
 import com.app.bingoonline.service.ContestService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -32,8 +33,6 @@ public class ContestControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
     private Map<String, Set<Integer>> contest;
-    @Mock
-    private Random random;
 
     @BeforeEach
     public void initConfig(){
@@ -44,12 +43,13 @@ public class ContestControllerIntegrationTest {
         contest.put("contest", contestNumber);
 
         MockitoAnnotations.initMocks(this);
-
-        when(contestService.createContest()).thenReturn(this.contest);
     }
 
     @Test
-    public void test() throws Exception {
+    @DisplayName("Deve retornar um contest quando chamar a integracao")
+    public void createContestTest() throws Exception {
+        when(contestService.createContest()).thenReturn(this.contest);
+
         this.mockMvc.perform(post("/v1/contests")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
