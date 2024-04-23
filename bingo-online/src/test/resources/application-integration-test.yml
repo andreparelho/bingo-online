@@ -1,0 +1,7 @@
+integration:
+  url:
+    create-contest: http://localhost:8080/v1/contests
+    create-tickets-by-contest: http://localhost:8080/v1/contests/2081/tickets
+    get-all-contests: http://localhost:8080/v1/contests
+    get-all-tickets-by-contest: http://localhost:8080/v1/contests/2081/tickets
+    get-raffle-number-by-contest: http://localhost:8080/v1/contests/2081/numbers
