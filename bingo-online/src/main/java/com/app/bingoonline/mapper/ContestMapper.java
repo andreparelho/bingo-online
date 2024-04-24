@@ -2,8 +2,9 @@ package com.app.bingoonline.mapper;
 
 import com.app.bingoonline.entity.ContestEntity;
 import com.app.bingoonline.model.dto.ContestDTO;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class ContestMapper {
     public ContestDTO entityToDTO(ContestEntity contestEntity){
         return ContestDTO.builder()
