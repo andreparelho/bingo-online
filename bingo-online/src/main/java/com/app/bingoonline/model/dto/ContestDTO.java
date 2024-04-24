@@ -1,12 +1,22 @@
-package com.app.bingoonline.model;
+package com.app.bingoonline.model.dto;
+
 
 import lombok.Builder;
 
 @Builder
-public class ContestModel {
+public class ContestDTO {
+    private Long id;
     private int number;
     private String raffleNumbers;
     private int contestNumber;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public int getNumber() {
         return number;

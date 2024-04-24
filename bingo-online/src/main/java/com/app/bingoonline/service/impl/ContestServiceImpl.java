@@ -34,8 +34,11 @@ public class ContestServiceImpl implements ContestService {
 
     @Override
     public ContestEntity createContest(int contestNumber) {
-        ContestEntity contestEntity = new ContestEntity();
-        contestEntity.setContestNumber(contestNumber);
+        ContestEntity contestEntity = ContestEntity.builder()
+                .number(contestNumber)
+                .contestNumber(contestNumber)
+                .build();
+
         this.contestRepository.saveContest(contestEntity);
         return contestEntity;
     }
@@ -44,8 +47,10 @@ public class ContestServiceImpl implements ContestService {
     public Map<String, Set<Integer>> createContest() {
         int contestNumber = this.generateContestNumber();
 
-        ContestEntity contestEntity = new ContestEntity();
-        contestEntity.setContestNumber(contestNumber);
+        ContestEntity contestEntity = ContestEntity.builder()
+                .number(contestNumber)
+                .contestNumber(contestNumber)
+                .build();
 
         this.contestRepository.saveContest(contestEntity);
 

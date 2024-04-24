@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @DataJpaTest
 class TicketRepositoryImplTest {
@@ -28,16 +29,20 @@ class TicketRepositoryImplTest {
     public void initSetup(){
         this.ticketRepository = new TicketRepositoryImpl(this.mockTicketCrudRepository);
 
-        this.ticketEntity = new TicketEntity();
-        this.ticketEntity.setId(1L);
-        this.ticketEntity.setTicket("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"");
-        this.ticketEntity.setContestNumberId(1001L);
+        this.ticketEntity = TicketEntity
+                .builder()
+                .id(1l)
+                .ticket("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"")
+                .contestNumberId(1001L)
+                .build();
 
-        this.contestEntity = new ContestEntity();
-        this.contestEntity.setId(1L);
-        this.contestEntity.setContestNumber(1001);
-        this.contestEntity.setRaffleNumbers("1,2,3,4,5");
-        this.contestEntity.setNumber(1001);
+        this.contestEntity = ContestEntity
+                .builder()
+                .id(1l)
+                .number(1001)
+                .contestNumber(1001)
+                .raffleNumbers("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"")
+                .build();
     }
 
     @Test

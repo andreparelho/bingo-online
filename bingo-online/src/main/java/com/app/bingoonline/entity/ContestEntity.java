@@ -14,6 +14,16 @@ public class ContestEntity {
     private int contestNumber;
     private String raffleNumbers;
 
+    public ContestEntity() {
+    }
+
+    public ContestEntity(Long id, int number, int contestNumber, String raffleNumbers) {
+        this.id = id;
+        this.number = number;
+        this.contestNumber = contestNumber;
+        this.raffleNumbers = raffleNumbers;
+    }
+
     public Long getId() {
         return id;
     }

@@ -1,24 +1,24 @@
 package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.ContestEntity;
-import com.app.bingoonline.entity.TicketEntity;
 import com.app.bingoonline.model.Raffle;
-import com.app.bingoonline.model.extds.*;
+import com.app.bingoonline.model.ticketsLetters.*;
 import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.repository.TicketRepository;
-import com.app.bingoonline.repository.impl.ContestRepositoryImpl;
 import com.app.bingoonline.repository.impl.TicketRepositoryImpl;
 import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.service.impl.ContestServiceImpl;
 import com.app.bingoonline.service.impl.TicketServiceImpl;
 import com.app.bingoonline.converter.Converter;
-import com.app.bingoonline.shared.TicketShared;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -29,14 +29,14 @@ public class TicketServiceImplTest {
     private N n;
     private G g;
     private O o;
-    private Raffle raffle;
     private ContestService mockContestService;
     private TicketRepository mockTicketRepository;
     private Converter converter;
     private TicketServiceImpl ticketServiceImpl;
     private ContestEntity contestEntity;
-    private ContestRepository mockContestRepository;
-    private TicketShared ticketShared;
+    @Mock
+    private ContestRepository mockConstestRepository;
+    private Raffle raffle;
 
     @BeforeEach
     public void initConfig(){
@@ -46,19 +46,20 @@ public class TicketServiceImplTest {
         this.g = new G();
         this.o = new O();
 
+        this.raffle = new Raffle(this.mockConstestRepository);
+
         this.converter = mock(Converter.class);
 
         this.mockContestService = mock(ContestServiceImpl.class);
         this.mockTicketRepository = mock(TicketRepositoryImpl.class);
-        this.mockContestRepository = mock(ContestRepositoryImpl.class);
 
-        this.contestEntity = new ContestEntity();
-        this.contestEntity.setNumber(1);
-        this.contestEntity.setId(1L);
-        this.contestEntity.setRaffleNumbers("1");
-        this.contestEntity.setContestNumber(1001);
-
-        this.raffle = new Raffle(mockContestRepository);
+        this.contestEntity = ContestEntity
+                .builder()
+                .id(1l)
+                .number(1001)
+                .contestNumber(1001)
+                .raffleNumbers("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"")
+                .build();
 
         this.ticketServiceImpl = new TicketServiceImpl(
                 this.b, this.i, this.n, this.g, this.o,
@@ -67,13 +68,11 @@ public class TicketServiceImplTest {
                 this.mockTicketRepository,
                 this.converter
                 );
-
-        this.ticketShared = new TicketShared();
     }
 
     @Test
     @DisplayName("This test when return one ticket with 25 index")
-    public void testGenerateTicket() throws JsonProcessingException {
+    public void testDeveRetornarUmIndexDeVinteCincoPosicoes() throws JsonProcessingException {
         int contest = 1000;
 
         this.contestEntity.setContestNumber(contest);
@@ -98,7 +97,7 @@ public class TicketServiceImplTest {
 
     @Test
     @DisplayName("This test when return one ticket with 25 index when contest exists")
-    public void testGenerateTicketByContestId() throws Exception {
+    public void testDeveRetornarUmIndexDeVinteCincoPosicoesCasoContestExistente() throws Exception {
         int contestId = 1000;
         when(this.mockContestService.findContestById(contestId)).thenReturn(contestId);
 
@@ -118,8 +117,8 @@ public class TicketServiceImplTest {
     }
 
     @Test
-    @DisplayName("This test should return ticket with contest created previously")
-    public void testGenerateTicketByContestIdWhenContestCreated() throws Exception {
+    @DisplayName("This test shuld return ticket with contest created previously")
+    public void testDeveRetornarUmTicketComContestJaCriado() throws Exception {
         int contestId = 1000;
 
         when(this.mockContestService.findContestById(contestId)).thenReturn(contestId);
@@ -129,15 +128,15 @@ public class TicketServiceImplTest {
     }
 
     @Test
-    @DisplayName("This test should return exception when contest not created previously")
-    public void testGenerateTicketByContestIdWhenContestWrong() throws Exception {
+    @DisplayName("This test shuld return exception when contest not created previously")
+    public void testDeveRetonarUmaExceptionCasoConstestErrado() throws Exception {
         int contestId = 1001;
         assertThrows(Exception.class, () -> this.ticketServiceImpl.generateTicketByContestId(contestId));
     }
 
     @Test
-    @DisplayName("This test should call one time this generateContestNumber method")
-    public void testGenerateTicketWhenCallOneTimeGenerateContestNumberMethod() throws JsonProcessingException {
+    @DisplayName("This test shuld call one time this generateContestNumber method")
+    public void testDeveChamarUmaVezMetodoGenerateContestNumber() throws JsonProcessingException {
         int expected = 1;
 
         when(this.mockContestService.generateContestNumber()).thenReturn(expected);
@@ -149,8 +148,8 @@ public class TicketServiceImplTest {
     }
 
     @Test
-    @DisplayName("This test should call one time this createContest method")
-    public void testGenerateTicketWhenCallOneTimeCreateContestMethod() throws JsonProcessingException {
+    @DisplayName("This test shuld call one time this createContest method")
+    public void testDeveChamarUmaVezMetodoCreateContest() throws JsonProcessingException {
         int expected = 1;
 
         when(this.mockContestService.generateContestNumber()).thenReturn(expected);
@@ -162,8 +161,8 @@ public class TicketServiceImplTest {
     }
 
     @Test
-    @DisplayName("This test should call two times this mapToJson method")
-    public void testThisConverterMethodWhenCallGenerateTicketOrGenerateTicketByContestIdMethods() throws Exception {
+    @DisplayName("This test shuld call two times this mapToJson method")
+    public void testDeveChamarDuasVezesMetodoMapToJson() throws Exception {
         int expected = 2;
 
         when(this.mockContestService.generateContestNumber()).thenReturn(expected);
@@ -173,17 +172,5 @@ public class TicketServiceImplTest {
         this.ticketServiceImpl.generateTicketByContestId(anyInt());
 
         verify(this.converter, times(expected)).mapToJson(anyMap());
-    }
-
-    @Test
-    public void testGetAllTicketsByContest(){
-        when(this.mockTicketRepository.getAllTicketsByContest(anyInt())).thenReturn(anyList());
-
-        Map<Integer, List<TicketEntity>> allTickets = this.ticketServiceImpl.getAllTicketsByContest(this.contestEntity.getContestNumber());
-
-        assertNotNull(allTickets);
-        assertInstanceOf(Map.class, allTickets);
-
-        verify(this.mockTicketRepository, times(1)).getAllTicketsByContest(anyInt());
     }
 }

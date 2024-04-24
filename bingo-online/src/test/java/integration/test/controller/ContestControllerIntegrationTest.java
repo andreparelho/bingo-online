@@ -2,6 +2,8 @@ package integration.test.controller;
 
 import com.app.bingoonline.BingoOnlineApplication;
 import com.app.bingoonline.controller.ContestController;
+import com.app.bingoonline.entity.ContestEntity;
+import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.service.ContestService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,21 +34,34 @@ public class ContestControllerIntegrationTest {
     private ObjectMapper objectMapper;
     @Autowired
     private MockMvc mockMvc;
+    @Mock
+    private ContestRepository contestRepository;
+    private ContestEntity contestEntity;
 
     @BeforeEach
     public void initConfig(){
+        this.contestEntity = ContestEntity
+                .builder()
+                .id(1l)
+                .number(1001)
+                .contestNumber(1001)
+                .raffleNumbers("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"")
+                .build();
+
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     @DisplayName("Deve retornar um contest quando chamar a integracao")
     public void createContestTest() throws Exception {
-        Map<String, Set<Integer>> contest = new HashMap<>();
+        Map<String, Set<Integer>> contestMap = new HashMap<>();
         Set<Integer> contestNumber = new HashSet<>();
-        contestNumber.add(1001);
-        contest.put("contest", contestNumber);
 
-        when(contestService.createContest()).thenReturn(contest);
+        contestNumber.add(1001);
+        contestMap.put("contest", contestNumber);
+
+        when(this.contestService.generateContestNumber()).thenReturn(1001);
+        when(this.contestService.createContest()).thenReturn(contestMap);
 
         this.mockMvc.perform(post("/v1/contests")
                         .contentType(MediaType.APPLICATION_JSON))
