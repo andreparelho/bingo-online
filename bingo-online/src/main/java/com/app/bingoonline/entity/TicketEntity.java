@@ -17,6 +17,15 @@ public class TicketEntity {
 
     private String ticket;
 
+    public TicketEntity() {
+    }
+
+    public TicketEntity(Long id, Long contestNumberId, String ticket) {
+        this.id = id;
+        this.contestNumberId = contestNumberId;
+        this.ticket = ticket;
+    }
+
     public Long getId() {
         return id;
     }
