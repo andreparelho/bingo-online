@@ -24,11 +24,13 @@ class ContestRepositoryImplTest {
     public void initSetup(){
         this.contestRepository = new ContestRepositoryImpl(this.contestCrudRepository);
 
-        this.contestEntity = new ContestEntity();
-        this.contestEntity.setId(1L);
-        this.contestEntity.setContestNumber(1001);
-        this.contestEntity.setRaffleNumbers("1,2,3,4,5");
-        this.contestEntity.setNumber(1001);
+        this.contestEntity = ContestEntity
+                .builder()
+                .id(1l)
+                .number(1001)
+                .contestNumber(1001)
+                .raffleNumbers("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"")
+                .build();
     }
 
     @Test
@@ -62,11 +64,12 @@ class ContestRepositoryImplTest {
 
         assertEquals(emptyList, allContests);
 
-        ContestEntity contestTwo = new ContestEntity();
-        contestTwo.setId(2L);
-        contestTwo.setContestNumber(1002);
-        contestTwo.setRaffleNumbers("45");
-        contestTwo.setNumber(1002);
+        ContestEntity contestTwo = ContestEntity
+                .builder()
+                .id(2l)
+                .contestNumber(1002)
+                .raffleNumbers("45")
+                .build();
 
         this.contestRepository.saveContest(this.contestEntity);
         this.contestRepository.saveContest(contestTwo);
@@ -83,7 +86,7 @@ class ContestRepositoryImplTest {
     public void testFindContestNumber(){
         this.contestRepository.saveContest(this.contestEntity);
 
-        ContestEntity foundContest = this.contestRepository.findContestNumber(this.contestEntity.getContestNumber());
+        ContestEntity foundContest = this.contestRepository.findContestNumber(this.contestEntity.getNumber());
 
         assertNotNull(foundContest);
         assertInstanceOf(ContestEntity.class, foundContest);
@@ -95,11 +98,13 @@ class ContestRepositoryImplTest {
     public void testSaveRaffleNumberOnContest(){
         this.contestEntity.setRaffleNumbers(null);
         this.contestRepository.saveContest(this.contestEntity);
-        ContestEntity savedContest = this.contestRepository.findContestNumber(this.contestEntity.getContestNumber());
+        ContestEntity savedContest = this.contestRepository.findContestNumber(this.contestEntity.getNumber());
 
         assertNull(savedContest.getRaffleNumbers());
 
         contestEntity.setRaffleNumbers("67");
+        savedContest = this.contestRepository.findContestNumber(this.contestEntity.getNumber());
+        assertNotNull(savedContest);
         this.contestRepository.saveContest(this.contestEntity);
 
         assertNotNull(savedContest.getRaffleNumbers());

@@ -1,4 +1,4 @@
-package com.app.bingoonline.model.extds;
+package com.app.bingoonline.model.ticketsLetters;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

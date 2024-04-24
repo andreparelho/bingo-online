@@ -1,4 +1,4 @@
-package com.app.bingoonline.service;
+package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.ContestEntity;
 import com.app.bingoonline.model.Raffle;
@@ -6,6 +6,7 @@ import com.app.bingoonline.model.ticketsLetters.*;
 import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.repository.impl.TicketRepositoryImpl;
+import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.service.impl.ContestServiceImpl;
 import com.app.bingoonline.service.impl.TicketServiceImpl;
 import com.app.bingoonline.converter.Converter;
@@ -52,11 +53,13 @@ public class TicketServiceImplTest {
         this.mockContestService = mock(ContestServiceImpl.class);
         this.mockTicketRepository = mock(TicketRepositoryImpl.class);
 
-        this.contestEntity = new ContestEntity();
-        this.contestEntity.setNumber(1);
-        this.contestEntity.setId(1L);
-        this.contestEntity.setRaffleNumbers("1");
-        this.contestEntity.setContestNumber(1001);
+        this.contestEntity = ContestEntity
+                .builder()
+                .id(1l)
+                .number(1001)
+                .contestNumber(1001)
+                .raffleNumbers("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"")
+                .build();
 
         this.ticketServiceImpl = new TicketServiceImpl(
                 this.b, this.i, this.n, this.g, this.o,
