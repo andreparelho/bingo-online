@@ -1,4 +1,4 @@
-package com.app.bingoonline.model.extds;
+package com.app.bingoonline.model.ticketsLetters;
 
 import com.app.bingoonline.model.Letter;
 import org.springframework.stereotype.Component;
