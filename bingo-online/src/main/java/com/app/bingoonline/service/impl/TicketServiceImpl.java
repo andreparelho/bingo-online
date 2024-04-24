@@ -1,7 +1,7 @@
 package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.model.Raffle;
-import com.app.bingoonline.model.extds.*;
+import com.app.bingoonline.model.ticketsLetters.*;
 import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.service.TicketService;
@@ -46,8 +46,9 @@ public class TicketServiceImpl implements TicketService {
         int contestNumber = this.contestService.generateContestNumber();
         ContestEntity contest = this.contestService.createContest(contestNumber);
 
-        TicketEntity ticketEntity = new TicketEntity();
-        ticketEntity.setTicket(this.converter.mapToJson(ticket));
+        TicketEntity ticketEntity = TicketEntity.builder()
+                .ticket(this.converter.mapToJson(ticket))
+                .build();
 
         this.ticketRepository.saveTicket(ticketEntity, contest);
         ticket.put("Contest", Collections.singleton(contest.getContestNumber()));
@@ -60,12 +61,17 @@ public class TicketServiceImpl implements TicketService {
         int hasContestNumber = this.contestService.findContestById(contestNumber);
 
         if (hasContestNumber == contestNumber) {
-            ContestEntity contestEntity = new ContestEntity();
             Map<String, Set<Integer>> ticket = generateCardTicket();
-            TicketEntity ticketEntity = new TicketEntity();
-            ticketEntity.setTicket(this.converter.mapToJson(ticket));
 
-            contestEntity.setContestNumber(contestNumber);
+            TicketEntity ticketEntity = TicketEntity.builder()
+                    .ticket(this.converter.mapToJson(ticket))
+                    .build();
+
+            ContestEntity contestEntity = ContestEntity.builder()
+                    .number(contestNumber)
+                    .contestNumber(contestNumber)
+                    .build();
+
             this.ticketRepository.saveTicket(ticketEntity, contestEntity);
 
             ticket.put("Contest", Collections.singleton(contestEntity.getContestNumber()));
