@@ -13,6 +13,9 @@ public class Raffle {
 
     private ContestRepository contestRepository;
 
+    public Raffle() {
+    }
+
     public Raffle (ContestRepository contestRepository){
         this.contestRepository = contestRepository;
     }
