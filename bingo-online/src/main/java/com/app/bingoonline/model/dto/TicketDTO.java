@@ -4,7 +4,6 @@ import lombok.Builder;
 import org.springframework.stereotype.Component;
 
 @Builder
-@Component
 public class TicketDTO {
     private Long id;
     private Long contestNumberId;

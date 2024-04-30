@@ -5,7 +5,6 @@ import lombok.Builder;
 import org.springframework.stereotype.Component;
 
 @Builder
-@Component
 public class ContestDTO {
     private Long id;
     private int number;
