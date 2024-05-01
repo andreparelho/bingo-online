@@ -1,16 +1,17 @@
+name: Test Validation
 on:
   push:
     branches:
-      - 'feature/*'
+      - '*'
   pull_request:
     branches:
       - main
-    paths:
-      - bingo-online/**
+
 jobs:
-  TEST_VALIDATION:
+  test_validation:
     name: 1 - VALIDATING UNIT AND INTEGRATION TESTS
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -28,20 +29,23 @@ jobs:
         run: cd bingo-online
       - name: Build with Maven
         run: mvn -B -f bingo-online/pom.xml clean install
+
       - name: Run unit tests
         run: mvn -f bingo-online/pom.xml test
+
   create_pull_request:
     name: 2 - CREATE PULL REQUEST
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.action == 'opened'
-    needs: [TEST_VALIDATION]
+    needs: [test_validation]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Get branch name
         id: branch_name
         run: echo "::set-output name=name::$(echo ${GITHUB_REF#refs/heads/})"
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
