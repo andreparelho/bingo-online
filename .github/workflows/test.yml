@@ -10,6 +10,7 @@ on:
 
 jobs:
   TEST_VALIDATION:
+    name: 1 - VALIDATING UNIT AND INTEGRATION TESTS
     runs-on: ubuntu-latest
 
     steps:
