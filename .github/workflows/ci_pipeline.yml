@@ -43,7 +43,6 @@ jobs:
     name: 2 - CREATE PULL REQUEST
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.event.action == 'opened'
-    needs: [TEST_VALIDATION]
 
     steps:
       - name: Checkout code
