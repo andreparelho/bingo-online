@@ -27,6 +27,9 @@ jobs:
           overwrite: true
           cache: 'maven'
 
+      - name: Change to project directory
+        run: cd bingo-online/bingo-online
+
       - name: Build with Maven
         run: mvn -B clean install
 
@@ -51,6 +54,9 @@ jobs:
           server-password: ${{ secrets.GITHUB_TOKEN }}
           overwrite: true
           cache: 'maven'
+
+      - name: Change to project directory
+        run: cd bingo-online/bingo-online
 
       - name: Build with Maven
         run: mvn -B clean install
