@@ -31,7 +31,7 @@ jobs:
         run: cd bingo-online
 
       - name: Build with Maven
-        run: mvn -B clean install
+        run: mvn -B -f bingo-online/pom.xml clean install
 
       - name: Run unit tests
         run: mvn test
@@ -59,7 +59,7 @@ jobs:
         run: cd bingo-online
 
       - name: Build with Maven
-        run: mvn -B clean install
+        run: mvn -B -f bingo-online/pom.xml clean install
 
       - name: Run unit tests
         run: mvn test
