@@ -34,7 +34,7 @@ jobs:
         run: mvn -B -f bingo-online/pom.xml clean install
 
       - name: Run unit tests
-        run: mvn -f src/test test
+        run: mvn -f bingo-online/pom.xml test
 
   pull_request_checks:
     runs-on: ubuntu-latest
@@ -62,7 +62,7 @@ jobs:
         run: mvn -B -f bingo-online/pom.xml clean install
 
       - name: Run unit tests
-        run: mvn -f src/test test
+        run: mvn -f bingo-online/pom.xml test
 
       - name: Check test status
         if: failure()
