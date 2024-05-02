@@ -1,6 +1,7 @@
 package com.app.bingoonline.repository.impl;
 
 import com.app.bingoonline.entity.UserEntity;
+import com.app.bingoonline.exception.entity.UserNotFoundException;
 import com.app.bingoonline.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+        UserEntity user = userRepository.findByEmail(username).orElseThrow(() -> new UserNotFoundException("User not found."));
         return new UserDetailsImpl(user);
     }
 }
