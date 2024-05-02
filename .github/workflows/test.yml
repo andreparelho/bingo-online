@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - '*'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - bingo-online/**
 
 jobs:
   test_validation:
