@@ -31,20 +31,18 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (checkIfEndpointIsNotPublic(request)) {
-            String token = recoveryToken(request); // Recupera o token do cabeçalho Authorization da requisição
+            String token = recoveryToken(request);
             if (token != null) {
                 String subject = jwtTokenService.getSubjectFromToken(token);
                 UserEntity user = userRepository.findByEmail(subject).get();
                     UserDetailsRepositoryImpl userDetails = new UserDetailsRepositoryImpl(user);
 
-                // Cria um objeto de autenticação do Spring Security
                 Authentication authentication =
                         new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
 
-                // Define o objeto de autenticação no contexto de segurança do Spring Security
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } else {
-                throw new RuntimeException("O token está ausente.");
+                throw new RuntimeException("O token está ausente."); //criar exception
             }
         }
         filterChain.doFilter(request, response);
