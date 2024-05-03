@@ -1,4 +1,4 @@
-package com.app.bingoonline.model;
+package com.app.bingoonline.model.dto;
 
-public class UserModel {
+public class UserDTO {
 }

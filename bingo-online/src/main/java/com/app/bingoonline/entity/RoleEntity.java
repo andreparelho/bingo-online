@@ -1,6 +1,6 @@
 package com.app.bingoonline.entity;
 
-import com.app.bingoonline.model.RoleName;
+import com.app.bingoonline.enums.RoleName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

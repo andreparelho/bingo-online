@@ -1,4 +1,4 @@
-package com.app.bingoonline.security.userDetails;
+package com.app.bingoonline.security.userDetails.repository;
 
 import com.app.bingoonline.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
