@@ -8,10 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class UserDetailsImpl implements UserDetails {
+public class UserDetailsRepositoryImpl implements UserDetails {
     public final UserEntity user;
 
-    public UserDetailsImpl(UserEntity user) {
+    public UserDetailsRepositoryImpl(UserEntity user) {
         this.user = user;
     }
 
