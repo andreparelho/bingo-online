@@ -1,6 +1,7 @@
 package com.app.bingoonline.security.auth;
 
 import com.app.bingoonline.entity.UserEntity;
+import com.app.bingoonline.exception.token.MissingTokenException;
 import com.app.bingoonline.repository.UserRepository;
 
 import com.app.bingoonline.security.config.SecurityConfig;
@@ -42,7 +43,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } else {
-                throw new RuntimeException("O token está ausente."); //criar exception
+                throw new MissingTokenException("Token is missing.");
             }
         }
         filterChain.doFilter(request, response);

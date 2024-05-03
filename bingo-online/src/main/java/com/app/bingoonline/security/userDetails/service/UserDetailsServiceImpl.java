@@ -3,7 +3,7 @@ package com.app.bingoonline.security.userDetails.service;
 import com.app.bingoonline.entity.UserEntity;
 import com.app.bingoonline.repository.UserRepository;
 import com.app.bingoonline.security.userDetails.repository.UserDetailsRepositoryImpl;
-import com.app.bingoonline.exception.entity.UserNotFoundException;
+import com.app.bingoonline.exception.user.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
