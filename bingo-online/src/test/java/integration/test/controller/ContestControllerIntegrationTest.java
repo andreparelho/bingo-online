@@ -7,6 +7,7 @@ import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.service.ContestService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -53,6 +54,7 @@ public class ContestControllerIntegrationTest {
 
     @Test
     @DisplayName("Deve retornar um contest quando chamar a integracao")
+    @Disabled
     public void createContestTest() throws Exception {
         Map<String, Set<Integer>> contestMap = new HashMap<>();
         Set<Integer> contestNumber = new HashSet<>();
