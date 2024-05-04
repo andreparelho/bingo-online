@@ -1,19 +1,20 @@
 package com.app.bingoonline.model.dto;
 
 import lombok.Builder;
-import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Builder
 public class TicketDTO {
-    private Long id;
+    private UUID id;
     private Long contestNumberId;
     private String ticket;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

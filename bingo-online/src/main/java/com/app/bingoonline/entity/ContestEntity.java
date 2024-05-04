@@ -1,34 +1,31 @@
 package com.app.bingoonline.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
-@Entity
+import java.util.UUID;
+
 @Table(name = "contests")
+@Entity(name = "Contest")
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ContestEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "contest_id")
+    private UUID id;
     private int number;
     private int contestNumber;
     private String raffleNumbers;
 
-    public ContestEntity() {
-    }
-
-    public ContestEntity(Long id, int number, int contestNumber, String raffleNumbers) {
-        this.id = id;
-        this.number = number;
-        this.contestNumber = contestNumber;
-        this.raffleNumbers = raffleNumbers;
-    }
-
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -55,6 +52,4 @@ public class ContestEntity {
     public void setNumber(int number) {
         this.number = number;
     }
-
-
 }
