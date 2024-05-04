@@ -18,12 +18,14 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
-  h2-database:
-    image: "oceanlychee/h2-database:latest"
+  h2:
+    container_name: 'h2'
+    hostname: 'h2'
+    image: 1000kit/h2
     ports:
-      - "8082:8082"
-      - "9092:9092"
-    environment:
-      - H2_OPTIONS='-ifNotExists'
+      - "8181:8181"
+      - "1521:1521"
     volumes:
       - h2-data:/opt/h2-data
+volumes:
+  h2-data:
