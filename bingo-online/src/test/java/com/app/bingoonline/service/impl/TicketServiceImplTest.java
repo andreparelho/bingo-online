@@ -55,7 +55,6 @@ public class TicketServiceImplTest {
 
         this.contestEntity = ContestEntity
                 .builder()
-                .id(1l)
                 .number(1001)
                 .contestNumber(1001)
                 .raffleNumbers("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"")

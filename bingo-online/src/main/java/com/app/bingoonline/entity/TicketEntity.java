@@ -1,36 +1,31 @@
 package com.app.bingoonline.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
+import java.util.UUID;
 
-@Entity
 @Table(name = "tickets")
+@Entity(name = "Ticket")
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class TicketEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "ticket_id")
+    private UUID id;
     private Long contestNumberId;
-
     private String ticket;
 
-    public TicketEntity() {
-    }
-
-    public TicketEntity(Long id, Long contestNumberId, String ticket) {
-        this.id = id;
-        this.contestNumberId = contestNumberId;
-        this.ticket = ticket;
-    }
-
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

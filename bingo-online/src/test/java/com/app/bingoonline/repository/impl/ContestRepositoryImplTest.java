@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,17 +38,14 @@ class ContestRepositoryImplTest {
     public void testSaveContest(){
         ContestEntity saveContest = this.contestRepository.saveContest(this.contestEntity);
 
-        Long contestId = this.contestEntity.getId();
+        UUID contestId = this.contestEntity.getId();
         int contestNumber = this.contestEntity.getContestNumber();
         String contestRaffleNumbers = this.contestEntity.getRaffleNumbers();
         int number = this.contestEntity.getNumber();
 
-        boolean isGreaterThanZero = saveContest.getId() > 0;
-
         assertNotNull(saveContest);
         assertInstanceOf(ContestEntity.class, saveContest);
 
-        assertTrue(isGreaterThanZero);
         assertEquals(contestId, saveContest.getId());
 
         assertEquals(contestNumber, saveContest.getContestNumber());
@@ -65,7 +63,6 @@ class ContestRepositoryImplTest {
 
         ContestEntity contestTwo = ContestEntity
                 .builder()
-                .id(2l)
                 .contestNumber(1002)
                 .raffleNumbers("45")
                 .build();

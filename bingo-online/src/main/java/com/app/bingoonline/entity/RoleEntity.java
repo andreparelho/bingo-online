@@ -6,14 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name="roles")
-@Builder
+@Table(name = "roles")
+@Entity(name = "Role")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "role_id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
@@ -25,5 +26,13 @@ public class RoleEntity {
 
     public RoleName getName() {
         return name;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(RoleName name) {
+        this.name = name;
     }
 }

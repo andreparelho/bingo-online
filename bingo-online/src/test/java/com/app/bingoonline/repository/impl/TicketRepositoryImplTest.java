@@ -12,9 +12,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 @DataJpaTest
 class TicketRepositoryImplTest {
@@ -31,14 +31,12 @@ class TicketRepositoryImplTest {
 
         this.ticketEntity = TicketEntity
                 .builder()
-                .id(1l)
                 .ticket("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"")
                 .contestNumberId(1001L)
                 .build();
 
         this.contestEntity = ContestEntity
                 .builder()
-                .id(1l)
                 .number(1001)
                 .contestNumber(1001)
                 .raffleNumbers("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"")
@@ -50,15 +48,13 @@ class TicketRepositoryImplTest {
     public void testSaveTicket(){
         TicketEntity savedTicket = this.ticketRepository.saveTicket(this.ticketEntity, this.contestEntity);
 
-        Long id = savedTicket.getId();
+        UUID id = savedTicket.getId();
         String ticket = savedTicket.getTicket();
         Long contestNumberId = savedTicket.getContestNumberId();
-        boolean isGreaterThanZero = savedTicket.getId() > 0;
 
         assertNotNull(savedTicket);
 
         assertInstanceOf(TicketEntity.class, savedTicket);
-        assertTrue(isGreaterThanZero);
 
         assertEquals(this.ticketEntity.getId(), id);
         assertEquals(this.ticketEntity.getTicket(), ticket);
@@ -76,27 +72,26 @@ class TicketRepositoryImplTest {
 
         TicketEntity savedTicket;
 
-        this.ticketEntity.setId(2L);
-        savedTicket = this.ticketRepository.saveTicket(this.ticketEntity, this.contestEntity);
+        this.ticketEntity.setId(UUID.randomUUID());
+        this.ticketRepository.saveTicket(this.ticketEntity, this.contestEntity);
 
-        this.ticketEntity.setId(3L);
-        savedTicket = this.ticketRepository.saveTicket(this.ticketEntity, this.contestEntity);
+        this.ticketEntity.setId(UUID.randomUUID());
+        this.ticketRepository.saveTicket(this.ticketEntity, this.contestEntity);
 
-        this.ticketEntity.setId(4L);
-        savedTicket = this.ticketRepository.saveTicket(this.ticketEntity, this.contestEntity);
+        this.ticketEntity.setId(UUID.randomUUID());
+        this.ticketRepository.saveTicket(this.ticketEntity, this.contestEntity);
 
-        this.ticketEntity.setId(5L);
+        this.ticketEntity.setId(UUID.randomUUID());
         savedTicket = this.ticketRepository.saveTicket(this.ticketEntity, this.contestEntity);
 
         allTickets = this.ticketRepository.getAllTicketsByContest(this.contestEntity.getContestNumber());
 
-        Long id = savedTicket.getId();
+        UUID id = savedTicket.getId();
         String ticket = savedTicket.getTicket();
         Long contestNumberId = savedTicket.getContestNumberId();
         int listSize = allTickets.size();
 
         assertNotNull(allTickets);
-        assertEquals(this.ticketEntity.getId(), id);
         assertEquals(this.ticketEntity.getTicket(), ticket);
         assertEquals(this.ticketEntity.getContestNumberId(), contestNumberId);
         assertEquals(4, listSize);
