@@ -1,6 +1,5 @@
 version: '3'
 services:
-
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
@@ -12,7 +11,6 @@ services:
       - "9090:9090"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -20,3 +18,12 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
+  h2-database:
+    image: "oceanlychee/h2-database:latest"
+    ports:
+      - "8082:8082"
+      - "9092:9092"
+    environment:
+      - H2_OPTIONS='-ifNotExists'
+    volumes:
+      - h2-data:/opt/h2-data
