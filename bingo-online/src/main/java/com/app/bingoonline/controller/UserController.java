@@ -10,7 +10,7 @@ public class UserController {
     public void createUser(){
     }
 
-    @GetMapping
+    @GetMapping("/user-by-admin")
     public void getUserByAdmin(){
     }
 
@@ -22,11 +22,11 @@ public class UserController {
     public void deleteUser(){
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete-user-by-admin")
     public void deleteUserByAdmin(){
     }
 
-    @GetMapping
+    @GetMapping("/by-admin")
     public void getUsersByAdmin(){
     }
 }

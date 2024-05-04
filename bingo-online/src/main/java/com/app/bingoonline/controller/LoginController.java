@@ -11,7 +11,7 @@ public class LoginController {
     public void login(){
     }
 
-    @PostMapping
+    @PostMapping("/logout")
     public void logout(){
     }
 }
