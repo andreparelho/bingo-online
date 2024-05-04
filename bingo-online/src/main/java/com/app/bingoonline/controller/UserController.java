@@ -1,22 +1,32 @@
 package com.app.bingoonline.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/users")
 public class UserController {
 
-    @GetMapping
+    @PostMapping
     public void createUser(){
-
     }
 
-    @PostMapping("/login")
-    public void login(){
-
+    @GetMapping
+    public void getUserByAdmin(){
     }
 
+    @PutMapping
+    public void updateUser(){
+    }
+
+    @DeleteMapping
+    public void deleteUser(){
+    }
+
+    @DeleteMapping
+    public void deleteUserByAdmin(){
+    }
+
+    @GetMapping
+    public void getUsersByAdmin(){
+    }
 }
