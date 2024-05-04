@@ -27,8 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@SpringBootTest(classes = BingoOnlineApplication.class)
-@AutoConfigureMockMvc
+
 public class ContestControllerIntegrationTest {
     @Mock
     private ContestService contestService;
@@ -43,7 +42,6 @@ public class ContestControllerIntegrationTest {
     public void initConfig(){
         this.contestEntity = ContestEntity
                 .builder()
-                .id(1l)
                 .number(1001)
                 .contestNumber(1001)
                 .raffleNumbers("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"")
@@ -52,9 +50,7 @@ public class ContestControllerIntegrationTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    @DisplayName("Deve retornar um contest quando chamar a integracao")
-    @Disabled
+
     public void createContestTest() throws Exception {
         Map<String, Set<Integer>> contestMap = new HashMap<>();
         Set<Integer> contestNumber = new HashSet<>();
