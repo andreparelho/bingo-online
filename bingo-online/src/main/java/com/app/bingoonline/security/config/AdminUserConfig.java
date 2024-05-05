@@ -35,7 +35,6 @@ public class AdminUserConfig implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
 
-        // Criar a função de administrador se não existir
         RoleEntity adminRole = roleCrudRepository.findByName(RoleEntity.Values.ADMIN.name());
         if (adminRole == null) {
             adminRole = RoleEntity.builder()
@@ -45,7 +44,7 @@ public class AdminUserConfig implements CommandLineRunner {
             System.out.println("role admin created" + "  " + roleCrudRepository.save(adminRole));
         }
 
-        // Criar a função de vendedor se não existir
+
         RoleEntity sellerRole = roleCrudRepository.findByName(RoleEntity.Values.BASIC.name());
         if (sellerRole == null) {
             sellerRole = RoleEntity.builder()
@@ -55,7 +54,6 @@ public class AdminUserConfig implements CommandLineRunner {
             System.out.println("role seller created");
         }
 
-        // Agora você pode criar o usuário com as funções criadas ou existentes
         UserEntity user = UserEntity.builder()
                 .username("admin")
                 .password(passwordEncoder.encode("123"))
