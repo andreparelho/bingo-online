@@ -1,10 +1,9 @@
 package com.app.bingoonline.service;
 
-import com.app.bingoonline.entity.UserEntity;
 import com.app.bingoonline.model.request.LoginRequest;
+import com.app.bingoonline.model.response.LoginResponse;
+import org.springframework.http.ResponseEntity;
 
-import java.util.Optional;
-
-public interface UserService {
-    Optional<UserEntity> findByUsername(LoginRequest loginRequest);
+public interface LoginService {
+    ResponseEntity<LoginResponse> login(LoginRequest loginRequest);
 }
