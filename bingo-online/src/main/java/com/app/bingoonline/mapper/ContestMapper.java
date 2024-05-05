@@ -7,19 +7,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class ContestMapper {
     public ContestDTO entityToDTO(ContestEntity contestEntity){
-        return ContestDTO.builder()
-                .id(contestEntity.getId())
-                .raffleNumbers(contestEntity.getRaffleNumbers())
-                .number(contestEntity.getNumber())
-                .contestNumber(contestEntity.getContestNumber())
-                .build();
+        return new ContestDTO(
+                contestEntity.getId(),
+                contestEntity.getNumber(),
+                contestEntity.getRaffleNumbers(),
+                contestEntity.getContestNumber()
+        );
     }
 
     public ContestEntity DTOToEntity(ContestDTO contestDTO){
         return ContestEntity.builder()
-                .raffleNumbers(contestDTO.getRaffleNumbers())
-                .number(contestDTO.getNumber())
-                .contestNumber(contestDTO.getContestNumber())
+                .raffleNumbers(contestDTO.raffleNumbers())
+                .number(contestDTO.number())
+                .contestNumber(contestDTO.contestNumber())
                 .build();
     }
 }

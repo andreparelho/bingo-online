@@ -7,17 +7,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class TicketMapper {
     public TicketDTO entityToDTO(TicketEntity ticketEntity){
-        return TicketDTO.builder()
-                .id(ticketEntity.getId())
-                .ticket(ticketEntity.getTicket())
-                .contestNumberId(ticketEntity.getContestNumberId())
-                .build();
+        return new TicketDTO(
+                ticketEntity.getId(),
+                ticketEntity.getContestNumberId(),
+                ticketEntity.getTicket()
+                );
     }
 
     public TicketEntity DTOToEntity(TicketDTO ticketDTO){
         return TicketEntity.builder()
-                .ticket(ticketDTO.getTicket())
-                .contestNumberId(ticketDTO.getContestNumberId())
+                .ticket(ticketDTO.ticket())
+                .contestNumberId(ticketDTO.contestNumberId())
                 .build();
     }
 }
