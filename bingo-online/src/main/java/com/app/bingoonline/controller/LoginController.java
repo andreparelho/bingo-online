@@ -22,8 +22,8 @@ public class LoginController {
     }
 
     @PostMapping
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest){
-
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
+        return null;
     }
 
     @PostMapping("/logout")
