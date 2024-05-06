@@ -7,6 +7,7 @@ import com.app.bingoonline.model.response.LoginResponse;
 import com.app.bingoonline.repository.UserRepository;
 import com.app.bingoonline.service.JwtService;
 import com.app.bingoonline.service.LoginService;
+import com.app.bingoonline.util.LogUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -17,8 +18,9 @@ import java.util.Optional;
 @Service
 public class LoginServiceImpl implements LoginService {
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private static final LogUtil logger = new LogUtil();
 
     public LoginServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, JwtService jwtService) {
         this.userRepository = userRepository;
@@ -28,21 +30,27 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public ResponseEntity<LoginResponse> login(LoginRequest loginRequest) {
+        logger.createLog(getClass().getSimpleName(), "login", "login request", loginRequest.username());
+
         Optional<UserEntity> user = this.userRepository.findByUsername(loginRequest.username());
 
-        if (!isCorrectPassword(loginRequest, user)){
+        boolean passwordMatcher = isCorrectPassword(loginRequest, user);
+
+        if (!passwordMatcher){
+            logger.createLogError("login", "password not matches", null);
+
             throw new UserPasswordInvalidException("User password is invalid");
         }
 
         JwtClaimsSet claims = this.jwtService.getClaims(user);
         String token = this.jwtService.getUserToken(claims);
 
-        LoginResponse response = new LoginResponse(token, claims.getExpiresAt().toString());
+        logger.createLog("login", "login success", null);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(new LoginResponse(token, claims.getExpiresAt().toString()));
     }
 
     private Boolean isCorrectPassword(LoginRequest userLoginPassword, Optional<UserEntity> userPassword){
-        return this.passwordEncoder.matches(userPassword.get().getPassword(), userLoginPassword.password());
+        return this.passwordEncoder.matches(userLoginPassword.password(), userPassword.get().getPassword());
     }
 }

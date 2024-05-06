@@ -18,6 +18,18 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: bingoapplication
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 123
+    volumes:
+      - mysql-data:/var/lib/mysql
   h2:
     container_name: 'h2'
     hostname: 'h2'
@@ -27,5 +39,7 @@ services:
       - "1521:1521"
     volumes:
       - h2-data:/opt/h2-data
+
 volumes:
   h2-data:
+  mysql-data:
