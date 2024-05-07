@@ -5,5 +5,5 @@ import com.app.bingoonline.model.response.LoginResponse;
 import org.springframework.http.ResponseEntity;
 
 public interface LoginService {
-    ResponseEntity<LoginResponse> login(LoginRequest loginRequest);
+    LoginResponse login(LoginRequest loginRequest);
 }
