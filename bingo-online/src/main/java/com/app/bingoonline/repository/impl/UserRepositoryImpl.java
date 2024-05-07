@@ -20,8 +20,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<UserEntity> findByUsername(String username) {
-        Optional<UserEntity> user = Optional.ofNullable((Optional.ofNullable(userCrudRepository.findByUsername(username))
-                .orElseThrow(() -> new UserNotFoundException("User not found"))));
+        Optional<UserEntity> user = Optional.ofNullable(userCrudRepository.findByUsername(username));
         return user;
     }
 
