@@ -13,4 +13,5 @@ public interface UserRepository {
     UserEntity save(UserEntity userEntity);
     UserEntity updateUser(UserEntity userEntity);
     Optional<UserEntity> findById(UUID id);
+    void deleteUser(UserEntity userEntity);
 }
