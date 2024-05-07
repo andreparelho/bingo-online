@@ -16,8 +16,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers(HttpMethod.POST, "/v1/login").permitAll()
-                                .anyRequest().authenticated())
+                            .requestMatchers(HttpMethod.POST, "/v1/users").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/v1/login").permitAll()
+                            .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
