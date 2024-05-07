@@ -5,6 +5,8 @@ import com.app.bingoonline.model.request.CreateUserRequest;
 import com.app.bingoonline.model.request.UserUpdateRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class UserMapper {
     public UserEntity dtoToEntity(CreateUserRequest createUserRequest){
@@ -18,6 +20,15 @@ public class UserMapper {
         return UserEntity.builder()
                 .username(userUpdateRequest.username())
                 .password(userUpdateRequest.password())
+                .build();
+    }
+
+    public UserEntity optionalToEntity(Optional<UserEntity> userEntityOptional){
+        return UserEntity.builder()
+                .id(userEntityOptional.get().getId())
+                .username(userEntityOptional.get().getUsername())
+                .password(userEntityOptional.get().getPassword())
+                .roles(userEntityOptional.get().getRoles())
                 .build();
     }
 }

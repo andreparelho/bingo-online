@@ -31,11 +31,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/user-by-admin")
-    public void getUserByAdmin(){
-    }
-
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<Void> updateUser(@RequestBody UserUpdateRequest userUpdateRequest,
                                            JwtAuthenticationToken authorizationHeader){
 
@@ -51,14 +47,16 @@ public class UserController {
     }
 
     @DeleteMapping
-    public void deleteUser(){
-    }
+    public ResponseEntity<Void> deleteUser(JwtAuthenticationToken authorizationHeader){
+        UUID userId = UUID.fromString(authorizationHeader.getName());
+        Optional<UserEntity> user = this.userService.findUserById(userId);
 
-    @DeleteMapping("/delete-user-by-admin")
-    public void deleteUserByAdmin(){
-    }
+        if (user.isEmpty()){
+            throw new UserNotFoundException("user not found");
+        }
 
-    @GetMapping("/by-admin")
-    public void getUsersByAdmin(){
+        this.userService.deleteUser(userId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

@@ -67,9 +67,18 @@ public class UserServiceImpl implements UserService {
         }
         this.logger.createLog(getClass().getName(), "updateUser", "updating user", user.get().getUsername());
 
+        String encryptedPassword = this.jwtService.encodePassword(userUpdateRequest.password());
+
         UserEntity entity = this.userMapper.dtoToEntity(userUpdateRequest);
 
-        UserEntity userUpdated = this.userRepository.updateUser(entity);
+        UserEntity updatedEntity = UserEntity.builder()
+                .id(id)
+                .username(entity.getUsername())
+                .password(encryptedPassword)
+                .build();
+
+
+        UserEntity userUpdated = this.userRepository.updateUser(updatedEntity);
         this.logger.createLog(getClass().getName(), "updateUser", "user update with success", userUpdated.getUsername());
     }
 
@@ -79,5 +88,18 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found")));
 
         return user;
+    }
+
+    @Override
+    public void deleteUser(UUID userId) {
+        Optional<UserEntity> user = this.userRepository.findById(userId);
+
+        if(user.isEmpty()){
+            throw new UserNotFoundException("user not found");
+        }
+
+        UserEntity userEntity = this.userMapper.optionalToEntity(user);
+
+        this.userRepository.deleteUser(userEntity);
     }
 }
