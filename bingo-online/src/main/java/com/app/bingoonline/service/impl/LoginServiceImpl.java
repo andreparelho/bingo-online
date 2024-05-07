@@ -8,7 +8,6 @@ import com.app.bingoonline.repository.UserRepository;
 import com.app.bingoonline.service.JwtService;
 import com.app.bingoonline.service.LoginService;
 import com.app.bingoonline.util.LogUtil;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.stereotype.Service;
@@ -29,8 +28,8 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public ResponseEntity<LoginResponse> login(LoginRequest loginRequest) {
-        logger.createLog(getClass().getSimpleName(), "login", "login request", loginRequest.username());
+    public LoginResponse login(LoginRequest loginRequest) {
+        logger.createLog(getClass().getName(), "login", "login request", loginRequest.username());
 
         Optional<UserEntity> user = this.userRepository.findByUsername(loginRequest.username());
 
@@ -47,7 +46,7 @@ public class LoginServiceImpl implements LoginService {
 
         logger.createLog("login", "login success", null);
 
-        return ResponseEntity.ok(new LoginResponse(token, claims.getExpiresAt().toString()));
+        return new LoginResponse(token, claims.getExpiresAt().toString());
     }
 
     private Boolean isCorrectPassword(LoginRequest userLoginPassword, Optional<UserEntity> userPassword){

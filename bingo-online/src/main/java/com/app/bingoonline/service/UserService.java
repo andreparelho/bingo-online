@@ -1,9 +1,8 @@
 package com.app.bingoonline.service;
 
-import com.app.bingoonline.entity.UserEntity;
+import com.app.bingoonline.model.request.CreateUserRequest;
 
-import java.util.Optional;
 
 public interface UserService {
-    Optional<UserEntity> findByUsername(String username);
+    void createUser(CreateUserRequest createUserRequest);
 }
