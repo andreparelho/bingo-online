@@ -12,4 +12,5 @@ public interface UserService {
     void createUser(CreateUserRequest createUserRequest);
     void updateUser(UUID id, UserUpdateRequest userUpdateRequest);
     Optional<UserEntity> findUserById(UUID uuid);
+    void deleteUser(UUID userId);
 }
