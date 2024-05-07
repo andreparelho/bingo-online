@@ -39,10 +39,10 @@ public class AdminUserConfig implements CommandLineRunner {
 
         userAdmin.ifPresentOrElse(
                 user -> {
-                    logger.createLog(getClass().getSimpleName(), "run", "admin already created", null);
+                    logger.createLog(getClass().getName(), "run", "admin already created", null);
                 },
                 () -> {
-                    logger.createLog(getClass().getSimpleName(), "run", "creating admin user", null);
+                    logger.createLog(getClass().getName(), "run", "creating admin user", null);
 
                     UserEntity user = UserEntity.builder()
                             .username("admin")
