@@ -1,21 +1,14 @@
 package integration.test.controller;
 
-import com.app.bingoonline.BingoOnlineApplication;
-import com.app.bingoonline.controller.ContestController;
 import com.app.bingoonline.entity.ContestEntity;
+import com.app.bingoonline.model.response.CreateContestResponse;
 import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.service.ContestService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -58,8 +51,10 @@ public class ContestControllerIntegrationTest {
         contestNumber.add(1001);
         contestMap.put("contest", contestNumber);
 
+        CreateContestResponse contestResponse = new CreateContestResponse(contestMap);
+
         when(this.contestService.generateContestNumber()).thenReturn(1001);
-        when(this.contestService.createContest()).thenReturn(contestMap);
+        when(this.contestService.createContest()).thenReturn(contestResponse);
 
         this.mockMvc.perform(post("/v1/contests")
                         .contentType(MediaType.APPLICATION_JSON))
