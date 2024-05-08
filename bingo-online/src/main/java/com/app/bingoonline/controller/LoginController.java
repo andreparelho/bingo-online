@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1/login")
 public class LoginController {
-    private final LoginService loginService;
     private static final LogUtil logger = new LogUtil();
+    private final LoginService loginService;
 
     public LoginController(LoginService loginService) {
         this.loginService = loginService;
