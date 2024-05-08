@@ -1,17 +1,15 @@
 package com.app.bingoonline.service;
 
 import com.app.bingoonline.entity.ContestEntity;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.app.bingoonline.model.response.ContestResponseList;
+import com.app.bingoonline.model.response.CreateContestResponse;
 
 public interface ContestService {
     int generateContestNumber();
     ContestEntity createContest(int contestNumber);
-    Map<String, Set<Integer>> createContest();
+    CreateContestResponse createContest();
     int findContestById(int contestNumber);
     ContestEntity getAllRaffleNumbers(int contestNumber);
     ContestEntity saveRaffleNumber(int contestNumber, String raffleNumber);
-    List<Integer> getAllContests();
+    ContestResponseList getAllContests();
 }
