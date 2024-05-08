@@ -1,6 +1,10 @@
 package com.app.bingoonline.service.impl;
 
+import com.app.bingoonline.exception.contest.ContestNotFoundException;
 import com.app.bingoonline.model.Raffle;
+import com.app.bingoonline.model.response.RaffleResponse;
+import com.app.bingoonline.model.response.TicketListResponse;
+import com.app.bingoonline.model.response.TicketResponse;
 import com.app.bingoonline.model.ticketsLetters.*;
 import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.service.ContestService;
@@ -57,32 +61,33 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Map<String, Set<Integer>> generateTicketByContestId(int contestNumber) throws Exception {
+    public TicketResponse generateTicketByContestId(int contestNumber) throws Exception {
         int hasContestNumber = this.contestService.findContestById(contestNumber);
 
-        if (hasContestNumber == contestNumber) {
-            Map<String, Set<Integer>> ticket = generateCardTicket();
-
-            TicketEntity ticketEntity = TicketEntity.builder()
-                    .ticket(this.converter.mapToJson(ticket))
-                    .build();
-
-            ContestEntity contestEntity = ContestEntity.builder()
-                    .number(contestNumber)
-                    .contestNumber(contestNumber)
-                    .build();
-
-            this.ticketRepository.saveTicket(ticketEntity, contestEntity);
-
-            ticket.put("Contest", Collections.singleton(contestEntity.getContestNumber()));
-            return ticket;
+        if (hasContestNumber != contestNumber) {
+            throw new ContestNotFoundException("contest not found");
         }
 
-        throw new Exception("Esse concurso não existe");
+        Map<String, Set<Integer>> ticket = generateCardTicket();
+
+        TicketEntity ticketEntity = TicketEntity.builder()
+                .ticket(this.converter.mapToJson(ticket))
+                .build();
+
+        ContestEntity contestEntity = ContestEntity.builder()
+                .number(contestNumber)
+                .contestNumber(contestNumber)
+                .build();
+
+        this.ticketRepository.saveTicket(ticketEntity, contestEntity);
+
+        ticket.put("Contest", Collections.singleton(contestEntity.getContestNumber()));
+
+        return new TicketResponse(ticket);
     }
 
     @Override
-    public String getRaffleNumber(int contestNumber) {
+    public RaffleResponse getRaffleNumber(int contestNumber) {
         String randomRaffleNumber = this.raffle.createRandomRaffleNumber();
 
         ContestEntity actualContest = this.raffle.getAllRaffleNumbers(contestNumber);
@@ -101,15 +106,15 @@ public class TicketServiceImpl implements TicketService {
         }
         this.contestService.saveRaffleNumber(contestNumber, randomRaffleNumber);
 
-        return randomRaffleNumber;
+        return new RaffleResponse(randomRaffleNumber);
     }
 
     @Override
-    public Map<Integer, List<TicketEntity>> getAllTicketsByContest(int contestNumber) {
+    public TicketListResponse getAllTicketsByContest(int contestNumber) {
         List<TicketEntity> tickets = this.ticketRepository.getAllTicketsByContest(contestNumber);
         Map<Integer, List<TicketEntity>> allTickets = new HashMap<>();
         allTickets.put(contestNumber, tickets);
-        return allTickets;
+        return new TicketListResponse(allTickets);
     }
 
     private Map<String, Set<Integer>> generateCardTicket(){

@@ -1,5 +1,7 @@
 package com.app.bingoonline.service.impl;
 
+import com.app.bingoonline.model.response.ContestResponseList;
+import com.app.bingoonline.model.response.CreateContestResponse;
 import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.entity.ContestEntity;
@@ -44,7 +46,7 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public Map<String, Set<Integer>> createContest() {
+    public CreateContestResponse createContest() {
         int contestNumber = this.generateContestNumber();
 
         ContestEntity contestEntity = ContestEntity.builder()
@@ -57,7 +59,7 @@ public class ContestServiceImpl implements ContestService {
         Map<String, Set<Integer>> response = new HashMap<>();
         response.put("contest", Collections.singleton(contestEntity.getContestNumber()));
 
-        return response;
+        return new CreateContestResponse(response);
     }
 
     @Override
@@ -77,7 +79,7 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public List<Integer> getAllContests() {
+    public ContestResponseList getAllContests() {
         List<ContestEntity> contestList = this.contestRepository.getAllContests();
         List<Integer> allContests = new ArrayList<>();
 
@@ -85,7 +87,7 @@ public class ContestServiceImpl implements ContestService {
             allContests.add(contest.getContestNumber());
         }
 
-        return allContests;
+        return new ContestResponseList(allContests);
     }
 
     private ContestEntity checkContestNumber(int numContest){

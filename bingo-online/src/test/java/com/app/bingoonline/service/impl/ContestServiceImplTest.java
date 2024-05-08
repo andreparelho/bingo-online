@@ -1,17 +1,15 @@
 package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.ContestEntity;
+import com.app.bingoonline.model.response.CreateContestResponse;
 import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.repository.impl.ContestRepositoryImpl;
 import com.app.bingoonline.service.ContestService;
-import com.app.bingoonline.service.impl.ContestServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -66,7 +64,7 @@ public class ContestServiceImplTest {
     @Test
     public void testCreateContest(){
         when(this.mockContestRepository.saveContest(this.contestEntity)).thenReturn(this.contestEntity);
-        Map<String, Set<Integer>> actual = this.contestService.createContest();
+        CreateContestResponse actual = this.contestService.createContest();
 
         assertNotNull(actual);
         verify(this.mockContestRepository, times(1)).saveContest(any(ContestEntity.class));

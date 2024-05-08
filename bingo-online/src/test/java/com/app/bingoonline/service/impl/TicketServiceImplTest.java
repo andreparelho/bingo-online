@@ -2,6 +2,7 @@ package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.ContestEntity;
 import com.app.bingoonline.model.Raffle;
+import com.app.bingoonline.model.response.TicketResponse;
 import com.app.bingoonline.model.ticketsLetters.*;
 import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.repository.TicketRepository;
@@ -100,7 +101,8 @@ public class TicketServiceImplTest {
         int contestId = 1000;
         when(this.mockContestService.findContestById(contestId)).thenReturn(contestId);
 
-        Map<String, Set<Integer>> ticket = ticketServiceImpl.generateTicketByContestId(contestId);
+        TicketResponse ticketResponse = ticketServiceImpl.generateTicketByContestId(contestId);
+        Map<String, Set<Integer>> ticket = ticketResponse.ticket();
         Iterator<Map.Entry<String, Set<Integer>>> iterator = ticket.entrySet().iterator();
 
         int actual = 0;
@@ -121,7 +123,7 @@ public class TicketServiceImplTest {
         int contestId = 1000;
 
         when(this.mockContestService.findContestById(contestId)).thenReturn(contestId);
-        Map<String, Set<Integer>> ticket = this.ticketServiceImpl.generateTicketByContestId(contestId);
+        TicketResponse ticket = this.ticketServiceImpl.generateTicketByContestId(contestId);
 
         assertNotNull(ticket);
     }
