@@ -20,12 +20,12 @@ import java.util.*;
 
 @Service
 public class TicketServiceImpl implements TicketService {
-    public final B b;
-    public final I i;
-    public final N n;
-    public final G g;
-    public final O o;
-    public final Raffle raffle;
+    private final B b;
+    private final I i;
+    private final N n;
+    private final G g;
+    private final O o;
+    private final Raffle raffle;
     private final ContestService contestService;
     private final TicketRepository ticketRepository;
     private final Converter converter;
