@@ -16,8 +16,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/v1/contests")
 public class ContestController {
-    public final TicketService ticketService;
-    public final ContestService contestService;
+    private final TicketService ticketService;
+    private final ContestService contestService;
     private final UserService userService;
 
     public ContestController(TicketService ticketService, ContestService contestService, UserService userService) {
