@@ -6,16 +6,21 @@ import com.app.bingoonline.model.response.*;
 import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.service.TicketService;
 import com.app.bingoonline.service.UserService;
+import com.app.bingoonline.util.LogUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.app.bingoonline.util.LogContants.*;
 
 @RestController
 @RequestMapping("/v1/contests")
 public class ContestController {
+    private static final LogUtil logger = new LogUtil();
     private final TicketService ticketService;
     private final ContestService contestService;
     private final UserService userService;
@@ -28,6 +33,7 @@ public class ContestController {
 
     @GetMapping()
     public ResponseEntity<ContestResponseList> getAllContests(JwtAuthenticationToken authorizationHeader) {
+        logger.createLog(CONTEST_CONTROLLER_CLASS, CONTROLLER_TYPE, CONTEST_GET_ALL_METHOD, CONTEST_INIT_METHOD_MSG, null);
 
         Optional<UserEntity> user = this.userService.findUserById(UUID.fromString(authorizationHeader.getName()));
 
@@ -36,11 +42,14 @@ public class ContestController {
         }
 
         ContestResponseList contestResponseList = this.contestService.getAllContests();
+
+        logger.createLog(CONTROLLER_TYPE, CONTEST_GET_ALL_METHOD, CONTEST_FIN_METHOD_MSG, contestResponseList);
         return ResponseEntity.ok(contestResponseList);
     }
 
     @PostMapping()
     public ResponseEntity<CreateContestResponse> createContest(JwtAuthenticationToken authorizationHeader) {
+        logger.createLog(CONTEST_CONTROLLER_CLASS, CONTROLLER_TYPE, CONTEST_CREATE_METHOD, CONTEST_INIT_METHOD_MSG,  Instant.now(),null);
 
         Optional<UserEntity> user = this.userService.findUserById(UUID.fromString(authorizationHeader.getName()));
 
@@ -49,12 +58,16 @@ public class ContestController {
         }
 
         CreateContestResponse createContestResponse = this.contestService.createContest();
+
+        logger.createLog(CONTROLLER_TYPE, CONTEST_CREATE_METHOD, CONTEST_FIN_METHOD_MSG, Instant.now(), createContestResponse);
         return ResponseEntity.ok(createContestResponse);
     }
 
     @PostMapping("/{contest-number}/tickets")
     public ResponseEntity<TicketResponse> createTicket(@PathVariable("contest-number") int contestNumber,
                                                        JwtAuthenticationToken authorizationHeader) throws Exception {
+        logger.createLog(CONTEST_CONTROLLER_CLASS, CONTROLLER_TYPE, CONTEST_CREATE_TICKET_METHOD, CONTEST_INIT_METHOD_MSG,  Instant.now(), null);
+
         Optional<UserEntity> user = this.userService.findUserById(UUID.fromString(authorizationHeader.getName()));
 
         if (user.isEmpty()){
@@ -62,12 +75,15 @@ public class ContestController {
         }
 
         TicketResponse ticketResponse = this.ticketService.generateTicketByContestId(contestNumber);
+
+        logger.createLog(CONTROLLER_TYPE, CONTEST_CREATE_METHOD, CONTEST_FIN_METHOD_MSG, Instant.now(), ticketResponse);
         return ResponseEntity.ok(ticketResponse);
     }
 
     @GetMapping("/{contest-number}/tickets")
     public ResponseEntity<TicketListResponse> getAllTicketsByContest(@PathVariable("contest-number") int contestNumber,
                                                                      JwtAuthenticationToken authorizationHeader) {
+        logger.createLog(CONTEST_CONTROLLER_CLASS, CONTROLLER_TYPE, CONTEST_GET_ALL_TICKETS_METHOD, CONTEST_INIT_METHOD_MSG,  Instant.now(), null);
 
         Optional<UserEntity> user = this.userService.findUserById(UUID.fromString(authorizationHeader.getName()));
 
@@ -75,13 +91,16 @@ public class ContestController {
             throw new UserNotFoundException("user not found");
         }
 
-        TicketListResponse allTickets = this.ticketService.getAllTicketsByContest(contestNumber);
-        return ResponseEntity.ok(allTickets);
+        TicketListResponse ticketResponse = this.ticketService.getAllTicketsByContest(contestNumber);
+
+        logger.createLog(CONTROLLER_TYPE, CONTEST_GET_ALL_TICKETS_METHOD, CONTEST_FIN_METHOD_MSG, Instant.now(), ticketResponse);
+        return ResponseEntity.ok(ticketResponse);
     }
 
     @GetMapping("/{contest-number}/numbers")
     public ResponseEntity<RaffleResponse> getRaffleNumber(@PathVariable("contest-number") int contestNumber,
                                                           JwtAuthenticationToken authorizationHeader) {
+        logger.createLog(CONTEST_CONTROLLER_CLASS, CONTROLLER_TYPE, CONTEST_GET_RAFFLE_METHOD, CONTEST_INIT_METHOD_MSG,  Instant.now(), null);
 
         Optional<UserEntity> user = this.userService.findUserById(UUID.fromString(authorizationHeader.getName()));
 
@@ -89,7 +108,9 @@ public class ContestController {
             throw new UserNotFoundException("user not found");
         }
 
-        RaffleResponse raffleNumber = this.ticketService.getRaffleNumber(contestNumber);
-        return ResponseEntity.ok(raffleNumber);
+        RaffleResponse raffleResponse = this.ticketService.getRaffleNumber(contestNumber);
+
+        logger.createLog(CONTROLLER_TYPE, CONTEST_GET_RAFFLE_METHOD, CONTEST_FIN_METHOD_MSG, Instant.now(), raffleResponse);
+        return ResponseEntity.ok(raffleResponse);
     }
 }
