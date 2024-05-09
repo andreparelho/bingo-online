@@ -8,9 +8,7 @@ import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.repository.impl.TicketRepositoryImpl;
 import com.app.bingoonline.service.ContestService;
-import com.app.bingoonline.service.impl.ContestServiceImpl;
-import com.app.bingoonline.service.impl.TicketServiceImpl;
-import com.app.bingoonline.converter.Converter;
+import com.app.bingoonline.mapper.ConverterMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +30,7 @@ public class TicketServiceImplTest {
     private O o;
     private ContestService mockContestService;
     private TicketRepository mockTicketRepository;
-    private Converter converter;
+    private ConverterMapper converterMapper;
     private TicketServiceImpl ticketServiceImpl;
     private ContestEntity contestEntity;
     @Mock
@@ -49,7 +47,7 @@ public class TicketServiceImplTest {
 
         this.raffle = new Raffle(this.mockConstestRepository);
 
-        this.converter = mock(Converter.class);
+        this.converterMapper = mock(ConverterMapper.class);
 
         this.mockContestService = mock(ContestServiceImpl.class);
         this.mockTicketRepository = mock(TicketRepositoryImpl.class);
@@ -66,7 +64,7 @@ public class TicketServiceImplTest {
                 this.raffle,
                 this.mockContestService,
                 this.mockTicketRepository,
-                this.converter
+                this.converterMapper
                 );
     }
 
@@ -172,6 +170,6 @@ public class TicketServiceImplTest {
         this.ticketServiceImpl.generateTicket();
         this.ticketServiceImpl.generateTicketByContestId(anyInt());
 
-        verify(this.converter, times(expected)).mapToJson(anyMap());
+        verify(this.converterMapper, times(expected)).mapToJson(anyMap());
     }
 }

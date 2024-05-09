@@ -1,4 +1,4 @@
-package com.app.bingoonline.converter;
+package com.app.bingoonline.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class Converter {
+public class ConverterMapper {
     public String mapToJson(Map<String, Set<Integer>> map) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(map);

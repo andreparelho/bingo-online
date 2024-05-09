@@ -11,7 +11,7 @@ import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.service.TicketService;
 import com.app.bingoonline.entity.ContestEntity;
 import com.app.bingoonline.entity.TicketEntity;
-import com.app.bingoonline.converter.Converter;
+import com.app.bingoonline.mapper.ConverterMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +28,10 @@ public class TicketServiceImpl implements TicketService {
     private final Raffle raffle;
     private final ContestService contestService;
     private final TicketRepository ticketRepository;
-    private final Converter converter;
+    private final ConverterMapper converterMapper;
 
     @Autowired
-    public TicketServiceImpl(B b, I i, N n, G g, O o, Raffle raffle, ContestService contestService, TicketRepository ticketRepository, Converter converter) {
+    public TicketServiceImpl(B b, I i, N n, G g, O o, Raffle raffle, ContestService contestService, TicketRepository ticketRepository, ConverterMapper converterMapper) {
         this.b = b;
         this.i = i;
         this.n = n;
@@ -40,7 +40,7 @@ public class TicketServiceImpl implements TicketService {
         this.raffle = raffle;
         this.contestService = contestService;
         this.ticketRepository = ticketRepository;
-        this.converter = converter;
+        this.converterMapper = converterMapper;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class TicketServiceImpl implements TicketService {
         ContestEntity contest = this.contestService.createContest(contestNumber);
 
         TicketEntity ticketEntity = TicketEntity.builder()
-                .ticket(this.converter.mapToJson(ticket))
+                .ticket(this.converterMapper.mapToJson(ticket))
                 .build();
 
         this.ticketRepository.saveTicket(ticketEntity, contest);
@@ -71,7 +71,7 @@ public class TicketServiceImpl implements TicketService {
         Map<String, Set<Integer>> ticket = generateCardTicket();
 
         TicketEntity ticketEntity = TicketEntity.builder()
-                .ticket(this.converter.mapToJson(ticket))
+                .ticket(this.converterMapper.mapToJson(ticket))
                 .build();
 
         ContestEntity contestEntity = ContestEntity.builder()
@@ -95,14 +95,14 @@ public class TicketServiceImpl implements TicketService {
 
         if (hasRaffle){
             String raffleNumbersDatabase = actualContest.getRaffleNumbers();
-            List<Integer> numbers = this.converter.convertStringToList(raffleNumbersDatabase);
+            List<Integer> numbers = this.converterMapper.convertStringToList(raffleNumbersDatabase);
 
             String raffle = this.raffle.verifyNumbers(numbers, randomRaffleNumber);
             List<String> updateRaffle = this.raffle.updateRaffleList(raffleNumbersDatabase, raffle);
 
             this.contestService.saveRaffleNumber(contestNumber, randomRaffleNumber);
 
-            randomRaffleNumber = this.converter.convertListToString(updateRaffle);
+            randomRaffleNumber = this.converterMapper.convertListToString(updateRaffle);
         }
         this.contestService.saveRaffleNumber(contestNumber, randomRaffleNumber);
 
