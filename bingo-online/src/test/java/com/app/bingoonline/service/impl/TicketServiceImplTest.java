@@ -1,10 +1,10 @@
 package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.ContestEntity;
-import com.app.bingoonline.model.Raffle;
 import com.app.bingoonline.model.response.TicketResponse;
 import com.app.bingoonline.model.ticketsLetters.*;
 import com.app.bingoonline.repository.ContestRepository;
+import com.app.bingoonline.repository.RaffleRepository;
 import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.repository.impl.TicketRepositoryImpl;
 import com.app.bingoonline.service.ContestService;
@@ -17,6 +17,7 @@ import org.mockito.Mock;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,8 +35,11 @@ public class TicketServiceImplTest {
     private TicketServiceImpl ticketServiceImpl;
     private ContestEntity contestEntity;
     @Mock
+    private RaffleRepository mockRaffleRepository;
+    @Mock
     private ContestRepository mockConstestRepository;
-    private Raffle raffle;
+    private RaffleServiceImpl raffleServiceImpl;
+
 
     @BeforeEach
     public void initConfig(){
@@ -45,7 +49,7 @@ public class TicketServiceImplTest {
         this.g = new G();
         this.o = new O();
 
-        this.raffle = new Raffle(this.mockConstestRepository);
+        this.raffleServiceImpl = new RaffleServiceImpl(mockRaffleRepository, converterMapper, new Random());
 
         this.converterMapper = mock(ConverterMapper.class);
 
@@ -56,12 +60,11 @@ public class TicketServiceImplTest {
                 .builder()
                 .number(1001)
                 .contestNumber(1001)
-                .raffleNumbers("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"")
                 .build();
 
         this.ticketServiceImpl = new TicketServiceImpl(
                 this.b, this.i, this.n, this.g, this.o,
-                this.raffle,
+                this.raffleServiceImpl,
                 this.mockContestService,
                 this.mockTicketRepository,
                 this.converterMapper

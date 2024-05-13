@@ -29,7 +29,6 @@ class ContestRepositoryImplTest {
                 .builder()
                 .number(1001)
                 .contestNumber(1001)
-                .raffleNumbers("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"")
                 .build();
     }
 
@@ -40,7 +39,6 @@ class ContestRepositoryImplTest {
 
         UUID contestId = this.contestEntity.getId();
         int contestNumber = this.contestEntity.getContestNumber();
-        String contestRaffleNumbers = this.contestEntity.getRaffleNumbers();
         int number = this.contestEntity.getNumber();
 
         assertNotNull(saveContest);
@@ -49,7 +47,6 @@ class ContestRepositoryImplTest {
         assertEquals(contestId, saveContest.getId());
 
         assertEquals(contestNumber, saveContest.getContestNumber());
-        assertEquals(contestRaffleNumbers, saveContest.getRaffleNumbers());
         assertEquals(number, saveContest.getNumber());
     }
 
@@ -64,7 +61,6 @@ class ContestRepositoryImplTest {
         ContestEntity contestTwo = ContestEntity
                 .builder()
                 .contestNumber(1002)
-                .raffleNumbers("45")
                 .build();
 
         this.contestRepository.saveContest(this.contestEntity);
@@ -92,17 +88,14 @@ class ContestRepositoryImplTest {
 //    @Test
 //    @DisplayName("Deve salvar raffle dentro do contest")
     public void testSaveRaffleNumberOnContest(){
-        this.contestEntity.setRaffleNumbers(null);
         this.contestRepository.saveContest(this.contestEntity);
         ContestEntity savedContest = this.contestRepository.findContestNumber(this.contestEntity.getNumber());
 
-        assertNull(savedContest.getRaffleNumbers());
 
-        contestEntity.setRaffleNumbers("67");
         savedContest = this.contestRepository.findContestNumber(this.contestEntity.getNumber());
         assertNotNull(savedContest);
         this.contestRepository.saveContest(this.contestEntity);
 
-        assertNotNull(savedContest.getRaffleNumbers());
+
     }
 }

@@ -1,13 +1,17 @@
 package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.ContestEntity;
+import com.app.bingoonline.entity.RaffleEntity;
 import com.app.bingoonline.model.response.CreateContestResponse;
 import com.app.bingoonline.repository.ContestRepository;
+import com.app.bingoonline.repository.RaffleRepository;
 import com.app.bingoonline.repository.impl.ContestRepositoryImpl;
+import com.app.bingoonline.repository.impl.RaffleRepositoryImpl;
 import com.app.bingoonline.service.ContestService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import java.util.Random;
 
@@ -18,24 +22,34 @@ public class ContestServiceImplTest {
     private Random random;
     private ContestService contestService;
     private ContestService mockContestService;
+    private RaffleRepository mockRaffleRepository;
     private ContestRepository mockContestRepository;
     private ContestEntity contestEntity;
+    private RaffleEntity raffleEntity;
 
     @BeforeEach
     public void initConfig(){
         this.contestEntity = ContestEntity
                 .builder()
                 .contestNumber(1001)
-                .raffleNumbers("\"{\\\"b\\\":[1,5,8,10,11],\\\"g\\\":[49,52,55,57,58],\\\"i\\\":[17,21,24,25,29],\\\"n\\\":[35,41,42,44],\\\"o\\\":[65,67,72,74,62]}\"")
+                .build();
+
+        this.raffleEntity = RaffleEntity.builder()
+                .id(1l)
+                .raffleNumbers("1, 3, 4")
+                .contestId(1001l)
+                .raffleSortedNumbers("40")
                 .build();
 
         this.random = new Random();
 
         this.mockContestRepository = mock(ContestRepositoryImpl.class);
         this.mockContestService = mock(ContestServiceImpl.class);
+        this.mockRaffleRepository = mock(RaffleRepositoryImpl.class);
 
         this.contestService = new ContestServiceImpl(
                 this.mockContestRepository,
+                mockRaffleRepository,
                 this.random
         );
     }
@@ -64,6 +78,8 @@ public class ContestServiceImplTest {
     @Test
     public void testCreateContest(){
         when(this.mockContestRepository.saveContest(this.contestEntity)).thenReturn(this.contestEntity);
+        doNothing().when(this.mockRaffleRepository).saveRaffle(this.raffleEntity);
+
         CreateContestResponse actual = this.contestService.createContest();
 
         assertNotNull(actual);
