@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Table(name = "contests")
@@ -19,7 +20,10 @@ public class ContestEntity {
     private UUID id;
     private int number;
     private int contestNumber;
-    private String raffleNumbers;
+    private boolean initiated;
+    private Instant createdAt;
+    private Instant updatedAt;
+    private Instant finishedAt;
 
     public UUID getId() {
         return id;
@@ -27,6 +31,14 @@ public class ContestEntity {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public int getContestNumber() {
@@ -37,19 +49,35 @@ public class ContestEntity {
         this.contestNumber = contestNumber;
     }
 
-    public String getRaffleNumbers() {
-        return raffleNumbers;
+    public boolean isInitiated() {
+        return initiated;
     }
 
-    public void setRaffleNumbers(String raffleNumbers) {
-        this.raffleNumbers = raffleNumbers;
+    public void setInitiated(boolean initiated) {
+        this.initiated = initiated;
     }
 
-    public int getNumber() {
-        return number;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Instant getFinishedAt() {
+        return finishedAt;
+    }
+
+    public void setFinishedAt(Instant finishedAt) {
+        this.finishedAt = finishedAt;
     }
 }
