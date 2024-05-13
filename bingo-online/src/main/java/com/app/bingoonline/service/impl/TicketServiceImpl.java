@@ -1,7 +1,6 @@
 package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.exception.contest.ContestNotFoundException;
-import com.app.bingoonline.model.Raffle;
 import com.app.bingoonline.model.response.RaffleResponse;
 import com.app.bingoonline.model.response.TicketListResponse;
 import com.app.bingoonline.model.response.TicketResponse;
@@ -25,19 +24,19 @@ public class TicketServiceImpl implements TicketService {
     private final N n;
     private final G g;
     private final O o;
-    private final Raffle raffle;
+    private final RaffleServiceImpl raffleServiceImpl;
     private final ContestService contestService;
     private final TicketRepository ticketRepository;
     private final ConverterMapper converterMapper;
 
     @Autowired
-    public TicketServiceImpl(B b, I i, N n, G g, O o, Raffle raffle, ContestService contestService, TicketRepository ticketRepository, ConverterMapper converterMapper) {
+    public TicketServiceImpl(B b, I i, N n, G g, O o, RaffleServiceImpl raffleServiceImpl, ContestService contestService, TicketRepository ticketRepository, ConverterMapper converterMapper) {
         this.b = b;
         this.i = i;
         this.n = n;
         this.g = g;
         this.o = o;
-        this.raffle = raffle;
+        this.raffleServiceImpl = raffleServiceImpl;
         this.contestService = contestService;
         this.ticketRepository = ticketRepository;
         this.converterMapper = converterMapper;
@@ -84,29 +83,6 @@ public class TicketServiceImpl implements TicketService {
         ticket.put("Contest", Collections.singleton(contestEntity.getContestNumber()));
 
         return new TicketResponse(ticket);
-    }
-
-    @Override
-    public RaffleResponse getRaffleNumber(int contestNumber) {
-        String randomRaffleNumber = this.raffle.createRandomRaffleNumber();
-
-        ContestEntity actualContest = this.raffle.getAllRaffleNumbers(contestNumber);
-        boolean hasRaffle = this.raffle.verifyContest(actualContest.getRaffleNumbers());
-
-        if (hasRaffle){
-            String raffleNumbersDatabase = actualContest.getRaffleNumbers();
-            List<Integer> numbers = this.converterMapper.convertStringToList(raffleNumbersDatabase);
-
-            String raffle = this.raffle.verifyNumbers(numbers, randomRaffleNumber);
-            List<String> updateRaffle = this.raffle.updateRaffleList(raffleNumbersDatabase, raffle);
-
-            this.contestService.saveRaffleNumber(contestNumber, randomRaffleNumber);
-
-            randomRaffleNumber = this.converterMapper.convertListToString(updateRaffle);
-        }
-        this.contestService.saveRaffleNumber(contestNumber, randomRaffleNumber);
-
-        return new RaffleResponse(randomRaffleNumber);
     }
 
     @Override
