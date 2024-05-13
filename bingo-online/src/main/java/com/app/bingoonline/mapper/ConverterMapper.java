@@ -14,17 +14,13 @@ public class ConverterMapper {
         return objectMapper.writeValueAsString(map);
     }
 
-    public List<Integer> convertStringToList(String data){
+    public List<Integer> convertStringToList(String data) {
         List<Integer> numbers = new ArrayList<>();
 
-        StringTokenizer tokenizer = new StringTokenizer(data, ",");
-        int tokenCount = tokenizer.countTokens();
+        String[] stringArray = data.split(",\\s*");
 
-        String[] stringArray = new String[tokenCount];
-
-        for (int i = 0; i < tokenCount; i++) {
-            stringArray[i] = tokenizer.nextToken();
-            numbers.add(Integer.valueOf(stringArray[i]));
+        for (String str : stringArray) {
+            numbers.add(Integer.parseInt(str.trim()));
         }
 
         return numbers;
