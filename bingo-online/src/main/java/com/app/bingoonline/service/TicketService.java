@@ -13,8 +13,6 @@ public interface TicketService {
 
     TicketResponse generateTicketByContestId(int contestNumber) throws Exception;
 
-    RaffleResponse getRaffleNumber(int contestNumber);
-
     TicketListResponse getAllTicketsByContest(int contestNumber);
 }
 

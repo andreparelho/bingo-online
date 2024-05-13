@@ -1,11 +1,9 @@
 package com.app.bingoonline.service.impl;
 
-import com.app.bingoonline.entity.ContestEntity;
 import com.app.bingoonline.entity.RaffleEntity;
 import com.app.bingoonline.mapper.ConverterMapper;
 import com.app.bingoonline.model.response.RaffleResponse;
 import com.app.bingoonline.repository.RaffleRepository;
-import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.service.RaffleService;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +14,11 @@ import java.util.Random;
 
 @Service
 public class RaffleServiceImpl implements RaffleService {
-    private final ContestService contestService;
     private final RaffleRepository repository;
     private final ConverterMapper mapper;
     private final Random random;
 
-    public RaffleServiceImpl(ContestService contestService, RaffleRepository repository, ConverterMapper mapper, Random random) {
-        this.contestService = contestService;
+    public RaffleServiceImpl(RaffleRepository repository, ConverterMapper mapper, Random random) {
         this.repository = repository;
         this.mapper = mapper;
         this.random = random;
