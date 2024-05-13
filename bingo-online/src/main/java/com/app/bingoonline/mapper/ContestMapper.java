@@ -10,14 +10,12 @@ public class ContestMapper {
         return new ContestDTO(
                 contestEntity.getId(),
                 contestEntity.getNumber(),
-                contestEntity.getRaffleNumbers(),
                 contestEntity.getContestNumber()
         );
     }
 
     public ContestEntity DTOToEntity(ContestDTO contestDTO){
         return ContestEntity.builder()
-                .raffleNumbers(contestDTO.raffleNumbers())
                 .number(contestDTO.number())
                 .contestNumber(contestDTO.contestNumber())
                 .build();

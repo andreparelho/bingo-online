@@ -96,21 +96,4 @@ public class ContestController {
         logger.createLog(CONTROLLER_TYPE, CONTEST_GET_ALL_TICKETS_METHOD, CONTEST_FIN_METHOD_MSG, Instant.now(), ticketResponse);
         return ResponseEntity.ok(ticketResponse);
     }
-
-    @GetMapping("/{contest-number}/numbers")
-    public ResponseEntity<RaffleResponse> getRaffleNumber(@PathVariable("contest-number") int contestNumber,
-                                                          JwtAuthenticationToken authorizationHeader) {
-        logger.createLog(CONTEST_CONTROLLER_CLASS, CONTROLLER_TYPE, CONTEST_GET_RAFFLE_METHOD, CONTEST_INIT_METHOD_MSG,  Instant.now(), null);
-
-        Optional<UserEntity> user = this.userService.findUserById(UUID.fromString(authorizationHeader.getName()));
-
-        if (user.isEmpty()){
-            throw new UserNotFoundException("user not found");
-        }
-
-        RaffleResponse raffleResponse = this.ticketService.getRaffleNumber(contestNumber);
-
-        logger.createLog(CONTROLLER_TYPE, CONTEST_GET_RAFFLE_METHOD, CONTEST_FIN_METHOD_MSG, Instant.now(), raffleResponse);
-        return ResponseEntity.ok(raffleResponse);
-    }
 }
