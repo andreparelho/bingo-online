@@ -1,23 +1,28 @@
 package com.app.bingoonline.service.impl;
 
+import com.app.bingoonline.entity.RaffleEntity;
 import com.app.bingoonline.model.response.ContestResponseList;
 import com.app.bingoonline.model.response.CreateContestResponse;
 import com.app.bingoonline.repository.ContestRepository;
+import com.app.bingoonline.repository.RaffleRepository;
 import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.entity.ContestEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.*;
 
 @Service
 public class ContestServiceImpl implements ContestService {
     private final ContestRepository contestRepository;
+    private final RaffleRepository raffleRepository;
     private Random random;
 
     @Autowired
-    public ContestServiceImpl(ContestRepository contestRepository, Random random) {
+    public ContestServiceImpl(ContestRepository contestRepository, RaffleRepository raffleRepository, Random random) {
         this.contestRepository = contestRepository;
+        this.raffleRepository = raffleRepository;
         this.random = random;
     }
 
@@ -35,7 +40,7 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public ContestEntity createContest(int contestNumber) {
+    public ContestEntity createContest(int contestNumber) { //DELETAR METODO
         ContestEntity contestEntity = ContestEntity.builder()
                 .number(contestNumber)
                 .contestNumber(contestNumber)
@@ -52,9 +57,17 @@ public class ContestServiceImpl implements ContestService {
         ContestEntity contestEntity = ContestEntity.builder()
                 .number(contestNumber)
                 .contestNumber(contestNumber)
+                .initiated(false)
+                .createdAt(Instant.now())
+                .build();
+
+        RaffleEntity raffle = RaffleEntity.builder()
+                .contestId(((long) contestNumber))
+                .raffleNumbers(new RaffleEntity().generateRaffleNumbers())
                 .build();
 
         this.contestRepository.saveContest(contestEntity);
+        this.raffleRepository.saveRaffle(raffle);
 
         Map<String, Set<Integer>> response = new HashMap<>();
         response.put("contest", Collections.singleton(contestEntity.getContestNumber()));
@@ -66,6 +79,11 @@ public class ContestServiceImpl implements ContestService {
     public int findContestById(int contestNumber) {
         ContestEntity contestEntity = this.checkContestNumber(contestNumber);
         return contestEntity.getContestNumber();
+    }
+
+    @Override
+    public ContestEntity findContest(ContestEntity contestNumber) {
+        return null;
     }
 
     @Override
