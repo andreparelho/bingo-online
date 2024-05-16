@@ -26,7 +26,7 @@ public class RaffleServiceImpl implements RaffleService {
 
     @Override
     public RaffleResponse getRaffleNumber(int contestNumber) {
-        RaffleEntity raffle = this.repository.getRaffleNumbersByContestId(contestNumber);
+        RaffleEntity raffle = this.repository.getRaffle(contestNumber);
 
         boolean checkRaffle = this.isFinalizedRaffle(raffle.getRaffleNumbers());
         if (checkRaffle){
@@ -55,7 +55,12 @@ public class RaffleServiceImpl implements RaffleService {
         return new RaffleResponse(String.valueOf(numSorted));
     }
 
-    private boolean verifySortedNumbers(String raffleSortedNumbers) {
+    @Override
+    public RaffleEntity getRaffle(int contestNumber) {
+        return this.repository.getRaffle(contestNumber);
+    }
+
+    private boolean verifySortedNumbers(String raffleSortedNumbers) { //24 NUMEROS
         return raffleSortedNumbers.isEmpty() || raffleSortedNumbers.isBlank();
     }
 
