@@ -15,7 +15,7 @@ public class RaffleRepositoryImpl implements RaffleRepository {
     }
 
     @Override
-    public RaffleEntity getRaffleNumbersByContestId(long contest) {
+    public RaffleEntity getRaffle(long contest) {
         RaffleEntity raffle = this.crudRepository.findContestId(contest);
         return raffle;
     }

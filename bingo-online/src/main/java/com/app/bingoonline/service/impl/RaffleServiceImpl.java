@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 @Service
@@ -27,10 +26,9 @@ public class RaffleServiceImpl implements RaffleService {
 
     @Override
     public RaffleResponse getRaffleNumber(int contestNumber) {
-        RaffleEntity raffle = this.repository.getRaffleNumbersByContestId(contestNumber);
+        RaffleEntity raffle = this.repository.getRaffle(contestNumber);
 
         boolean checkRaffle = this.isFinalizedRaffle(raffle.getRaffleNumbers());
-
         if (checkRaffle){
             return new RaffleResponse("Raffle is ended");
         }
@@ -46,7 +44,8 @@ public class RaffleServiceImpl implements RaffleService {
         String stringList = list.replace("[", "").replace("]", "");
         raffle.setRaffleNumbers(stringList);
 
-        if (!Objects.equals(raffle.getRaffleSortedNumbers(), null)){
+        boolean sortedNumbers = this.verifySortedNumbers(raffle.getRaffleSortedNumbers());
+        if (!sortedNumbers){
             stringNumSorted = raffle.getRaffleSortedNumbers() + ", " + numSorted;
         }
 
@@ -54,6 +53,15 @@ public class RaffleServiceImpl implements RaffleService {
         this.repository.updateRaffle(raffle);
 
         return new RaffleResponse(String.valueOf(numSorted));
+    }
+
+    @Override
+    public RaffleEntity getRaffle(int contestNumber) {
+        return this.repository.getRaffle(contestNumber);
+    }
+
+    private boolean verifySortedNumbers(String raffleSortedNumbers) { //24 NUMEROS
+        return raffleSortedNumbers.isEmpty() || raffleSortedNumbers.isBlank();
     }
 
     private boolean isFinalizedRaffle(String raffleNumbers){
