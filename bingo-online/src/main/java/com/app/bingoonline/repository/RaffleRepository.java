@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RaffleRepository {
-    RaffleEntity getRaffleNumbersByContestId(long contest);
+    RaffleEntity getRaffle(long contest);
     void saveRaffle(RaffleEntity raffle);
     void updateRaffle(RaffleEntity raffle);
 }
