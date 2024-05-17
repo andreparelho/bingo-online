@@ -9,7 +9,7 @@ public interface ContestService {
     ContestEntity createContest(int contestNumber);
     CreateContestResponse createContest();
     int findContestById(int contestNumber);
-    ContestEntity findContest(ContestEntity contestNumber);
+    ContestEntity findContest(int contestNumber);
     ContestEntity getAllRaffleNumbers(int contestNumber);
     ContestEntity saveRaffleNumber(int contestNumber, String raffleNumber);
     ContestResponseList getAllContests();

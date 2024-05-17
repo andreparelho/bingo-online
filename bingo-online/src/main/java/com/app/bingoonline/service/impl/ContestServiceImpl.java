@@ -82,8 +82,8 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public ContestEntity findContest(ContestEntity contestNumber) {
-        return null;
+    public ContestEntity findContest(int contestNumber) {
+        return this.contestRepository.findContestNumber(contestNumber);
     }
 
     @Override

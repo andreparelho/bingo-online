@@ -24,6 +24,8 @@ public class ContestEntity {
     private Instant createdAt;
     private Instant updatedAt;
     private Instant finishedAt;
+    private boolean gameOneWinner;
+    private boolean gameWinner;
 
     public UUID getId() {
         return id;
@@ -79,5 +81,21 @@ public class ContestEntity {
 
     public void setFinishedAt(Instant finishedAt) {
         this.finishedAt = finishedAt;
+    }
+
+    public boolean isGameOneWinner() {
+        return gameOneWinner;
+    }
+
+    public void setGameOneWinner(boolean gameOneWinner) {
+        this.gameOneWinner = gameOneWinner;
+    }
+
+    public boolean isGameWinner() {
+        return gameWinner;
+    }
+
+    public void setGameWinner(boolean gameWinner) {
+        this.gameWinner = gameWinner;
     }
 }
