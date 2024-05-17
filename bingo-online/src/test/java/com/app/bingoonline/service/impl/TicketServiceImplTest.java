@@ -49,12 +49,12 @@ public class TicketServiceImplTest {
         this.g = new G();
         this.o = new O();
 
-        this.raffleServiceImpl = new RaffleServiceImpl(mockRaffleRepository, converterMapper, new Random());
+        this.mockContestService = mock(ContestServiceImpl.class);
+        this.mockTicketRepository = mock(TicketRepositoryImpl.class);
+        this.raffleServiceImpl = new RaffleServiceImpl(mockRaffleRepository, converterMapper, new Random(), this.ticketServiceImpl, this.mockContestService);
 
         this.converterMapper = mock(ConverterMapper.class);
 
-        this.mockContestService = mock(ContestServiceImpl.class);
-        this.mockTicketRepository = mock(TicketRepositoryImpl.class);
 
         this.contestEntity = ContestEntity
                 .builder()
