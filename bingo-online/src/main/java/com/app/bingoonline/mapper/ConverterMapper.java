@@ -29,7 +29,7 @@ public class ConverterMapper {
         return numbers;
     }
 
-    public Map<String, Integer> convertStringMap(String data) {
+    public Map<String, Integer> convertStringToMap(String data) {
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String, List<Integer>>>(){}.getType();
 
