@@ -1,7 +1,6 @@
 package com.app.bingoonline.repository;
 
 import com.app.bingoonline.entity.UserEntity;
-import com.app.bingoonline.model.request.UserUpdateRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

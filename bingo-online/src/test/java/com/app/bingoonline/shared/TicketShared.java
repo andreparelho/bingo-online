@@ -1,6 +1,6 @@
 package com.app.bingoonline.shared;
 
-import com.app.bingoonline.model.ticketsLetters.*;
+import com.app.bingoonline.model.*;
 
 import java.util.*;
 

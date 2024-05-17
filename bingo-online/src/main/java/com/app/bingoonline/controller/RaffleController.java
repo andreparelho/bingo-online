@@ -2,7 +2,7 @@ package com.app.bingoonline.controller;
 
 import com.app.bingoonline.entity.UserEntity;
 import com.app.bingoonline.exception.user.UserNotFoundException;
-import com.app.bingoonline.model.response.RaffleResponse;
+import com.app.bingoonline.controller.response.RaffleResponse;
 import com.app.bingoonline.service.RaffleService;
 import com.app.bingoonline.service.UserService;
 import com.app.bingoonline.util.LogUtil;

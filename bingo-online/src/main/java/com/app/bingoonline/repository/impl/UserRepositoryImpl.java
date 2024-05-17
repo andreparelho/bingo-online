@@ -2,7 +2,6 @@ package com.app.bingoonline.repository.impl;
 
 import com.app.bingoonline.entity.UserEntity;
 import com.app.bingoonline.exception.user.UserNotFoundException;
-import com.app.bingoonline.model.request.UserUpdateRequest;
 import com.app.bingoonline.repository.UserRepository;
 import com.app.bingoonline.repository.crud.UserCrudRepository;
 import org.springframework.stereotype.Service;

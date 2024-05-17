@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class ConverterMapper {
+public class Mapper {
     public String mapToJson(Map<String, Set<Integer>> map) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(map);

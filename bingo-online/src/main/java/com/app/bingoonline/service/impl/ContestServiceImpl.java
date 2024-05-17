@@ -1,8 +1,8 @@
 package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.RaffleEntity;
-import com.app.bingoonline.model.response.ContestResponseList;
-import com.app.bingoonline.model.response.CreateContestResponse;
+import com.app.bingoonline.controller.response.ContestResponseList;
+import com.app.bingoonline.controller.response.CreateContestResponse;
 import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.repository.RaffleRepository;
 import com.app.bingoonline.service.ContestService;

@@ -1,8 +1,8 @@
 package com.app.bingoonline.service;
 
 import com.app.bingoonline.entity.ContestEntity;
-import com.app.bingoonline.model.response.ContestResponseList;
-import com.app.bingoonline.model.response.CreateContestResponse;
+import com.app.bingoonline.controller.response.ContestResponseList;
+import com.app.bingoonline.controller.response.CreateContestResponse;
 
 public interface ContestService {
     int generateContestNumber();

@@ -1,4 +1,4 @@
-package com.app.bingoonline.model.dto;
+package com.app.bingoonline.controller.dto;
 
 import java.util.UUID;
 

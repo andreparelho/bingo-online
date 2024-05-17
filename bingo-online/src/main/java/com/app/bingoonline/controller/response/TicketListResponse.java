@@ -1,4 +1,4 @@
-package com.app.bingoonline.model.response;
+package com.app.bingoonline.controller.response;
 
 import com.app.bingoonline.entity.TicketEntity;
 

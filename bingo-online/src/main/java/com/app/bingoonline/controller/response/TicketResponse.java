@@ -1,4 +1,4 @@
-package com.app.bingoonline.model.response;
+package com.app.bingoonline.controller.response;
 
 import java.util.Map;
 import java.util.Set;

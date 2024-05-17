@@ -1,7 +1,7 @@
 package integration.test.controller;
 
 import com.app.bingoonline.entity.ContestEntity;
-import com.app.bingoonline.model.response.CreateContestResponse;
+import com.app.bingoonline.controller.response.CreateContestResponse;
 import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.service.ContestService;
 import com.fasterxml.jackson.databind.ObjectMapper;

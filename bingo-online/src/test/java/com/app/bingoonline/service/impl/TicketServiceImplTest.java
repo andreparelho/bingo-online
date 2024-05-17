@@ -1,14 +1,14 @@
 package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.ContestEntity;
-import com.app.bingoonline.model.response.TicketResponse;
-import com.app.bingoonline.model.ticketsLetters.*;
+import com.app.bingoonline.model.*;
+import com.app.bingoonline.controller.response.TicketResponse;
 import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.repository.RaffleRepository;
 import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.repository.impl.TicketRepositoryImpl;
 import com.app.bingoonline.service.ContestService;
-import com.app.bingoonline.mapper.ConverterMapper;
+import com.app.bingoonline.mapper.Mapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +31,7 @@ public class TicketServiceImplTest {
     private O o;
     private ContestService mockContestService;
     private TicketRepository mockTicketRepository;
-    private ConverterMapper converterMapper;
+    private Mapper mapper;
     private TicketServiceImpl ticketServiceImpl;
     private ContestEntity contestEntity;
     @Mock
@@ -51,9 +51,9 @@ public class TicketServiceImplTest {
 
         this.mockContestService = mock(ContestServiceImpl.class);
         this.mockTicketRepository = mock(TicketRepositoryImpl.class);
-        this.raffleServiceImpl = new RaffleServiceImpl(mockRaffleRepository, converterMapper, new Random(), this.ticketServiceImpl, this.mockContestService);
+        this.raffleServiceImpl = new RaffleServiceImpl(mockRaffleRepository, mapper, new Random(), this.ticketServiceImpl, this.mockContestService);
 
-        this.converterMapper = mock(ConverterMapper.class);
+        this.mapper = mock(Mapper.class);
 
 
         this.contestEntity = ContestEntity
@@ -67,7 +67,7 @@ public class TicketServiceImplTest {
                 this.raffleServiceImpl,
                 this.mockContestService,
                 this.mockTicketRepository,
-                this.converterMapper
+                this.mapper
                 );
     }
 
@@ -173,6 +173,6 @@ public class TicketServiceImplTest {
         this.ticketServiceImpl.generateTicket();
         this.ticketServiceImpl.generateTicketByContestId(anyInt());
 
-        verify(this.converterMapper, times(expected)).mapToJson(anyMap());
+        verify(this.mapper, times(expected)).mapToJson(anyMap());
     }
 }

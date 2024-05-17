@@ -2,9 +2,8 @@ package com.app.bingoonline.controller;
 
 import com.app.bingoonline.entity.UserEntity;
 import com.app.bingoonline.exception.user.UserNotFoundException;
-import com.app.bingoonline.model.request.CreateUserRequest;
-import com.app.bingoonline.model.request.UserUpdateRequest;
-import com.app.bingoonline.service.JwtService;
+import com.app.bingoonline.controller.request.CreateUserRequest;
+import com.app.bingoonline.controller.request.UserUpdateRequest;
 import com.app.bingoonline.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -2,8 +2,8 @@ package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.ContestEntity;
 import com.app.bingoonline.entity.RaffleEntity;
-import com.app.bingoonline.mapper.ConverterMapper;
-import com.app.bingoonline.model.response.RaffleResponse;
+import com.app.bingoonline.mapper.Mapper;
+import com.app.bingoonline.controller.response.RaffleResponse;
 import com.app.bingoonline.repository.RaffleRepository;
 import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.service.RaffleService;
@@ -17,12 +17,12 @@ import java.util.Random;
 @Service
 public class RaffleServiceImpl implements RaffleService {
     private final RaffleRepository repository;
-    private final ConverterMapper mapper;
+    private final Mapper mapper;
     private final Random random;
     private final TicketService ticketService;
     private final ContestService contestService;
 
-    public RaffleServiceImpl(RaffleRepository repository, ConverterMapper mapper, Random random, TicketService ticketService, ContestService contestService) {
+    public RaffleServiceImpl(RaffleRepository repository, Mapper mapper, Random random, TicketService ticketService, ContestService contestService) {
         this.repository = repository;
         this.mapper = mapper;
         this.random = random;

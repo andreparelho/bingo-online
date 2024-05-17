@@ -2,16 +2,16 @@ package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.RaffleEntity;
 import com.app.bingoonline.exception.contest.ContestNotFoundException;
-import com.app.bingoonline.model.response.TicketListResponse;
-import com.app.bingoonline.model.response.TicketResponse;
-import com.app.bingoonline.model.ticketsLetters.*;
+import com.app.bingoonline.model.*;
+import com.app.bingoonline.controller.response.TicketListResponse;
+import com.app.bingoonline.controller.response.TicketResponse;
 import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.service.RaffleService;
 import com.app.bingoonline.service.TicketService;
 import com.app.bingoonline.entity.ContestEntity;
 import com.app.bingoonline.entity.TicketEntity;
-import com.app.bingoonline.mapper.ConverterMapper;
+import com.app.bingoonline.mapper.Mapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +28,10 @@ public class TicketServiceImpl implements TicketService {
     private final RaffleService raffleService;
     private final ContestService contestService;
     private final TicketRepository ticketRepository;
-    private final ConverterMapper converterMapper;
+    private final Mapper mapper;
 
     @Autowired
-    public TicketServiceImpl(B b, I i, N n, G g, O o, RaffleService raffleService, ContestService contestService, TicketRepository ticketRepository, ConverterMapper converterMapper) {
+    public TicketServiceImpl(B b, I i, N n, G g, O o, RaffleService raffleService, ContestService contestService, TicketRepository ticketRepository, Mapper mapper) {
         this.b = b;
         this.i = i;
         this.n = n;
@@ -40,7 +40,7 @@ public class TicketServiceImpl implements TicketService {
         this.raffleService = raffleService;
         this.contestService = contestService;
         this.ticketRepository = ticketRepository;
-        this.converterMapper = converterMapper;
+        this.mapper = mapper;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class TicketServiceImpl implements TicketService {
         ContestEntity contest = this.contestService.createContest(contestNumber);
 
         TicketEntity ticketEntity = TicketEntity.builder()
-                .ticket(this.converterMapper.mapToJson(ticket))
+                .ticket(this.mapper.mapToJson(ticket))
                 .build();
 
         this.ticketRepository.saveTicket(ticketEntity, contest);
@@ -71,7 +71,7 @@ public class TicketServiceImpl implements TicketService {
         Map<String, Set<Integer>> ticket = generateCardTicket();
 
         TicketEntity ticketEntity = TicketEntity.builder()
-                .ticket(this.converterMapper.mapToJson(ticket))
+                .ticket(this.mapper.mapToJson(ticket))
                 .build();
 
         ContestEntity contestEntity = ContestEntity.builder()
@@ -89,7 +89,7 @@ public class TicketServiceImpl implements TicketService {
     private void checkTicketsWinner(List<TicketEntity> tickets) {
         for (TicketEntity ticket : tickets){
             String ticketString = ticket.getTicket();
-            var mapTicket = this.converterMapper.convertStringToMap(ticketString);
+            var mapTicket = this.mapper.convertStringToMap(ticketString);
         }
     }
 
@@ -119,7 +119,7 @@ public class TicketServiceImpl implements TicketService {
 
         for (TicketEntity ticket : tickets){
             String ticketString = ticket.getTicket();
-            Map<String, Integer> mapTicket = this.converterMapper.convertStringToMap(ticketString);
+            Map<String, Integer> mapTicket = this.mapper.convertStringToMap(ticketString);
 
 
         }

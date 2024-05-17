@@ -1,8 +1,7 @@
 package com.app.bingoonline.service;
 
-import com.app.bingoonline.model.response.RaffleResponse;
-import com.app.bingoonline.model.response.TicketListResponse;
-import com.app.bingoonline.model.response.TicketResponse;
+import com.app.bingoonline.controller.response.TicketListResponse;
+import com.app.bingoonline.controller.response.TicketResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.Map;
