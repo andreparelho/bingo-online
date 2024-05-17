@@ -14,5 +14,7 @@ public interface TicketService {
     TicketResponse generateTicketByContestId(int contestNumber) throws Exception;
 
     TicketListResponse getAllTicketsByContest(int contestNumber);
+    boolean checkWinnerGameOne(int contestId);
+    boolean checkWinnerGame(int contestId);
 }
 
