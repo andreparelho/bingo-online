@@ -6,7 +6,6 @@ import com.app.bingoonline.controller.response.TicketListResponse;
 import com.app.bingoonline.controller.response.TicketResponse;
 import com.app.bingoonline.entity.UserEntity;
 import com.app.bingoonline.exception.user.UserNotFoundException;
-import com.app.bingoonline.model.response.*;
 import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.service.TicketService;
 import com.app.bingoonline.service.UserService;

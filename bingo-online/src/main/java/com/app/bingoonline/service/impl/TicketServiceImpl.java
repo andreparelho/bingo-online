@@ -5,6 +5,7 @@ import com.app.bingoonline.exception.contest.ContestNotFoundException;
 import com.app.bingoonline.model.*;
 import com.app.bingoonline.controller.response.TicketListResponse;
 import com.app.bingoonline.controller.response.TicketResponse;
+import com.app.bingoonline.repository.RaffleRepository;
 import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.service.RaffleService;
@@ -13,7 +14,6 @@ import com.app.bingoonline.entity.ContestEntity;
 import com.app.bingoonline.entity.TicketEntity;
 import com.app.bingoonline.mapper.Mapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -25,23 +25,23 @@ public class TicketServiceImpl implements TicketService {
     private final N n;
     private final G g;
     private final O o;
-    private final RaffleService raffleService;
+    private final RaffleRepository raffleRepository;
     private final ContestService contestService;
     private final TicketRepository ticketRepository;
     private final Mapper mapper;
 
-    @Autowired
-    public TicketServiceImpl(B b, I i, N n, G g, O o, RaffleService raffleService, ContestService contestService, TicketRepository ticketRepository, Mapper mapper) {
+    public TicketServiceImpl(B b, I i, N n, G g, O o, RaffleRepository raffleRepository, ContestService contestService, TicketRepository ticketRepository, Mapper mapper) {
         this.b = b;
         this.i = i;
         this.n = n;
         this.g = g;
         this.o = o;
-        this.raffleService = raffleService;
+        this.raffleRepository = raffleRepository;
         this.contestService = contestService;
         this.ticketRepository = ticketRepository;
         this.mapper = mapper;
     }
+
 
     @Override
     public Map<String, Set<Integer>> generateTicket() throws JsonProcessingException {
@@ -110,30 +110,4 @@ public class TicketServiceImpl implements TicketService {
         ticket.put("o", this.o.generateTicketNumbers());
         return  ticket;
     }
-
-    @Override
-    public boolean checkWinnerGameOne(int contestNumber){
-        List<TicketEntity> tickets = this.ticketRepository.getAllTicketsByContest(contestNumber);
-        RaffleEntity raffle = this.raffleService.getRaffle(contestNumber);
-//        TODO -> Criar validacao para tinquina, e salvar o campo gameOneWinner na entidade Contest.
-
-        for (TicketEntity ticket : tickets){
-            String ticketString = ticket.getTicket();
-            Map<String, Integer> mapTicket = this.mapper.convertStringToMap(ticketString);
-
-
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean checkWinnerGame(int contestNumber){
-        List<TicketEntity> tickets = this.ticketRepository.getAllTicketsByContest(contestNumber);
-        RaffleEntity raffle = this.raffleService.getRaffle(contestNumber);
-//        TODO -> Criar validacao para cartela cheia, e salvar o campo gameOneWinner na entidade Contest.
-        return true;
-    }
-
-    //        TODO -> Criar metodo para tirar o numero sorteado da cartela com remove e salvando (facilitar as validacoes de ganhadores)
 }

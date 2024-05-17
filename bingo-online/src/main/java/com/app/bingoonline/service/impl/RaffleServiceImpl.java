@@ -2,45 +2,47 @@ package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.ContestEntity;
 import com.app.bingoonline.entity.RaffleEntity;
+import com.app.bingoonline.entity.TicketEntity;
 import com.app.bingoonline.mapper.Mapper;
 import com.app.bingoonline.controller.response.RaffleResponse;
+import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.repository.RaffleRepository;
-import com.app.bingoonline.service.ContestService;
+import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.service.RaffleService;
-import com.app.bingoonline.service.TicketService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Service
 public class RaffleServiceImpl implements RaffleService {
-    private final RaffleRepository repository;
+    private final RaffleRepository raffleRepository;
     private final Mapper mapper;
     private final Random random;
-    private final TicketService ticketService;
-    private final ContestService contestService;
+    private final TicketRepository ticketRepository;
+    private final ContestRepository contestRepository;
 
-    public RaffleServiceImpl(RaffleRepository repository, Mapper mapper, Random random, TicketService ticketService, ContestService contestService) {
-        this.repository = repository;
+    public RaffleServiceImpl(RaffleRepository raffleRepository, Mapper mapper, Random random, TicketRepository ticketRepository, ContestRepository contestRepository) {
+        this.raffleRepository = raffleRepository;
         this.mapper = mapper;
         this.random = random;
-        this.ticketService = ticketService;
-        this.contestService = contestService;
+        this.ticketRepository = ticketRepository;
+        this.contestRepository = contestRepository;
     }
 
 
     @Override
     public RaffleResponse getRaffleNumber(int contestNumber) {
-        ContestEntity contest = this.contestService.findContest(contestNumber);
-        RaffleEntity raffle = this.repository.getRaffle(contestNumber);
+        ContestEntity contest = this.contestRepository.findContestNumber(contestNumber);
+        RaffleEntity raffle = this.raffleRepository.getRaffle(contestNumber);
         String raffleSortedNumbers = raffle.getRaffleSortedNumbers();
 
         boolean checkWinners = this.checkSortedNumbers(raffleSortedNumbers);
         if (checkWinners){
             if (!contest.isGameOneWinner()) {
-                boolean winnerGameOne =  this.ticketService.checkWinnerGame(contestNumber);
+                boolean winnerGameOne =  this.checkWinnerGame(contestNumber);
             }
         }
 
@@ -66,15 +68,39 @@ public class RaffleServiceImpl implements RaffleService {
         }
 
         raffle.setRaffleSortedNumbers(stringNumSorted);
-        this.repository.updateRaffle(raffle);
+        this.raffleRepository.updateRaffle(raffle);
 
         return new RaffleResponse(String.valueOf(numSorted));
     }
 
     @Override
     public RaffleEntity getRaffle(int contestNumber) {
-        return this.repository.getRaffle(contestNumber);
+        return this.raffleRepository.getRaffle(contestNumber);
     }
+
+    public boolean checkWinnerGame(int contestNumber){
+        List<TicketEntity> tickets = this.ticketRepository.getAllTicketsByContest(contestNumber);
+        RaffleEntity raffle = this.raffleRepository.getRaffle(contestNumber);
+//        TODO -> Criar validacao para cartela cheia, e salvar o campo gameOneWinner na entidade Contest.
+        return true;
+    }
+
+    public boolean checkWinnerGameOne(int contestNumber){
+        List<TicketEntity> tickets = this.ticketRepository.getAllTicketsByContest(contestNumber);
+        RaffleEntity raffle = this.raffleRepository.getRaffle(contestNumber);
+//        TODO -> Criar validacao para tinquina, e salvar o campo gameOneWinner na entidade Contest.
+
+        for (TicketEntity ticket : tickets){
+            String ticketString = ticket.getTicket();
+            Map<String, Integer> mapTicket = this.mapper.convertStringToMap(ticketString);
+
+
+        }
+
+        return true;
+    }
+
+    //        TODO -> Criar metodo para tirar o numero sorteado da cartela com remove e salvando (facilitar as validacoes de ganhadores)
 
     private boolean checkSortedNumbers(String raffleSortedNumbers) {
         List<Integer> raffleList = this.mapper.convertStringToList(raffleSortedNumbers);
