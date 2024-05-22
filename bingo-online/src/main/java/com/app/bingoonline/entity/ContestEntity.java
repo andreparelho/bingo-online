@@ -26,6 +26,8 @@ public class ContestEntity {
     private Instant finishedAt;
     private boolean gameOneWinner;
     private boolean gameWinner;
+    private UUID ticketWinnerGameOne;
+    private UUID tickerWinnerGame;
 
     public UUID getId() {
         return id;
@@ -97,5 +99,21 @@ public class ContestEntity {
 
     public void setGameWinner(boolean gameWinner) {
         this.gameWinner = gameWinner;
+    }
+
+    public UUID getTicketWinnerGameOne() {
+        return ticketWinnerGameOne;
+    }
+
+    public void setTicketWinnerGameOne(UUID ticketWinnerGameOne) {
+        this.ticketWinnerGameOne = ticketWinnerGameOne;
+    }
+
+    public UUID getTickerWinnerGame() {
+        return tickerWinnerGame;
+    }
+
+    public void setTickerWinnerGame(UUID tickerWinnerGame) {
+        this.tickerWinnerGame = tickerWinnerGame;
     }
 }

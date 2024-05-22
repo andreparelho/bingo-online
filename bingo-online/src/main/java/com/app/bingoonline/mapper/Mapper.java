@@ -2,6 +2,7 @@ package com.app.bingoonline.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.nimbusds.jose.shaded.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.stereotype.Component;
@@ -48,6 +49,15 @@ public class Mapper {
         return newMap;
     }
 
+    public Map<String, Set<Integer>> jsonToMap(String jsonString) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, List<Integer>> tempMap = objectMapper.readValue(jsonString, new TypeReference<Map<String, List<Integer>>>() {});
+        Map<String, Set<Integer>> numberMap = new HashMap<>();
+        for (Map.Entry<String, List<Integer>> entry : tempMap.entrySet()) {
+            numberMap.put(entry.getKey(), new HashSet<>(entry.getValue()));
+        }
+        return numberMap;
+    }
 
     public String convertListToString(List<String> integerList){
         return integerList.stream().map(String::valueOf).collect(Collectors.joining(","));
