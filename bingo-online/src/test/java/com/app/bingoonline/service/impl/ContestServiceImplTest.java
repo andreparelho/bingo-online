@@ -2,7 +2,7 @@ package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.ContestEntity;
 import com.app.bingoonline.entity.RaffleEntity;
-import com.app.bingoonline.model.response.CreateContestResponse;
+import com.app.bingoonline.controller.response.CreateContestResponse;
 import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.repository.RaffleRepository;
 import com.app.bingoonline.repository.impl.ContestRepositoryImpl;
@@ -11,7 +11,6 @@ import com.app.bingoonline.service.ContestService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import java.util.Random;
 

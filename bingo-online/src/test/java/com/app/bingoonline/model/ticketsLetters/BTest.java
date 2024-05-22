@@ -1,5 +1,6 @@
 package com.app.bingoonline.model.ticketsLetters;
 
+import com.app.bingoonline.model.B;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

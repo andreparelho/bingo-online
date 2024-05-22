@@ -1,13 +1,12 @@
 package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.RaffleEntity;
-import com.app.bingoonline.model.response.ContestResponseList;
-import com.app.bingoonline.model.response.CreateContestResponse;
+import com.app.bingoonline.controller.response.ContestResponseList;
+import com.app.bingoonline.controller.response.CreateContestResponse;
 import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.repository.RaffleRepository;
 import com.app.bingoonline.service.ContestService;
 import com.app.bingoonline.entity.ContestEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -19,12 +18,12 @@ public class ContestServiceImpl implements ContestService {
     private final RaffleRepository raffleRepository;
     private Random random;
 
-    @Autowired
     public ContestServiceImpl(ContestRepository contestRepository, RaffleRepository raffleRepository, Random random) {
         this.contestRepository = contestRepository;
         this.raffleRepository = raffleRepository;
         this.random = random;
     }
+
 
     @Override
     public int generateContestNumber() {

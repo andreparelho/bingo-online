@@ -1,7 +1,7 @@
 package com.app.bingoonline.controller;
 
-import com.app.bingoonline.model.request.LoginRequest;
-import com.app.bingoonline.model.response.LoginResponse;
+import com.app.bingoonline.controller.request.LoginRequest;
+import com.app.bingoonline.controller.response.LoginResponse;
 import com.app.bingoonline.service.LoginService;
 import com.app.bingoonline.util.LogUtil;
 import org.springframework.http.ResponseEntity;

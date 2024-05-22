@@ -1,8 +1,8 @@
 package com.app.bingoonline.service;
 
 import com.app.bingoonline.entity.UserEntity;
-import com.app.bingoonline.model.request.CreateUserRequest;
-import com.app.bingoonline.model.request.UserUpdateRequest;
+import com.app.bingoonline.controller.request.CreateUserRequest;
+import com.app.bingoonline.controller.request.UserUpdateRequest;
 
 import java.util.Optional;
 import java.util.UUID;

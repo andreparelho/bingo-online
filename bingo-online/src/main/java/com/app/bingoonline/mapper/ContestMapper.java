@@ -1,7 +1,7 @@
 package com.app.bingoonline.mapper;
 
 import com.app.bingoonline.entity.ContestEntity;
-import com.app.bingoonline.model.dto.ContestDTO;
+import com.app.bingoonline.controller.dto.ContestDTO;
 import org.springframework.stereotype.Component;
 
 @Component

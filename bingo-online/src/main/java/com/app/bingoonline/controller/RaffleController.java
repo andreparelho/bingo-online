@@ -2,10 +2,11 @@ package com.app.bingoonline.controller;
 
 import com.app.bingoonline.entity.UserEntity;
 import com.app.bingoonline.exception.user.UserNotFoundException;
-import com.app.bingoonline.model.response.RaffleResponse;
+import com.app.bingoonline.controller.response.RaffleResponse;
 import com.app.bingoonline.service.RaffleService;
 import com.app.bingoonline.service.UserService;
 import com.app.bingoonline.util.LogUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,7 @@ public class RaffleController {
 
     @GetMapping("/{contest-number}/numbers")
     public ResponseEntity<RaffleResponse> getRaffleNumber(@PathVariable("contest-number") int contestNumber,
-                                                          JwtAuthenticationToken authorizationHeader) {
+                                                          JwtAuthenticationToken authorizationHeader) throws JsonProcessingException {
         logger.createLog(CONTEST_CONTROLLER_CLASS, CONTROLLER_TYPE, CONTEST_GET_RAFFLE_METHOD, CONTEST_INIT_METHOD_MSG,  Instant.now(), null);
 
         Optional<UserEntity> user = this.userService.findUserById(UUID.fromString(authorizationHeader.getName()));

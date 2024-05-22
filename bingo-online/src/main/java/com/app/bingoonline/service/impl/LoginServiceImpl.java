@@ -2,8 +2,8 @@ package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.entity.UserEntity;
 import com.app.bingoonline.exception.user.UserPasswordInvalidException;
-import com.app.bingoonline.model.request.LoginRequest;
-import com.app.bingoonline.model.response.LoginResponse;
+import com.app.bingoonline.controller.request.LoginRequest;
+import com.app.bingoonline.controller.response.LoginResponse;
 import com.app.bingoonline.repository.UserRepository;
 import com.app.bingoonline.service.JwtService;
 import com.app.bingoonline.service.LoginService;

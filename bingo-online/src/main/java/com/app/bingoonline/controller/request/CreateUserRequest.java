@@ -1,4 +1,4 @@
-package com.app.bingoonline.model.request;
+package com.app.bingoonline.controller.request;
 
 public record CreateUserRequest(String username, String password){
 }
