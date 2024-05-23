@@ -1,4 +1,4 @@
-package com.app.bingoonline.model;
+package com.app.bingoonline.model.ticket;
 
 import lombok.Builder;
 
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 @Builder
-public class BingoCard {
+public class TicketModel {
     private Map<String, List<Integer>> b;
     private Map<String, List<Integer>> i;
     private Map<String, List<Integer>> n;

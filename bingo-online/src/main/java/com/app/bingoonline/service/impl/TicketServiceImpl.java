@@ -1,14 +1,12 @@
 package com.app.bingoonline.service.impl;
 
-import com.app.bingoonline.entity.RaffleEntity;
 import com.app.bingoonline.exception.contest.ContestNotFoundException;
-import com.app.bingoonline.model.*;
 import com.app.bingoonline.controller.response.TicketListResponse;
 import com.app.bingoonline.controller.response.TicketResponse;
+import com.app.bingoonline.model.ticket.card.*;
 import com.app.bingoonline.repository.RaffleRepository;
 import com.app.bingoonline.repository.TicketRepository;
 import com.app.bingoonline.service.ContestService;
-import com.app.bingoonline.service.RaffleService;
 import com.app.bingoonline.service.TicketService;
 import com.app.bingoonline.entity.ContestEntity;
 import com.app.bingoonline.entity.TicketEntity;
