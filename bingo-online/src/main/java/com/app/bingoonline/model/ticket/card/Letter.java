@@ -1,4 +1,4 @@
-package com.app.bingoonline.model;
+package com.app.bingoonline.model.ticket.card;
 
 import java.util.HashSet;
 import java.util.Random;

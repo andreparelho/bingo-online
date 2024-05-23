@@ -1,22 +1,21 @@
-package com.app.bingoonline.model;
+package com.app.bingoonline.model.ticket.card;
 
-import com.app.bingoonline.model.Letter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class G extends Letter {
+public class O extends Letter {
     @Override
-    public int getQuantity() {
+    public int getQuantity(){
         return 5;
     }
 
     @Override
     public int getStart() {
-        return 46;
+        return 61;
     }
 
     @Override
     public int getEnd() {
-        return 60;
+        return 75;
     }
 }

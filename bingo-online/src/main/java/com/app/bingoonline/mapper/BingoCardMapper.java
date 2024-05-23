@@ -1,6 +1,6 @@
 package com.app.bingoonline.mapper;
 
-import com.app.bingoonline.model.BingoCard;
+import com.app.bingoonline.model.ticket.TicketModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,10 +18,10 @@ public class BingoCardMapper {
         this.objectMapper = objectMapper;
     }
 
-    public BingoCard convertStringToBingoCard(String json) throws JsonProcessingException {
+    public TicketModel convertStringToBingoCard(String json) throws JsonProcessingException {
         Map<String, List<Integer>> cardMap = objectMapper.readValue(json, new TypeReference<Map<String, List<Integer>>>() {});
 
-        return BingoCard.builder()
+        return TicketModel.builder()
                 .b(Map.of("b", cardMap.get("b")))
                 .i(Map.of("i", cardMap.get("i")))
                 .n(Map.of("n", cardMap.get("n")))
@@ -30,14 +30,14 @@ public class BingoCardMapper {
                 .build();
     }
 
-    public String convertBingoCardToString(BingoCard bingoCard) throws JsonProcessingException {
+    public String convertBingoCardToString(TicketModel ticketModel) throws JsonProcessingException {
         Map<String, List<Integer>> combinedMap = new HashMap<>();
 
-        combinedMap.putAll(bingoCard.getB());
-        combinedMap.putAll(bingoCard.getI());
-        combinedMap.putAll(bingoCard.getN());
-        combinedMap.putAll(bingoCard.getG());
-        combinedMap.putAll(bingoCard.getO());
+        combinedMap.putAll(ticketModel.getB());
+        combinedMap.putAll(ticketModel.getI());
+        combinedMap.putAll(ticketModel.getN());
+        combinedMap.putAll(ticketModel.getG());
+        combinedMap.putAll(ticketModel.getO());
 
         return objectMapper.writeValueAsString(combinedMap);
     }
