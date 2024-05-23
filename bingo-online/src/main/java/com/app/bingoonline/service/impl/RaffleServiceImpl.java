@@ -3,13 +3,12 @@ package com.app.bingoonline.service.impl;
 import com.app.bingoonline.entity.ContestEntity;
 import com.app.bingoonline.entity.RaffleEntity;
 import com.app.bingoonline.entity.TicketEntity;
-import com.app.bingoonline.mapper.BingoCardMapper;
 import com.app.bingoonline.mapper.Mapper;
 import com.app.bingoonline.controller.response.RaffleResponse;
-import com.app.bingoonline.model.BingoCard;
 import com.app.bingoonline.repository.ContestRepository;
 import com.app.bingoonline.repository.RaffleRepository;
 import com.app.bingoonline.repository.TicketRepository;
+import com.app.bingoonline.service.GameService;
 import com.app.bingoonline.service.RaffleService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
@@ -23,21 +22,21 @@ public class RaffleServiceImpl implements RaffleService {
     private final Random random;
     private final TicketRepository ticketRepository;
     private final ContestRepository contestRepository;
-    private final BingoCardMapper bingoCardMapper;
+    private final GameService gameService;
 
-    public RaffleServiceImpl(RaffleRepository raffleRepository, Mapper mapper, Random random, TicketRepository ticketRepository, ContestRepository contestRepository, BingoCardMapper bingoCardMapper) {
+    public RaffleServiceImpl(RaffleRepository raffleRepository, Mapper mapper, Random random, TicketRepository ticketRepository, ContestRepository contestRepository, GameService gameService) {
         this.raffleRepository = raffleRepository;
         this.mapper = mapper;
         this.random = random;
         this.ticketRepository = ticketRepository;
         this.contestRepository = contestRepository;
-        this.bingoCardMapper = bingoCardMapper;
+        this.gameService = gameService;
     }
-
 
     @Override
     public RaffleResponse getRaffleNumber(int contestNumber) throws JsonProcessingException {
         ContestEntity contest = this.contestRepository.findContestNumber(contestNumber);
+
         RaffleEntity raffle = this.raffleRepository.getRaffle(contestNumber);
         String raffleSortedNumbers = raffle.getRaffleSortedNumbers();
 
@@ -45,38 +44,27 @@ public class RaffleServiceImpl implements RaffleService {
         int numSortedIndex = random.nextInt(listNumbers.size());
         int numSorted = listNumbers.get(numSortedIndex);
 
-        List<TicketEntity> tickets = this.ticketRepository.getAllTicketsByContest(contestNumber);
-        this.removeSortedNumberFromTickets(numSorted, tickets, contestNumber);
+        List<TicketEntity> tickets = this.ticketRepository.getAllTicketsByContest(contest.getContestNumber());
+        this.gameService.removeSortedNumberFromTickets(numSorted, tickets, contest);
 
-        //boolean checkWinners = this.checkSortedNumbers(raffleSortedNumbers);
-        boolean winnerGameOne =  this.checkWinnerGameOne(contestNumber);
-
-//        if (checkWinners){
-//            if (!contest.isGameOneWinner()) {
-//                boolean winnerGameOne =  this.checkWinnerGameOne(contestNumber);
-//            }
-//        }
-
-        boolean checkRaffle = this.isFinalizedRaffle(raffleSortedNumbers);
-        if (checkRaffle){
-            return new RaffleResponse("Raffle is ended");
+        boolean checkWinners = this.checkSortedNumbers(raffleSortedNumbers);
+        if (checkWinners){
+            if (!contest.isGameOneWinner()) {
+                Optional<UUID> winnerGameOne = this.gameService.checkWinnerGameOne(contest);
+                boolean existWinner = winnerGameOne.isPresent();
+                if (existWinner) {
+                    return new RaffleResponse("Winner is " + winnerGameOne);
+                }
+            } else {
+                ContestEntity winnerGame = this.gameService.checkWinnerGame(contestNumber);
+                boolean existWinner = winnerGame.getTickerWinnerGame() != null;
+                if (existWinner) {
+                    return new RaffleResponse("Winner game is " + winnerGame.getTicketWinnerGameOne());
+                }
+            }
         }
 
-
-        String stringNumSorted = String.valueOf(numSorted);
-        listNumbers.remove(numSortedIndex);
-
-        String list = this.mapper.convertListToString(Collections.singletonList(String.valueOf(listNumbers)));
-        String stringList = list.replace("[", "").replace("]", "");
-        raffle.setRaffleNumbers(stringList);
-
-        boolean sortedNumbers = this.verifySortedNumbers(raffle.getRaffleSortedNumbers());
-        if (!sortedNumbers){
-            stringNumSorted = raffle.getRaffleSortedNumbers() + ", " + numSorted;
-        }
-
-        raffle.setRaffleSortedNumbers(stringNumSorted);
-        this.raffleRepository.updateRaffle(raffle);
+        this.removeNumberFromList(numSorted, numSortedIndex, listNumbers, raffle);
 
         return new RaffleResponse(String.valueOf(numSorted));
     }
@@ -86,76 +74,31 @@ public class RaffleServiceImpl implements RaffleService {
         return this.raffleRepository.getRaffle(contestNumber);
     }
 
-    public boolean checkWinnerGame(int contestNumber){
-        List<TicketEntity> tickets = this.ticketRepository.getAllTicketsByContest(contestNumber);
-        RaffleEntity raffle = this.raffleRepository.getRaffle(contestNumber);
-//        TODO -> Criar validacao para cartela cheia, e salvar o campo gameOneWinner na entidade Contest.
-    //        TODO -> Criar validacao para tinquina, e salvar o campo TicketWinner com ID do ticket na entidade Contest
+    @Override
+    public void removeNumberFromList(int numSorted, int numSortedIndex, List<Integer> listNumbers, RaffleEntity raffle) {
+        String stringNumSorted = String.valueOf(numSorted);
+        listNumbers.remove(numSortedIndex);
 
-        return true;
-    }
+        String list = this.mapper.convertListToString(Collections.singletonList(String.valueOf(listNumbers)));
+        String stringList = list.replace("[", "").replace("]", "");
 
-    public boolean checkWinnerGameOne(int contestNumber) throws JsonProcessingException {
-        List<TicketEntity> tickets = this.ticketRepository.getAllTicketsByContest(contestNumber);
-        RaffleEntity raffle = this.raffleRepository.getRaffle(contestNumber);
-//        TODO -> Criar validacao para tinquina, e salvar o campo gameOneWinner na entidade Contest.
-//        TODO -> Criar validacao para tinquina, e salvar o campo ticketGameOneWinner com ID do ticket na entidade Contest
+        raffle.setRaffleNumbers(stringList);
 
-        for (TicketEntity ticket : tickets){
-            String ticketString = ticket.getTicket();
-
-            BingoCard card = this.bingoCardMapper.convertStringToBingoCard(ticketString);
-
-
-
+        boolean sortedNumbers = this.verifySortedNumbers(raffle.getRaffleSortedNumbers());
+        if (!sortedNumbers){
+            stringNumSorted = raffle.getRaffleSortedNumbers() + ", " + numSorted;
         }
 
-        return true;
+        raffle.setRaffleSortedNumbers(stringNumSorted);
+        this.raffleRepository.updateRaffle(raffle);
     }
-
-    //        TODO -> Criar metodo para tirar o numero sorteado da cartela com remove e salvando (facilitar as validacoes de ganhadores)
 
     private boolean checkSortedNumbers(String raffleSortedNumbers) {
         List<Integer> raffleList = this.mapper.convertStringToList(raffleSortedNumbers);
-
         return raffleList.size() > 4;
     }
 
     private boolean verifySortedNumbers(String raffleSortedNumbers) {
         return raffleSortedNumbers.isEmpty() || raffleSortedNumbers.isBlank();
     }
-
-    private boolean isFinalizedRaffle(String raffleNumbers){
-        List<Integer> raffleList = this.mapper.convertStringToList(raffleNumbers);
-
-        return raffleList.size() >= 24;
-    }
-
-    public void removeSortedNumberFromTickets(int sortedNumber, List<TicketEntity> ticketList, int contestNumber) throws JsonProcessingException {
-        ContestEntity contest = this.contestRepository.findContestNumber(contestNumber);
-        for (TicketEntity ticket : ticketList){
-            Map<String, Set<Integer>> ticketMap = this.mapper.jsonToMap(ticket.getTicket());
-            Map<String, Set<Integer>> updatedTicket = removeNumberFromMap(ticketMap, sortedNumber);
-
-            String updateMapString = this.mapper.mapToJson(updatedTicket);
-
-            boolean isMapEquals = ticket.getTicket().equals(updateMapString);
-            if (!isMapEquals){
-                ticket.setTicket(updateMapString);
-                this.ticketRepository.saveTicket(ticket, contest);
-            }
-        }
-    }
-
-    public Map<String, Set<Integer>> removeNumberFromMap(Map<String, Set<Integer>> numberMap, int sortedNumber) {
-        for (Map.Entry<String, Set<Integer>> entry : numberMap.entrySet()) {
-            Set<Integer> entryValue = entry.getValue();
-            if (entryValue.contains(sortedNumber)) {
-                entryValue.add(0); //TODO: MUDAR PARA ZERO
-                break;
-            }
-        }
-        return numberMap;
-    }
-
 }

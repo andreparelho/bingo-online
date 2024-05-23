@@ -1,11 +1,17 @@
 package com.app.bingoonline.service;
 
-import java.util.List;
-import java.util.Map;
+import com.app.bingoonline.entity.ContestEntity;
+import com.app.bingoonline.entity.TicketEntity;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
 public interface GameService {
-    boolean checkVertical(Map<String, List<Integer>> card);
-    boolean checkHorizontal(Map<String, List<Integer>> card);
-    boolean checkDiagonal(Map<String, List<Integer>> card);
-    boolean checkTicket(Map<String, List<Integer>> card);
+    Optional<UUID> checkWinnerGameOne(ContestEntity contest) throws JsonProcessingException;
+    ContestEntity checkWinnerGame(int contestNumber);
+    void removeSortedNumberFromTickets(int sortedNumber, List<TicketEntity> ticketList, ContestEntity contest) throws JsonProcessingException;
 }
