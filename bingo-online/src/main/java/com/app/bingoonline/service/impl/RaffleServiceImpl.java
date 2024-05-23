@@ -38,7 +38,6 @@ public class RaffleServiceImpl implements RaffleService {
         ContestEntity contest = this.contestRepository.findContestNumber(contestNumber);
 
         RaffleEntity raffle = this.raffleRepository.getRaffle(contestNumber);
-        String raffleSortedNumbers = raffle.getRaffleSortedNumbers();
 
         List<Integer> listNumbers = this.mapper.convertStringToList(raffle.getRaffleNumbers());
         int numSortedIndex = random.nextInt(listNumbers.size());
@@ -47,6 +46,7 @@ public class RaffleServiceImpl implements RaffleService {
         List<TicketEntity> tickets = this.ticketRepository.getAllTicketsByContest(contest.getContestNumber());
         this.gameService.removeSortedNumberFromTickets(numSorted, tickets, contest);
 
+        String raffleSortedNumbers = raffle.getRaffleSortedNumbers();
         boolean checkWinners = this.checkSortedNumbers(raffleSortedNumbers);
         if (checkWinners){
             if (!contest.isGameOneWinner()) {
@@ -76,7 +76,7 @@ public class RaffleServiceImpl implements RaffleService {
 
     @Override
     public void removeNumberFromList(int numSorted, int numSortedIndex, List<Integer> listNumbers, RaffleEntity raffle) {
-        String stringNumSorted = String.valueOf(numSorted);
+        String stringNumSorted = "" + numSorted;
         listNumbers.remove(numSortedIndex);
 
         String list = this.mapper.convertListToString(Collections.singletonList(String.valueOf(listNumbers)));
@@ -94,11 +94,15 @@ public class RaffleServiceImpl implements RaffleService {
     }
 
     private boolean checkSortedNumbers(String raffleSortedNumbers) {
+        if (raffleSortedNumbers == null){
+            return false;
+        }
+
         List<Integer> raffleList = this.mapper.convertStringToList(raffleSortedNumbers);
         return raffleList.size() > 4;
     }
 
     private boolean verifySortedNumbers(String raffleSortedNumbers) {
-        return raffleSortedNumbers.isEmpty() || raffleSortedNumbers.isBlank();
+        return raffleSortedNumbers == null;
     }
 }

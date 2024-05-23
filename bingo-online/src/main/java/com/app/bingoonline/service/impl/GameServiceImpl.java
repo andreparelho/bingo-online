@@ -77,7 +77,16 @@ public class GameServiceImpl implements GameService {
         for (Map.Entry<String, Set<Integer>> entry : numberMap.entrySet()) {
             Set<Integer> entryValue = entry.getValue();
             if (entryValue.contains(sortedNumber)) {
-                entryValue.add(0);
+                List<Integer> tempList = new ArrayList<>(entryValue);
+
+                for (int i = 0; i < tempList.size(); i++) {
+                    if (tempList.get(i).equals(sortedNumber)) {
+                        tempList.set(i, 0);
+                        break;
+                    }
+                }
+
+                entry.setValue(new LinkedHashSet<>(tempList));
                 break;
             }
         }
