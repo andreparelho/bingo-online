@@ -1,13 +1,14 @@
 package com.app.bingoonline.service.impl;
 
-import com.app.bingoonline.entity.ContestEntity;
-import com.app.bingoonline.entity.RaffleEntity;
-import com.app.bingoonline.controller.response.CreateContestResponse;
-import com.app.bingoonline.repository.ContestRepository;
-import com.app.bingoonline.repository.RaffleRepository;
-import com.app.bingoonline.repository.impl.ContestRepositoryImpl;
-import com.app.bingoonline.repository.impl.RaffleRepositoryImpl;
-import com.app.bingoonline.service.ContestService;
+import com.app.bingoonline.contest.entity.ContestEntity;
+import com.app.bingoonline.contest.service.impl.ContestServiceImpl;
+import com.app.bingoonline.raffle.entity.RaffleEntity;
+import com.app.bingoonline.contest.dto.response.CreateContestResponse;
+import com.app.bingoonline.contest.repository.ContestRepository;
+import com.app.bingoonline.raffle.repository.RaffleRepository;
+import com.app.bingoonline.contest.repository.impl.ContestRepositoryImpl;
+import com.app.bingoonline.raffle.repository.impl.RaffleRepositoryImpl;
+import com.app.bingoonline.contest.service.ContestService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

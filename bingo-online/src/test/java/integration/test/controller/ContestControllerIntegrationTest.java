@@ -1,9 +1,9 @@
 package integration.test.controller;
 
-import com.app.bingoonline.entity.ContestEntity;
-import com.app.bingoonline.controller.response.CreateContestResponse;
-import com.app.bingoonline.repository.ContestRepository;
-import com.app.bingoonline.service.ContestService;
+import com.app.bingoonline.contest.entity.ContestEntity;
+import com.app.bingoonline.contest.dto.response.CreateContestResponse;
+import com.app.bingoonline.contest.repository.ContestRepository;
+import com.app.bingoonline.contest.service.ContestService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;

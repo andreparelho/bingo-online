@@ -1,13 +1,15 @@
 package com.app.bingoonline.service.impl;
 
-import com.app.bingoonline.entity.ContestEntity;
-import com.app.bingoonline.controller.response.TicketResponse;
-import com.app.bingoonline.model.ticket.card.*;
-import com.app.bingoonline.repository.ContestRepository;
-import com.app.bingoonline.repository.RaffleRepository;
-import com.app.bingoonline.repository.TicketRepository;
-import com.app.bingoonline.service.ContestService;
-import com.app.bingoonline.mapper.Mapper;
+import com.app.bingoonline.contest.entity.ContestEntity;
+import com.app.bingoonline.ticket.dto.response.TicketResponse;
+import com.app.bingoonline.contest.repository.ContestRepository;
+import com.app.bingoonline.raffle.service.impl.RaffleServiceImpl;
+import com.app.bingoonline.raffle.repository.RaffleRepository;
+import com.app.bingoonline.ticket.factory.impl.*;
+import com.app.bingoonline.ticket.repository.TicketRepository;
+import com.app.bingoonline.contest.service.ContestService;
+import com.app.bingoonline.infrastructure.util.mapper.Mapper;
+import com.app.bingoonline.ticket.service.impl.TicketServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -24,11 +26,11 @@ import static org.mockito.Mockito.*;
 
 @Disabled
 public class TicketServiceImplTest {
-    private B b;
-    private I i;
-    private N n;
-    private G g;
-    private O o;
+    private BFactoryImpl bFactoryImpl;
+    private IFactoryImpl iFactoryImpl;
+    private NFactoryImpl nFactoryImpl;
+    private GFactoryImpl gFactoryImpl;
+    private OFactoryImpl oFactoryImpl;
     private ContestEntity contestEntity;
     @Mock
     private ContestService contestService;
@@ -47,11 +49,11 @@ public class TicketServiceImplTest {
 
     @BeforeEach
     public void initConfig(){
-        this.b = new B();
-        this.i = new I();
-        this.n = new N();
-        this.g = new G();
-        this.o = new O();
+        this.bFactoryImpl = new BFactoryImpl();
+        this.iFactoryImpl = new IFactoryImpl();
+        this.nFactoryImpl = new NFactoryImpl();
+        this.gFactoryImpl = new GFactoryImpl();
+        this.oFactoryImpl = new OFactoryImpl();
 
         this.contestEntity = ContestEntity
                 .builder()

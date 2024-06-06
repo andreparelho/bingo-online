@@ -1,11 +1,10 @@
 package com.app.bingoonline.repository.impl;
 
-import com.app.bingoonline.entity.ContestEntity;
-import com.app.bingoonline.entity.TicketEntity;
-import com.app.bingoonline.repository.crud.TicketCrudRepository;
+import com.app.bingoonline.contest.entity.ContestEntity;
+import com.app.bingoonline.ticket.entity.TicketEntity;
+import com.app.bingoonline.ticket.repository.crud.TicketCrudRepository;
+import com.app.bingoonline.ticket.repository.impl.TicketRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
