@@ -1,10 +1,9 @@
 package com.app.bingoonline.repository.impl;
 
-import com.app.bingoonline.entity.ContestEntity;
-import com.app.bingoonline.repository.crud.ContestCrudRepository;
+import com.app.bingoonline.contest.entity.ContestEntity;
+import com.app.bingoonline.contest.repository.crud.ContestCrudRepository;
+import com.app.bingoonline.contest.repository.impl.ContestRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 

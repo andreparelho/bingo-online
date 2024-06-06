@@ -1,23 +1,23 @@
 package com.app.bingoonline.shared;
 
-import com.app.bingoonline.model.ticket.card.*;
+import com.app.bingoonline.ticket.factory.impl.*;
 
 import java.util.*;
 
 public class TicketShared {
-    public B b = new B();
-    public I i = new I();
-    public N n = new N();
-    public G g = new G();
-    public O o = new O();
+    public BFactoryImpl bFactoryImpl = new BFactoryImpl();
+    public IFactoryImpl iFactoryImpl = new IFactoryImpl();
+    public NFactoryImpl nFactoryImpl = new NFactoryImpl();
+    public GFactoryImpl gFactoryImpl = new GFactoryImpl();
+    public OFactoryImpl oFactoryImpl = new OFactoryImpl();
 
     public Map<String, Set<Integer>> generateCardTicket(){
         Map<String, Set<Integer>> ticket = new HashMap<>();
-        ticket.put("b", this.b.generateTicketNumbers());
-        ticket.put("i", this.i.generateTicketNumbers());
-        ticket.put("n", this.n.generateTicketNumbers());
-        ticket.put("g", this.g.generateTicketNumbers());
-        ticket.put("o", this.o.generateTicketNumbers());
+        ticket.put("b", this.bFactoryImpl.generateTicketNumbers());
+        ticket.put("i", this.iFactoryImpl.generateTicketNumbers());
+        ticket.put("n", this.nFactoryImpl.generateTicketNumbers());
+        ticket.put("g", this.gFactoryImpl.generateTicketNumbers());
+        ticket.put("o", this.oFactoryImpl.generateTicketNumbers());
         return  ticket;
     }
 
