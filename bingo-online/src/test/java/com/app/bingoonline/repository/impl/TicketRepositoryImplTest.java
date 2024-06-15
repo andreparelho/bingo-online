@@ -5,6 +5,8 @@ import com.app.bingoonline.ticket.entity.TicketEntity;
 import com.app.bingoonline.ticket.repository.crud.TicketCrudRepository;
 import com.app.bingoonline.ticket.repository.impl.TicketRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -41,8 +43,8 @@ class TicketRepositoryImplTest {
                 .build();
     }
 
-//    @Test
-//    @DisplayName("Deve salvar um ticket e um contest")
+    @Test
+    @DisplayName("Deve salvar um ticket e um contest")
     public void testSaveTicket(){
         TicketEntity savedTicket = this.ticketRepository.saveTicket(this.ticketEntity, this.contestEntity);
 
@@ -59,8 +61,8 @@ class TicketRepositoryImplTest {
         assertEquals(this.ticketEntity.getContestNumberId(), contestNumberId);
     }
 
-//    @Test
-//    @DisplayName("Deve retornar todos os tickets do contest")
+    @Test
+    @DisplayName("Deve retornar todos os tickets do contest")
     public void testGetAllTicketsByContest(){
         List<ContestEntity> emptyList = new ArrayList<>();
         List<TicketEntity> allTickets = this.ticketRepository.getAllTicketsByContest(this.contestEntity.getContestNumber());

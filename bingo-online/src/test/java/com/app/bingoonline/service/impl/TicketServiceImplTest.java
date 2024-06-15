@@ -1,6 +1,7 @@
 package com.app.bingoonline.service.impl;
 
 import com.app.bingoonline.contest.entity.ContestEntity;
+import com.app.bingoonline.ticket.dto.response.CreatedTicketResponse;
 import com.app.bingoonline.ticket.dto.response.TicketResponse;
 import com.app.bingoonline.contest.repository.ContestRepository;
 import com.app.bingoonline.raffle.service.impl.RaffleServiceImpl;
@@ -15,9 +16,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,19 +31,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @Disabled
+@SpringBootTest
+@ExtendWith(SpringExtension.class)
 public class TicketServiceImplTest {
-    private BFactoryImpl bFactoryImpl;
-    private IFactoryImpl iFactoryImpl;
-    private NFactoryImpl nFactoryImpl;
-    private GFactoryImpl gFactoryImpl;
-    private OFactoryImpl oFactoryImpl;
-    private ContestEntity contestEntity;
+    @InjectMocks
+    private TicketServiceImpl ticketServiceImpl;
+
     @Mock
     private ContestService contestService;
     @Mock
     private TicketRepository ticketRepository;
-    @Mock
-    private TicketServiceImpl ticketServiceImpl;
     @Mock
     private RaffleRepository raffleRepository;
     @Mock
@@ -46,15 +49,21 @@ public class TicketServiceImplTest {
     private RaffleServiceImpl raffleServiceImpl;
     @Mock
     private Mapper mapper;
+    @Mock
+    private BFactoryImpl bFactoryImpl;
+    @Mock
+    private IFactoryImpl iFactoryImpl;
+    @Mock
+    private NFactoryImpl nFactoryImpl;
+    @Mock
+    private GFactoryImpl gFactoryImpl;
+    @Mock
+    private OFactoryImpl oFactoryImpl;
+
+    private ContestEntity contestEntity;
 
     @BeforeEach
     public void initConfig(){
-        this.bFactoryImpl = new BFactoryImpl();
-        this.iFactoryImpl = new IFactoryImpl();
-        this.nFactoryImpl = new NFactoryImpl();
-        this.gFactoryImpl = new GFactoryImpl();
-        this.oFactoryImpl = new OFactoryImpl();
-
         this.contestEntity = ContestEntity
                 .builder()
                 .number(1001)
@@ -72,8 +81,8 @@ public class TicketServiceImplTest {
         when(this.contestService.generateContestNumber()).thenReturn(contest);
         when(this.contestService.createContest(contest)).thenReturn(this.contestEntity);
 
-        Map<String, Set<Integer>> ticket = ticketServiceImpl.generateTicket();
-        Iterator<Map.Entry<String, Set<Integer>>> iterator = ticket.entrySet().iterator();
+        CreatedTicketResponse ticket = ticketServiceImpl.generateTicket();
+        Iterator<Map.Entry<String, List<Integer>>> iterator = ticket.ticketMap().entrySet().iterator();
 
         int actual = 0;
         while (iterator.hasNext()) {
@@ -81,9 +90,9 @@ public class TicketServiceImplTest {
         }
 
         int expected = 25;
-        assertNotNull(ticket);
-
         int finalActual = actual;
+
+        assertNotNull(ticket);
         assertEquals(expected, actual, () -> finalActual + " did not equal to " + expected);
     }
 
@@ -94,8 +103,8 @@ public class TicketServiceImplTest {
         when(this.contestService.findContestById(contestId)).thenReturn(contestId);
 
         TicketResponse ticketResponse = ticketServiceImpl.generateTicketByContestId(contestId);
-        Map<String, Set<Integer>> ticket = ticketResponse.ticket();
-        Iterator<Map.Entry<String, Set<Integer>>> iterator = ticket.entrySet().iterator();
+        CreatedTicketResponse ticket = ticketServiceImpl.generateTicket();
+        Iterator<Map.Entry<String, List<Integer>>> iterator = ticketResponse.ticketMap().entrySet().iterator();
 
         int actual = 0;
         while (iterator.hasNext()) {

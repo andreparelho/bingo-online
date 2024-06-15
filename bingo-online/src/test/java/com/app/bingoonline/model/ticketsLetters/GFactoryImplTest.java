@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -45,7 +46,7 @@ public class GFactoryImplTest {
     @Test
     @DisplayName("This letter need to return index 5 when call generateTicket method")
     public void testDeveRetornarIndexDeCincoNumerosQuandoChamarGenerateTicket(){
-        Set<Integer> ticket = this.letterGFactoryImpl.generateTicketNumbers();
+        List<Integer> ticket = this.letterGFactoryImpl.generateTicketNumbers();
         int ticketIndexSize = ticket.size();
         int expected = 5;
         assertEquals(ticketIndexSize, expected);
@@ -54,7 +55,7 @@ public class GFactoryImplTest {
     @Test
     @DisplayName("This letter need to return numbers between 46 and 60 when call generateTicket method")
     public void testDeveRetornarValoresEntreQuarentaESeisESessentaQuandoChamarGenerateTicket(){
-        Set<Integer> ticket = this.letterGFactoryImpl.generateTicketNumbers();
+        List<Integer> ticket = this.letterGFactoryImpl.generateTicketNumbers();
         boolean isValidNumbers = ticket.stream().allMatch(n -> n >= 46 && n <= 60);
         assertTrue(isValidNumbers);
     }
