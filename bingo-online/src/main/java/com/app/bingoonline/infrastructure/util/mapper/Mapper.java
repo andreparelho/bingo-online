@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class Mapper {
-    public String mapToJson(Map<String, Set<Integer>> map) throws JsonProcessingException {
+    public String mapToJson(Map<String, List<Integer>> map) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(map);
     }
@@ -22,10 +22,7 @@ public class Mapper {
         List<Integer> numbers = new ArrayList<>();
 
         String[] stringArray = data.split(",\\s*");
-
-        for (String str : stringArray) {
-            numbers.add(Integer.parseInt(str.trim()));
-        }
+        Arrays.stream(stringArray).forEach(s -> numbers.add(Integer.valueOf(s)));
 
         return numbers;
     }
@@ -49,12 +46,12 @@ public class Mapper {
         return newMap;
     }
 
-    public Map<String, Set<Integer>> jsonToMap(String jsonString) throws JsonProcessingException {
+    public Map<String, List<Integer>> jsonToMap(String jsonString) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, List<Integer>> tempMap = objectMapper.readValue(jsonString, new TypeReference<Map<String, List<Integer>>>() {});
-        Map<String, Set<Integer>> numberMap = new HashMap<>();
+        Map<String, List<Integer>> numberMap = new HashMap<>();
         for (Map.Entry<String, List<Integer>> entry : tempMap.entrySet()) {
-            numberMap.put(entry.getKey(), new HashSet<>(entry.getValue()));
+            numberMap.put(entry.getKey(), new ArrayList<>(entry.getValue()));
         }
         return numberMap;
     }
