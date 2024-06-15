@@ -51,7 +51,7 @@ public class GameServiceImpl implements GameService {
     public ContestEntity checkWinnerGame(int contestNumber) {
         List<TicketEntity> tickets = this.ticketRepository.getAllTicketsByContest(contestNumber);
         RaffleEntity raffle = this.raffleRepository.getRaffle(contestNumber);
-//        TODO -> Criar validacao para cartela cheia, e salvar o campo gameOneWinner na entidade Contest.
+        //        TODO -> Criar validacao para cartela cheia, e salvar o campo gameOneWinner na entidade Contest.
         //        TODO -> Criar validacao para tinquina, e salvar o campo TicketWinner com ID do ticket na entidade Contest
 
         return null;
@@ -60,8 +60,8 @@ public class GameServiceImpl implements GameService {
     @Override
     public void removeSortedNumberFromTickets(int sortedNumber, List<TicketEntity> ticketList, ContestEntity contest) throws JsonProcessingException {
         for (TicketEntity ticket : ticketList){
-            Map<String, Set<Integer>> ticketMap = this.mapper.jsonToMap(ticket.getTicket());
-            Map<String, Set<Integer>> updatedTicket = removeNumberFromMap(ticketMap, sortedNumber);
+            Map<String, List<Integer>> ticketMap = this.mapper.jsonToMap(ticket.getTicket());
+            Map<String, List<Integer>> updatedTicket = removeNumberFromMap(ticketMap, sortedNumber);
 
             String updateMapString = this.mapper.mapToJson(updatedTicket);
 
@@ -73,24 +73,23 @@ public class GameServiceImpl implements GameService {
         }
     }
 
-    public Map<String, Set<Integer>> removeNumberFromMap(Map<String, Set<Integer>> numberMap, int sortedNumber) {
-        for (Map.Entry<String, Set<Integer>> entry : numberMap.entrySet()) {
-            Set<Integer> entryValue = entry.getValue();
-            if (entryValue.contains(sortedNumber)) {
-                List<Integer> tempList = new ArrayList<>(entryValue);
-
-                for (int i = 0; i < tempList.size(); i++) {
-                    if (tempList.get(i).equals(sortedNumber)) {
-                        tempList.set(i, 0);
-                        break;
+    public Map<String, List<Integer>> removeNumberFromMap(Map<String, List<Integer>> ticket, int sortedNumber) {
+        for (Map.Entry<String, List<Integer>> ticketMap : ticket.entrySet()) {
+            List<Integer> ticketValue = ticketMap.getValue();
+            if (ticketValue.contains(sortedNumber)) {
+                List<Integer> updatedSet = new ArrayList<>();
+                for (Integer number : ticketValue) {
+                    if (number.equals(sortedNumber)) {
+                        updatedSet.add(0);
+                    } else {
+                        updatedSet.add(number);
                     }
                 }
-
-                entry.setValue(new LinkedHashSet<>(tempList));
+                ticketMap.setValue(updatedSet);
                 break;
             }
         }
-        return numberMap;
+        return ticket;
     }
 
     public Optional<TicketEntity> checkVertical(List<TicketEntity> tickets) throws JsonProcessingException {
