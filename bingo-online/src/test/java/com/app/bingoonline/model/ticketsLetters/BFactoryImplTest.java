@@ -5,11 +5,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Set;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BTest {
+public class BFactoryImplTest {
 
     private BFactoryImpl letterBFactoryImpl;
 
@@ -45,7 +45,7 @@ public class BTest {
     @Test
     @DisplayName("This letter need to return index 5 when call generateTicket method")
     public void testDeveRetornarIndexDeCincoNumerosQuandoChamarGenerateTicket(){
-        Set<Integer> ticket = this.letterBFactoryImpl.generateTicketNumbers();
+        List<Integer> ticket = this.letterBFactoryImpl.generateTicketNumbers();
         int ticketIndexSize = ticket.size();
         int expected = 5;
         assertEquals(ticketIndexSize, expected);
@@ -54,7 +54,7 @@ public class BTest {
     @Test
     @DisplayName("This letter need to return numbers between 1 and 15 when call generateTicket method")
     public void testDeveRetornarValoresEntreUmEQuinzeQuandoChamarGenerateTicket(){
-        Set<Integer> ticket = this.letterBFactoryImpl.generateTicketNumbers();
+        List<Integer> ticket = this.letterBFactoryImpl.generateTicketNumbers();
         boolean isValidNumbers = ticket.stream().allMatch(n -> n >= 1 && n <= 15);
         assertTrue(isValidNumbers);
     }

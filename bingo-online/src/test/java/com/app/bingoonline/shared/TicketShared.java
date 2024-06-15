@@ -11,14 +11,14 @@ public class TicketShared {
     public GFactoryImpl gFactoryImpl = new GFactoryImpl();
     public OFactoryImpl oFactoryImpl = new OFactoryImpl();
 
-    public Map<String, Set<Integer>> generateCardTicket(){
-        Map<String, Set<Integer>> ticket = new HashMap<>();
+    public Map<String, List<Integer>> generateCardTicket(){
+        Map<String, List<Integer>> ticket = new HashMap<>();
         ticket.put("b", this.bFactoryImpl.generateTicketNumbers());
         ticket.put("i", this.iFactoryImpl.generateTicketNumbers());
         ticket.put("n", this.nFactoryImpl.generateTicketNumbers());
         ticket.put("g", this.gFactoryImpl.generateTicketNumbers());
         ticket.put("o", this.oFactoryImpl.generateTicketNumbers());
-        return  ticket;
+        return ticket;
     }
 
     public Map<String, String> convertStringToMap(String data) {

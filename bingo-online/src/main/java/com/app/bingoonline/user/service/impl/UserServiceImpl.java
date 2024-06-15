@@ -1,5 +1,6 @@
 package com.app.bingoonline.user.service.impl;
 
+import com.app.bingoonline.login.dto.request.LoginRequest;
 import com.app.bingoonline.user.entity.RoleEntity;
 import com.app.bingoonline.user.entity.UserEntity;
 import com.app.bingoonline.user.exception.UserAlreadyExistsException;
@@ -12,11 +13,14 @@ import com.app.bingoonline.user.repository.UserRepository;
 import com.app.bingoonline.infrastructure.config.security.jwt.JwtService;
 import com.app.bingoonline.user.service.UserService;
 import com.app.bingoonline.infrastructure.util.LogUtil;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+
+import static com.app.bingoonline.user.constant.UserConstant.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,13 +28,16 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final JwtService jwtService;
     private final UserMapper userMapper;
+    private BCryptPasswordEncoder passwordEncoder;
     private static final LogUtil logger = new LogUtil();
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, JwtService jwtService, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
+                           JwtService jwtService, UserMapper userMapper, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.jwtService = jwtService;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -105,5 +112,16 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = this.userMapper.optionalToEntity(user);
 
         this.userRepository.deleteUser(userEntity);
+    }
+
+    @Override
+    public Boolean checkPasswordIsValid(LoginRequest userLoginPassword, Optional<UserEntity> userPassword) throws UserNotFoundException {
+        Boolean password = this.passwordEncoder.matches(userLoginPassword.password(), userPassword.get().getPassword());
+
+        if (!password){
+            throw new UserNotFoundException(PASSWORD_INVALID);
+        }
+
+        return true;
     }
 }

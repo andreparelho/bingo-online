@@ -4,6 +4,8 @@ import com.app.bingoonline.contest.entity.ContestEntity;
 import com.app.bingoonline.contest.repository.crud.ContestCrudRepository;
 import com.app.bingoonline.contest.repository.impl.ContestRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
@@ -31,8 +33,8 @@ class ContestRepositoryImplTest {
                 .build();
     }
 
-//    @Test
-//    @DisplayName("Deve salvar um contest")
+    @Test
+    @DisplayName("Deve salvar um contest")
     public void testSaveContest(){
         ContestEntity saveContest = this.contestRepository.saveContest(this.contestEntity);
 
@@ -49,8 +51,8 @@ class ContestRepositoryImplTest {
         assertEquals(number, saveContest.getNumber());
     }
 
-//    @Test
-//    @DisplayName("Deve retornar todos os contests salvos, caso tenha dados.")
+    @Test
+    @DisplayName("Deve retornar todos os contests salvos, caso tenha dados.")
     public void testGetAllContests(){
         List<ContestEntity> emptyList = new ArrayList<>();
         List<ContestEntity> allContests = this.contestRepository.getAllContests();
@@ -72,8 +74,8 @@ class ContestRepositoryImplTest {
         assertEquals(2, sizeList);
     }
 
-//    @Test
-//    @DisplayName("Deve retornar um contest de acordo com o contestNumber")
+    @Test
+    @DisplayName("Deve retornar um contest de acordo com o contestNumber")
     public void testFindContestNumber(){
         this.contestRepository.saveContest(this.contestEntity);
 
@@ -84,8 +86,8 @@ class ContestRepositoryImplTest {
         assertEquals(this.contestEntity.getContestNumber(), foundContest.getContestNumber());
     }
 
-//    @Test
-//    @DisplayName("Deve salvar raffle dentro do contest")
+    @Test
+    @DisplayName("Deve salvar raffle dentro do contest")
     public void testSaveRaffleNumberOnContest(){
         this.contestRepository.saveContest(this.contestEntity);
         ContestEntity savedContest = this.contestRepository.findContestNumber(this.contestEntity.getNumber());

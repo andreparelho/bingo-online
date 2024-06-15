@@ -1,8 +1,6 @@
 package com.app.bingoonline.ticket.factory;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public abstract class TicketFactory {
 
@@ -14,14 +12,18 @@ public abstract class TicketFactory {
 
     public abstract int getEnd();
 
-    public Set<Integer> generateTicketNumbers(){
-        Set<Integer> numbers = new HashSet<>();
+    public List<Integer> generateTicketNumbers(){
+        List<Integer> numbers = new ArrayList<>();
 
         if (getQuantity() == 0) throw new ArithmeticException();
 
-        while (numbers.size() < getQuantity()){
-            numbers.add(randomNumber.nextInt(getStart(), getEnd()));
+        while (numbers.size() < getQuantity()) {
+            int number = this.randomNumber.nextInt(getStart(), getEnd());
+            if (!numbers.contains(number)) {
+                numbers.add(number);
+            }
         }
+
         return numbers;
     }
 }

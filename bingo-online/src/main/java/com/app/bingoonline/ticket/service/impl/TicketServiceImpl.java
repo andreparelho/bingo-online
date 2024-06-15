@@ -1,6 +1,7 @@
 package com.app.bingoonline.ticket.service.impl;
 
 import com.app.bingoonline.contest.exception.ContestNotFoundException;
+import com.app.bingoonline.ticket.dto.response.CreatedTicketResponse;
 import com.app.bingoonline.ticket.dto.response.TicketListResponse;
 import com.app.bingoonline.ticket.dto.response.TicketResponse;
 import com.app.bingoonline.raffle.repository.RaffleRepository;
@@ -28,7 +29,9 @@ public class TicketServiceImpl implements TicketService {
     private final TicketRepository ticketRepository;
     private final Mapper mapper;
 
-    public TicketServiceImpl(BFactoryImpl bFactoryImpl, IFactoryImpl iFactoryImpl, NFactoryImpl nFactoryImpl, GFactoryImpl gFactoryImpl, OFactoryImpl oFactoryImpl, RaffleRepository raffleRepository, ContestService contestService, TicketRepository ticketRepository, Mapper mapper) {
+    public TicketServiceImpl(BFactoryImpl bFactoryImpl, IFactoryImpl iFactoryImpl, NFactoryImpl nFactoryImpl,
+                             GFactoryImpl gFactoryImpl, OFactoryImpl oFactoryImpl, RaffleRepository raffleRepository,
+                             ContestService contestService, TicketRepository ticketRepository, Mapper mapper) {
         this.bFactoryImpl = bFactoryImpl;
         this.iFactoryImpl = iFactoryImpl;
         this.nFactoryImpl = nFactoryImpl;
@@ -42,8 +45,8 @@ public class TicketServiceImpl implements TicketService {
 
 
     @Override
-    public Map<String, Set<Integer>> generateTicket() throws JsonProcessingException {
-        Map<String, Set<Integer>> ticket = generateCardTicket();
+    public CreatedTicketResponse generateTicket() throws JsonProcessingException {
+        Map<String, List<Integer>> ticket = generateCardTicket();
 
         int contestNumber = this.contestService.generateContestNumber();
         ContestEntity contest = this.contestService.createContest(contestNumber);
@@ -53,9 +56,8 @@ public class TicketServiceImpl implements TicketService {
                 .build();
 
         this.ticketRepository.saveTicket(ticketEntity, contest);
-        ticket.put("Contest", Collections.singleton(contest.getContestNumber()));
 
-        return ticket;
+        return new CreatedTicketResponse("Contest", ticket);
     }
 
     @Override
@@ -66,7 +68,7 @@ public class TicketServiceImpl implements TicketService {
             throw new ContestNotFoundException("contest not found");
         }
 
-        Map<String, Set<Integer>> ticket = generateCardTicket();
+        Map<String, List<Integer>> ticket = generateCardTicket();
 
         TicketEntity ticketEntity = TicketEntity.builder()
                 .ticket(this.mapper.mapToJson(ticket))
@@ -79,9 +81,7 @@ public class TicketServiceImpl implements TicketService {
 
         this.ticketRepository.saveTicket(ticketEntity, contestEntity);
 
-        ticket.put("Contest", Collections.singleton(contestEntity.getContestNumber()));
-
-        return new TicketResponse(ticket);
+        return new TicketResponse("Contest", ticket);
     }
 
     private void checkTicketsWinner(List<TicketEntity> tickets) {
@@ -99,8 +99,8 @@ public class TicketServiceImpl implements TicketService {
         return new TicketListResponse(allTickets);
     }
 
-    private Map<String, Set<Integer>> generateCardTicket(){
-        Map<String, Set<Integer>> ticket = new HashMap<>();
+    private Map<String, List<Integer>> generateCardTicket(){
+        Map<String, List<Integer>> ticket = new HashMap<>();
         ticket.put("b", this.bFactoryImpl.generateTicketNumbers());
         ticket.put("i", this.iFactoryImpl.generateTicketNumbers());
         ticket.put("n", this.nFactoryImpl.generateTicketNumbers());

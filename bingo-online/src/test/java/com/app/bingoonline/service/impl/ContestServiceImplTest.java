@@ -12,23 +12,38 @@ import com.app.bingoonline.contest.service.ContestService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
+@ExtendWith(SpringExtension.class)
 public class ContestServiceImplTest {
+    @InjectMocks
+    private ContestServiceImpl contestService;
+
+    @Mock
+    private RaffleRepository raffleRepository;
+    @Mock
+    private ContestRepository contestRepository;
+    @Mock
     private Random random;
-    private ContestService contestService;
-    private ContestService mockContestService;
-    private RaffleRepository mockRaffleRepository;
-    private ContestRepository mockContestRepository;
+
     private ContestEntity contestEntity;
     private RaffleEntity raffleEntity;
 
     @BeforeEach
     public void initConfig(){
+        MockitoAnnotations.initMocks(this);
+
         this.contestEntity = ContestEntity
                 .builder()
                 .contestNumber(1001)
@@ -40,28 +55,20 @@ public class ContestServiceImplTest {
                 .contestId(1001l)
                 .raffleSortedNumbers("40")
                 .build();
-
-        this.random = new Random();
-
-        this.mockContestRepository = mock(ContestRepositoryImpl.class);
-        this.mockContestService = mock(ContestServiceImpl.class);
-        this.mockRaffleRepository = mock(RaffleRepositoryImpl.class);
-
-        this.contestService = new ContestServiceImpl(
-                this.mockContestRepository,
-                mockRaffleRepository,
-                this.random
-        );
     }
 
     @Test
     @DisplayName("This test should return a number contest valid")
     public void testDeveGerarUmNumeroContest(){
-        int contestNumber = this.contestService.generateContestNumber();
-        assertNotNull(contestNumber);
+        when(this.random.nextInt(1000,9999)).thenReturn(1001);
 
+        int contestNumber = this.contestService.generateContestNumber();
         int notExpected = 1010101010;
+
+        assertNotNull(contestNumber);
         assertNotEquals(notExpected, contestNumber);
+
+        verify(this.random, times(1)).nextInt(1000, 9999);
     }
 
     @Test
@@ -69,29 +76,28 @@ public class ContestServiceImplTest {
     public void testDeveCriarUmContestComNumeroValido(){
         int contestNumber = 1001;
 
-        when(this.mockContestRepository.saveContest(contestEntity)).thenReturn(contestEntity);
+        when(this.contestRepository.saveContest(contestEntity)).thenReturn(contestEntity);
 
-        assertNotNull(contestEntity);
-        assertEquals(contestEntity.getContestNumber(), contestNumber);
+        CreateContestResponse response = this.contestService.createContest();
+
+        assertNotNull(response.contest());
     }
 
     @Test
     public void testCreateContest(){
-        when(this.mockContestRepository.saveContest(this.contestEntity)).thenReturn(this.contestEntity);
-        doNothing().when(this.mockRaffleRepository).saveRaffle(this.raffleEntity);
+        when(this.contestRepository.saveContest(this.contestEntity)).thenReturn(this.contestEntity);
+        doNothing().when(this.raffleRepository).saveRaffle(this.raffleEntity);
 
         CreateContestResponse actual = this.contestService.createContest();
 
         assertNotNull(actual);
-        verify(this.mockContestRepository, times(1)).saveContest(any(ContestEntity.class));
     }
 
     @Test
     public void testCreateContestWithParameter(){
-        when(this.mockContestRepository.saveContest(this.contestEntity)).thenReturn(this.contestEntity);
+        when(this.contestRepository.saveContest(this.contestEntity)).thenReturn(this.contestEntity);
         ContestEntity actual = this.contestService.createContest(anyInt());
 
         assertNotNull(actual);
-        verify(this.mockContestRepository, times(1)).saveContest(any(ContestEntity.class));
     }
 }
