@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static com.app.bingoonline.raffle.constant.RaffleConstant.*;
+
 @Service
 public class RaffleServiceImpl implements RaffleService {
     private final RaffleRepository raffleRepository;
@@ -53,13 +55,13 @@ public class RaffleServiceImpl implements RaffleService {
                 Optional<UUID> winnerGameOne = this.gameService.checkWinnerGameOne(contest);
                 boolean existWinner = winnerGameOne.isPresent();
                 if (existWinner) {
-                    return new RaffleResponse("Winner is " + winnerGameOne);
+                    return new RaffleResponse(WINNER_MESSAGE + winnerGameOne);
                 }
             } else {
                 ContestEntity winnerGame = this.gameService.checkWinnerGame(contestNumber);
                 boolean existWinner = winnerGame.getTickerWinnerGame() != null;
                 if (existWinner) {
-                    return new RaffleResponse("Winner game is " + winnerGame.getTicketWinnerGameOne());
+                    return new RaffleResponse(WINNER_GAME_MESSAGE + winnerGame.getTicketWinnerGameOne());
                 }
             }
         }
