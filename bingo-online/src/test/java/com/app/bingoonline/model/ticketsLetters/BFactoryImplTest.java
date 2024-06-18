@@ -4,18 +4,23 @@ import com.app.bingoonline.ticket.factory.impl.BFactoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
 public class BFactoryImplTest {
-
+    @InjectMocks
     private BFactoryImpl letterBFactoryImpl;
 
     @BeforeEach
-    void config(){
-        this.letterBFactoryImpl = new BFactoryImpl();
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
