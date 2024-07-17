@@ -39,7 +39,7 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public ContestEntity createContest(int contestNumber) { //DELETAR METODO
+    public ContestEntity createContest(int contestNumber) {
         ContestEntity contestEntity = ContestEntity.builder()
                 .number(contestNumber)
                 .contestNumber(contestNumber)

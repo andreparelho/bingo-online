@@ -1,6 +1,5 @@
-package com.app.bingoonline.model.ticketsLetters;
+package com.app.bingoonline.ticket.factory.impl;
 
-import com.app.bingoonline.ticket.factory.impl.BFactoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-public class BFactoryImplTest {
+class BFactoryImplTest {
+
     @InjectMocks
     private BFactoryImpl letterBFactoryImpl;
 
