@@ -5,7 +5,6 @@ import com.app.bingoonline.contest.dto.response.CreateContestResponse;
 import com.app.bingoonline.contest.entity.ContestEntity;
 import com.app.bingoonline.contest.repository.ContestRepository;
 import com.app.bingoonline.raffle.repository.RaffleRepository;
-import org.hibernate.mapping.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,6 +60,29 @@ class ContestServiceImplTest {
     }
 
     @Test
+    @DisplayName("Deve retonar e validar um numero entre 1000 e 9999 com sucesso")
+    public void testGenerateContestNumberShouldReturnValidNumberWhenExistsContestOnDatabase(){
+        int number = this.random.nextInt(1000, 9999);
+
+        ContestEntity contest = ContestEntity
+                .builder()
+                .contestNumber(number)
+                .build();
+
+        when(this.random.nextInt(1000, 9999)).thenReturn(number);
+        when(this.contestRepository.findContestNumber(number))
+                .thenReturn(contest)
+                .thenReturn(null);
+
+        var response = this.contestService.generateContestNumber();
+
+        assertNotNull(response);
+        assertInstanceOf(Integer.class, response);
+
+        verify(this.contestRepository, times(2)).findContestNumber(number);
+    }
+
+    @Test
     @DisplayName("Deve retonar e validar um contest criado com sucesso")
     public void testCreateContestWithParamShouldReturnContest(){
         when(this.contestRepository.saveContest(any())).thenReturn(any());
@@ -111,6 +133,45 @@ class ContestServiceImplTest {
         assertInstanceOf(ContestResponseList.class, response);
 
         verify(this.contestRepository, times(1)).getAllContests();
+    }
+
+    @Test
+    @DisplayName("Deve retornar um contest quando chamar a repository")
+    public void testFindContestShouldReturnContest(){
+        when(this.contestRepository.findContestNumber(contestEntity.getContestNumber())).thenReturn(this.contestEntity);
+
+        var response = this.contestService.findContest(contestEntity.getContestNumber());
+
+        assertNotNull(response);
+        assertInstanceOf(ContestEntity.class, response);
+
+        verify(this.contestRepository, times(1)).findContestNumber(contestEntity.getContestNumber());
+    }
+
+    @Test
+    @DisplayName("Deve retornar um contest quando chamar a repository")
+    public void testGetAllRaffleNumbersShouldReturnContest(){
+        when(this.contestRepository.findContestNumber(contestEntity.getContestNumber())).thenReturn(this.contestEntity);
+
+        var response = this.contestService.getAllRaffleNumbers(contestEntity.getContestNumber());
+
+        assertNotNull(response);
+        assertInstanceOf(ContestEntity.class, response);
+
+        verify(this.contestRepository, times(1)).findContestNumber(contestEntity.getContestNumber());
+    }
+
+    @Test
+    @DisplayName("Deve salvar um contest quando chamar a repository")
+    public void testSaveRaffleNumberShouldReturnContest(){
+        when(this.contestRepository.saveRaffleNumberOnContest(contestEntity.getContestNumber(), "65")).thenReturn(this.contestEntity);
+
+        var response = this.contestService.saveRaffleNumber(contestEntity.getContestNumber(), "65");
+
+        assertNotNull(response);
+        assertInstanceOf(ContestEntity.class, response);
+
+        verify(this.contestRepository, times(1)).saveRaffleNumberOnContest(contestEntity.getContestNumber(), "65");
     }
 
     private List<ContestEntity> getContestList(){
